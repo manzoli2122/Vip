@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import vip.core.application.CoreInformation;
 import vip.core.application.SessionInformation;
-import vip.core.domain.Academic;
+import vip.core.domain.User;
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 
 /**
@@ -75,6 +75,10 @@ public class SessionController extends JSFController {
 	}
 
 	
+	public boolean isEmployee() {
+		return sessionInformation.isEmployee();
+	}
+	
 
 	
 	
@@ -94,7 +98,7 @@ public class SessionController extends JSFController {
 	 * 
 	 * @return The Academic object that represents the user that has been authenticated in this session.
 	 */
-	public Academic getCurrentUser() {
+	public User getCurrentUser() {
 		return sessionInformation.getCurrentUser();
 	}
 

@@ -4,7 +4,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -15,19 +14,18 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
 
-import vip.core.domain.Academic;
+import vip.core.domain.User;
 import vip.core.domain.VipConfiguration;
-import vip.core.persistence.AcademicDAO;
+import vip.core.persistence.UserDAO;
 import br.ufes.inf.nemo.jbutler.TextUtils;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 
 @Stateless
-@DeclareRoles({ "Admin" , "Alumni" , "Researcher" , "Student" , "Teacher" })
+@DeclareRoles({ "Admin" , "Employee" })
 @RolesAllowed({ "Admin" })
-//@PermitAll
-public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implements ManageAcademicsService{
+public class ManageUsersServiceBean extends CrudServiceBean<User> implements ManageUsersService{
 
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
@@ -35,7 +33,7 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	
 	/** The DAO for Academic objects. */
 	@EJB
-	private AcademicDAO academicDAO;
+	private UserDAO academicDAO;
 	
 	
 	/** The information singleton for the core module. */
@@ -46,19 +44,19 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	
 	
 	@Override
-	public BaseDAO<Academic> getDAO() {
+	public BaseDAO<User> getDAO() {
 		return academicDAO;
 	}
 	
 	
 	@Override
-	public void validateUpdate(Academic entity) throws CrudException {
+	public void validateUpdate(User entity) throws CrudException {
 		Date now = new Date(System.currentTimeMillis());
 		entity.setLastUpdateDate(now);
 	}
 	
 	@Override
-	public void validateCreate(Academic entity) throws CrudException {
+	public void validateCreate(User entity) throws CrudException {
 		Date now = new Date(System.currentTimeMillis());
 		entity.setLastUpdateDate(now);
 		entity.setCreationDate(now);
@@ -72,7 +70,7 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	
 	
 	@Override
-	public void sendEmailRegister(Academic entity){
+	public void sendEmailRegister(User entity){
 		
 		MultiPartEmail email;
 		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();

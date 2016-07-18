@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -29,32 +30,9 @@ public class VipConfiguration extends PersistentObjectSupport {
 	@Basic
 	private String institutionAcronym;
 	
-	/** Constructor. */
-	public VipConfiguration() { }
-
-	/** Getter for creationDate. */
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	/** Getter for institutionAcronym. */
-	public String getInstitutionAcronym() {
-		return institutionAcronym;
-	}
-
-	/** Setter for creationDate. */
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	/** Setter for institutionAcronym. */
-	public void setInstitutionAcronym(String institutionAcronym) {
-		this.institutionAcronym = institutionAcronym;
-	}
-	
-	
-	
-	
+	@NotNull
+	@ManyToOne
+	private User administrador;
 	
 	/** Address for the SMTP server that sends e-mail. */
 	@NotNull
@@ -73,14 +51,23 @@ public class VipConfiguration extends PersistentObjectSupport {
 	private String smtpPassword;
 	
 	
+
 	
-	/** The date the moment you sent e-mail to update data. */
-	@Temporal(TemporalType.DATE)
-	private Date updateDataDate;
 	
+	
+	
+	/** Constructor. */
+	public VipConfiguration() { }
 
 	
 	/** GETTERS AND SETTERS */
+	
+	public Date getCreationDate() {	return creationDate;}
+	public void setCreationDate(Date creationDate) {this.creationDate = creationDate;}
+	
+	public String getInstitutionAcronym() {	return institutionAcronym;}
+	public void setInstitutionAcronym(String institutionAcronym) { this.institutionAcronym = institutionAcronym;}	
+
 	public String getSmtpServerAddress() { 	return smtpServerAddress; }
 	public void setSmtpServerAddress(String smtpServerAddress) { this.smtpServerAddress = smtpServerAddress; }
 
@@ -93,8 +80,8 @@ public class VipConfiguration extends PersistentObjectSupport {
 	public String getSmtpPassword() { return smtpPassword; 	}
 	public void setSmtpPassword(String smtpPassword) { 	this.smtpPassword = smtpPassword; 	}
 	
-	public Date getUpdateDataDate() { return updateDataDate; 	}
-	public void setUpdateDataDate(Date updateDataDate) { this.updateDataDate = updateDataDate;}
+	public User getAdministrador() { return administrador; }
+	public void setAdministrador(User administrador) { this.administrador = administrador;}
 
 	
 }

@@ -1,6 +1,6 @@
 /* Growl messages positioned below Marvin's top bar. */
 .ui-growl {
-	top: 60px;
+	top: 120px;
 }
 
 /* All input fields should be formatted like a Bootstrap form-control field. */

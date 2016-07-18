@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
+
+<ui:define name="title"><h:outputText value="#{msgsCore['manageUsers.title']}" /></ui:define>
+
+	
+<ui:define name="body">
+	
+	<!-- The listing form. -->
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="filterForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageUsers.title.form.filter']}" /> 
+						
+			<h:panelGroup  id="filterBar" rendered="#{(not empty manageUsersController.filters)}">
+            	<div class="form-group">	
+	            	<div class="col-sm-3">
+	            		<h:selectOneMenu styleClass="form-control" value="#{manageUsersController.filterKey}" id="filter" required="true">
+	            			<f:selectItems value="#{manageUsersController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
+			                <f:ajax event="change" execute="@form" listener="#{manageUsersController.changeFilter}" render="@form :listingForm"  />
+	            		</h:selectOneMenu>
+	            	</div>
+	            	<div class="col-sm-4">
+	            		<h:selectOneMenu styleClass="form-control"  required="false" value="#{manageUsersController.filterParam}" id="filterSelect" rendered="#{manageUsersController.filter.options != null}">
+		                	<f:selectItems value="#{manageUsersController.filter.reversedOptionsLabels}" />
+		                </h:selectOneMenu>
+					 	<p:inputText pt:class="form-control"  id="filterText" required="false" value="#{manageUsersController.filterParam}" rendered="#{manageUsersController.filter.options == null}" />
+                	</div>
+                	<div class="col-sm-2">
+                		<a class="btn btn-block btn-info btn-social" jsf:process="@form" jsf:action="#{manageUsersController.filter}" jsf:update=":listingForm @form" >
+                		   <i class="fa fa-search"></i> <h:outputText value="#{msgs['crud.button.filter']}"/>
+                		</a>
+                	</div>
+					<div class="col-sm-3" jsf:rendered="#{manageUsersController.filtering}">
+						<a class="btn btn-block btn-danger btn-social" jsf:process="@form"	jsf:action="#{manageUsersController.cancelFilter}" jsf:update=":listingForm @form">
+							<i class="fa fa-close"></i> <h:outputText value="#{msgs['crud.button.cancelFilter']}"/>
+						</a>
+                	</div>
+            	</div>
+			</h:panelGroup>
+	
+	</ui:decorate>
+	
+	
+	
+	
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="listingForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageUsers.title.box.list']}" /> 
+			<p:dataTable 
+	   				 	widgetVar="listingTable"
+           			    rowIndexVar="rowIndex"
+               			tableStyleClass="table table-bordered table-striped"
+                  		value="#{manageUsersController.lazyEntities}" 
+                   		var="entity" 
+                   		rows="#{manageUsersController.maxDataTableRowsPerPage}" 
+                   		rowsPerPageTemplate="#{manageUsersController.halfMaxDataTableRowsPerPage},#{manageUsersController.maxDataTableRowsPerPage},#{manageUsersController.doubleMaxDataTableRowsPerPage}"
+                   		paginator="true" 
+                   		lazy="true" 
+                   		selection="#{manageUsersController.selectedEntity}" 
+                  		selectionMode="single" 
+                  		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+                  		paginatorPosition="bottom" 
+                  		loadingMessage="#{msgs['text.ajax.loading']}" 
+                   		emptyMessage="#{manageUsersController.filtering ? msgsCore['manageUsers.text.noEntitiesFiltered'] : msgsCore['manageUsers.text.noEntities']}">
+												
+      			<p:column headerText="#{msgsCore['manageUsers.title.name']}"  style="text-align: center; width:50%;"> 
+           			<h:outputText value="#{entity.name}" />
+           		</p:column>
+           		<p:column headerText="#{msgsCore['manageUsers.title.email']}"  style="text-align: center;"> 
+           			<h:outputText value="#{entity.email}" />
+           		</p:column>
+           		<p:ajax event="rowSelect" update=":buttonsForm" />
+        	</p:dataTable>
+	</ui:decorate>
+	
+	
+	
+
+	<h:form id="buttonsForm">
+	    <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
+	       	<p:commandButton pt:class="btn btn-block btn-success btn-social" action="#{manageUsersController.create}"   icon="fa fa-user-plus" value="#{msgs['crud.button.create']}"/>
+	       	<p:commandButton rendered="#{manageUsersController.selectedEntity != null}" pt:class="btn btn-block btn-info btn-social" action="#{manageUsersController.retrieve}" icon="fa fa-file-text" disabled="#{manageUsersController.selectedEntity == null}" value="#{msgs['crud.button.retrieve']}"/>      	
+	      	<p:commandButton rendered="#{manageUsersController.selectedEntity != null}" pt:class="btn btn-block btn-warning btn-social" action="#{manageUsersController.update}" icon="fa fa-refresh" disabled="#{manageUsersController.selectedEntity == null}" value="#{msgs['crud.button.update']}"/>
+	      	<p:commandButton process="@this" ajax=":trashForm"  update=":trashForm" rendered="#{manageUsersController.selectedEntity != null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageUsersController.trash}" icon="fa fa-trash-o" disabled="#{manageUsersController.selectedEntity == null}" value="#{msgs['crud.button.delete']}"/>
+		</ui:decorate>
+	</h:form>
+			
+    	
+    <p>&nbsp;</p>
+    	
+	<h:panelGroup id="trashpanel" rendered="#{not empty manageUsersController.trashCan}" >
+    <ui:decorate template="/resources/#{coreInfo.decorator}/dangerform.xhtml">
+			<ui:param name="formName" value="trashForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageUsers.title.box.trash']}" /> 
+			
+			<h3><h:outputText  value="#{msgs['crud.text.trashHeader']}" /></h3>
+	        <p:dataList value="#{manageUsersController.trashCan}" var="entity" type="ordered">
+	            	#{entity.name} 
+	        </p:dataList> 
+	        <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+					<p:commandButton ajax=":trashForm :buttonsForm :listingForm" update=":trashForm :buttonsForm :listingForm" pt:class="btn btn-block btn-warning btn-social" action="#{manageUsersController.cancelDeletion}"   icon="fa fa-close" value="#{msgs['crud.button.cancelDeletion']}"/>
+		        	<p:commandButton ajax=":trashForm :buttonsForm :listingForm"  update=":trashForm :buttonsForm :listingForm"  pt:class="btn btn-block btn-danger btn-social" action="#{manageUsersController.delete}" icon="fa fa-trash-o"  value="#{msgs['crud.button.confirmDeletion']}"/>
+	        </ui:decorate>			
+	</ui:decorate> 
+	</h:panelGroup>
+		       
+        
+</ui:define> <!-- DEFINE BODY. -->
+</ui:composition>

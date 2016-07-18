@@ -10,11 +10,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.util.TextUtils;
-import vip.core.domain.Academic;
-import vip.core.domain.AcademicType;
+import vip.core.domain.User;
+import vip.core.domain.UserType;
 import vip.core.domain.VipConfiguration;
 import vip.core.exceptions.SystemInstallFailedException;
-import vip.core.persistence.AcademicDAO;
+import vip.core.persistence.UserDAO;
 import vip.core.persistence.VipConfigurationDAO;
 
 /**
@@ -33,7 +33,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 
 	/** The DAO for Academic objects. */
 	@EJB
-	private AcademicDAO academicDAO;
+	private UserDAO userDAO;
 	
 	/** The DAO for MarvinConfiguration objects. */
 	@EJB
@@ -43,9 +43,9 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	@EJB
 	private CoreInformation coreInformation;
 
-	/** @see vip.core.application.InstallSystemService#installSystem(br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration, br.ufes.inf.nemo.marvin.core.domain.Academic) */
+	/** @see vip.core.application.InstallSystemService#installSystem(br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration, br.ufes.inf.nemo.User.core.domain.Academic) */
 	@Override
-	public void installSystem(VipConfiguration config, Academic admin) throws SystemInstallFailedException {
+	public void installSystem(VipConfiguration config, User admin) throws SystemInstallFailedException {
 		logger.log(Level.FINER, "Installing system...");
 
 		try {
@@ -57,16 +57,22 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			admin.setLastUpdateDate(now);
 			admin.setCreationDate(now);
 			config.setCreationDate(now);
-			admin.setAcademicTypes(new ArrayList<AcademicType>());
-			admin.getAcademicTypes().add(AcademicType.Admin);
-			admin.getAcademicTypes().add(AcademicType.Teacher);
+			admin.setUserTypes(new ArrayList<UserType>());
+			admin.getUserTypes().add(UserType.Admin);
+			admin.getUserTypes().add(UserType.Employee);
+			
+		
 			
 			logger.log(Level.FINE, "Admin's last update date have been set as: {0}", new Object[] { now });
 			
 			// Saves the administrator.
 			logger.log(Level.FINER, "Persisting admin data...\n\t- Short name = {0}\n\t- Last update date = {1}", new Object[] { admin.getShortName(), admin.getLastUpdateDate() });
-			academicDAO.save(admin);
+			userDAO.save(admin);
 			logger.log(Level.FINE, "The administrator has been saved: {0} ({1})", new Object[] { admin.getName(), admin.getEmail() });
+			
+			admin = userDAO.refresh(admin);
+			
+			config.setAdministrador(admin);
 			
 			// Saves Marvin's configuration.
 			logger.log(Level.FINER, "Persisting configuration data...\n\t- Date = {0}\n\t- Acronym = {1}", new Object[] { config.getCreationDate(), config.getInstitutionAcronym() });

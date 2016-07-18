@@ -1,0 +1,120 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
+
+
+<ui:define name="title"> 
+	<h:outputText value="#{msgsCore['manageUsers.title.create']}" 
+				  rendered="#{(! manageUsersController.readOnly) and (manageUsersController.selectedEntity.id == null)}" />
+   	<h:outputText value="#{msgsCore['manageUsers.title.update']}" 
+   				  rendered="#{(! manageUsersController.readOnly) and (manageUsersController.selectedEntity.id != null)}" />
+    <h:outputText value="#{msgsCore['manageUsers.title.retrieve']}" rendered="#{manageUsersController.readOnly}" />
+</ui:define>
+
+	
+<ui:define name="body">
+	
+	
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsCore['manageUsers.title.form']}" />
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="name" />
+				<ui:param name="label" value="#{msgsCore['manageUsers.title.name']}" />
+				<p:inputText id="name"  value="#{manageUsersController.selectedEntity.name}" 
+								required="true" pt:placeholder="#{msgsCore['manageUsers.placeholder.name']}"
+								disabled="#{manageUsersController.readOnly  or (manageUsersController.selectedEntity.id!=null)}">
+					<f:ajax event="blur" render="nameField" />
+				</p:inputText>
+			</ui:decorate>
+		
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="email" />
+				<ui:param name="label" value="#{msgsCore['manageUsers.title.email']}" />
+				<p:inputText id="email"  value="#{manageUsersController.selectedEntity.email}" 
+							 required="true" pt:placeholder="#{msgsCore['manageUsers.placeholder.email']}"
+							 disabled="#{manageUsersController.readOnly}" pt:type="email">
+					<f:ajax event="blur" render="emailField" />
+				</p:inputText>
+			</ui:decorate>			
+				
+				
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="shortName" />
+				<ui:param name="label" value="#{msgsCore['manageUsers.title.shortName']}" />
+				<p:inputText id="shortName" value="#{manageUsersController.selectedEntity.shortName}" required="true" 
+							 pt:placeholder="#{msgsCore['manageUsers.placeholder.shortName']}"
+							 disabled="#{manageUsersController.readOnly  or (manageUsersController.selectedEntity.id!=null)}">
+					<f:ajax event="blur" render="shortNameField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="academicType" />
+				<ui:param name="label" value="#{msgsCore['manageUsers.title.userType']}" />
+				<p:selectManyCheckbox layout="pageDirection"   id="academicType" converter="enumTypeConverter"  disabled="#{manageUsersController.readOnly  }"  
+									 value="#{manageUsersController.userTypes}"  required="true">
+					<f:selectItems   value="#{coreController.userType}" var="type" itemLabel="#{type.label}" itemValue="#{type}" />
+					<f:ajax  render="academicTypeField" />
+				</p:selectManyCheckbox> 
+			</ui:decorate>
+			
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="gender" />
+				<ui:param name="label" value="#{msgsCore['manageUsers.title.gender']}" />
+				<h:selectOneMenu pt:class="form-control" id="gender" value="#{manageUsersController.selectedEntity.gender}" 
+									 disabled="#{manageUsersController.readOnly}" >
+						<f:selectItem itemLabel="#{msgsCore['manageUsers.form.gender.blankOption']}" itemValue="" />
+						<f:selectItems value="#{manageUsersController.gender}" var="type" itemLabel="#{type.label}" itemValue="#{type}" />
+						<p:ajax event="change" update="genderField" />
+				</h:selectOneMenu>				
+			</ui:decorate>
+			
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="birthDate" />
+				<ui:param name="label" value="#{msgsCore['manageUsers.title.birthDate']}" />
+				
+				<p:inputMask id="birthDate" pt:class="form-control" value="#{manageUsersController.selectedEntity.birthDate}"
+			           			 mask="#{msgs['format.date.primefaces']}" disabled="#{manageUsersController.readOnly}">
+						<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" locale="pt_BR" 
+										   timeZone="America/Sao_Paulo"/>
+					</p:inputMask>			
+					
+			</ui:decorate>
+			
+			
+			
+			
+			
+				
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="password" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.admin.password']}" />
+				<p:password id="password" pt:class="form-control" minLength="6" value="#{manageUsersController.selectedEntity.password}" required="true" 
+						 	feedback="true" promptLabel="#{msgs['primefaces.password.prompt']}" 
+						 	weakLabel="#{msgs['primefaces.password.weak']}" goodLabel="#{msgs['primefaces.password.good']}" 
+						 	strongLabel="#{msgs['primefaces.password.strong']}" 
+						 	disabled="#{manageUsersController.readOnly  or (manageUsersController.selectedEntity.id!=null)}" />
+			</ui:decorate>
+			
+			
+
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+	        	<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageUsersController.save}" update=":globalMessages form" disabled="#{manageUsersController.readOnly}" icon="fa fa-save" value="#{msgs['crud.button.save']}"/>
+	        	<p:commandButton pt:class="btn btn-block btn-warning btn-social" immediate="true" action="#{manageUsersController.list}" icon="fa fa-rotate-left"  value="#{msgs['crud.button.back']}"/>
+	        </ui:decorate>
+							
+	</ui:decorate>
+	
+</ui:define>
+</ui:composition>

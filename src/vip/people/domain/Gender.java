@@ -8,8 +8,8 @@ package vip.people.domain;
  * @author Bruno Manzoli (manzoli2122@gmail.com)
  */
 public enum Gender {
-	Female("Female"),
-	Male("Male");
+	Feminino("Feminino"),
+	Masculino("Masculino");
 	
 	
 	private final String label;

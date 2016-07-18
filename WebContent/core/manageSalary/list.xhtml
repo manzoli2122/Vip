@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/resources/templates/default/decorator.xhtml">
+
+    <ui:define name="body">
+    	
+    	<p:button icon="ui-icon-home" outcome="/index.faces" value="Home" styleClass="botaoMenu" />
+    	<p:commandButton icon="ui-icon-star" styleClass="botaoMenu" action="#{manageSalarioController.create}" value="Criar Novo Salario"  update=":main:globalMessages"/>
+         
+        <h1 style="text-align:center;"><h:outputText value="#{msgsSalao['manageSalario.title']}" /></h1>
+
+        
+        <h:form id="filterForm" >
+			<h:panelGroup styleClass="botaoFiltro" id="filterBar" rendered="#{(not empty manageSalarioController.filters) and !manageSalarioController.filtering}">
+               	<p:selectOneMenu id="filter" required="true" value="#{manageSalarioController.filterKey}">
+                    	<f:selectItems value="#{manageSalarioController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
+                        <f:ajax event="change" execute="@form" listener="#{manageSalarioController.changeFilter}" render="@form :main:listingForm" />
+                   	</p:selectOneMenu>
+                    <p:inputText id="filterText" size="20" required="false" value="#{manageSalarioController.filterParam}" rendered="#{manageSalarioController.filter.options == null}" />
+                    <p:selectOneMenu id="filterSelect" required="false" value="#{manageSalarioController.filterParam}" rendered="#{manageSalarioController.filter.options != null}">
+                    	<f:selectItems value="#{manageSalarioController.filter.reversedOptionsLabels}" />
+                    </p:selectOneMenu>
+                    <p:commandButton  action="#{manageSalarioController.filter}" process="@form"  value="Buscar" icon="ui-icon-search"  update=":main:filterForm :main:listingForm "/>
+        	</h:panelGroup>
+ 		</h:form>  
+
+		<div style="clear: both;">&nbsp;</div>
+		
+        <h:form id="listingForm">
+            	<h:panelGroup id="filterInfo" rendered="#{manageSalarioController.filtering}">
+	            	<p:commandButton styleClass="botaoCancelarFiltro" action="#{manageSalarioController.cancelFilter}" process="@form"  value="Cancelar Filtro" icon="ui-icon-search" update="@form :main:filterForm"/>
+				</h:panelGroup>
+				
+               <p:dataTable
+                        widgetVar="listingTable"
+                        rowIndexVar="rowIndex"
+                        value="#{manageSalarioController.lazyEntities}" 
+                        var="entity" 
+                        rows="#{manageSalarioController.maxDataTableRowsPerPage}" 
+                        lazy="true"
+                        tableStyleClass ="tabela" 
+                        loadingMessage="#{msgsSalao['text.ajax.loading']}" 
+                        emptyMessage="#{manageSalarioController.filtering ? msgsSalao['manageSalario.text.noEntitiesFiltered'] : msgsSalao['manageSalario.text.noEntities']}">
+						
+                        <p:column   style="text-align:center">
+                            <h:outputText value="#{entity.createDate}" >
+                            	<f:convertDateTime type="date" pattern="#{msgsSalao['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
+                            </h:outputText>
+                            <div style="clear: both;">&nbsp;</div>
+                        </p:column>
+                        <p:column style="text-align:center">
+                        	<p:commandLink action="#{manageSalarioController.retrieve(entity.id)}" >
+                            	<h:outputText value=" #{entity.funcionario.name} " />
+                            	 <h:outputText value=" R$ " />
+	                            <h:outputText value="#{entity.valor}" >
+	                            	<f:convertNumber pattern="0.00" />
+	                            </h:outputText>
+                            </p:commandLink>
+                            <div style="clear: both;">&nbsp;</div>
+                        </p:column>
+            	</p:dataTable>
+            	
+            </h:form>
+
+    </ui:define>
+</ui:composition>

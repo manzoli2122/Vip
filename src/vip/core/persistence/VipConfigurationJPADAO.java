@@ -16,17 +16,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFo
 import vip.core.domain.VipConfiguration;
 import vip.core.domain.VipConfiguration_;
 
-/**
- * Stateless session bean implementing a DAO for objects of the VipConfiguration domain class using JPA2.
- * 
- * Using a mini CRUD framework for EJB3, basic DAO operation implementations are inherited from the superclass, whereas
- * operations that are specific to the managed domain class (if any is defined in the implementing DAO interface) have
- * to be implemented in this class.
- * 
- * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
- * @see br.org.feees.sigme.core.domain.Attendance
- * @see br.org.feees.sigme.core.persistence.AttendanceDAO
- */
+
 @Stateless
 public class VipConfigurationJPADAO extends BaseJPADAO<VipConfiguration> implements VipConfigurationDAO {
 	/** Serialization id. */

@@ -11,9 +11,9 @@ import javax.faces.convert.Converter;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
-import vip.core.domain.Academic;
-import vip.core.domain.AcademicType;
-import vip.core.persistence.AcademicDAO;
+import vip.core.domain.User;
+import vip.core.domain.UserType;
+import vip.core.persistence.UserDAO;
 
 
 
@@ -26,64 +26,41 @@ public class CoreController implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	
-	/** The DAO for Academic objects. */
+	/** The DAO for user objects. */
 	@EJB    	
-	private AcademicDAO academicDAO;
+	private UserDAO userDAO;
 	
 	
 	
 	
-	/** JSF Converter for Academic objects. */
-	private PersistentObjectConverterFromId<Academic> academicConverter;
+	/** JSF Converter for user objects. */
+	private PersistentObjectConverterFromId<User> userConverter;
 
 	
 	
-	/** Getter for AcademicConverter */
-	public Converter getAcademicConverter() {
-		if (academicConverter == null) {
-			academicConverter = new PersistentObjectConverterFromId<Academic>(academicDAO);
-			
+	/** Getter for userConverter */
+	public Converter getUserConverter() {
+		if (userConverter == null) {
+			userConverter = new PersistentObjectConverterFromId<User>(userDAO);
 		}
-		return academicConverter;
+		return userConverter;
 	}
 	
 	
 	
-
-	
-	
-	
-	public List<Academic> getTeachers(){
-		List<Academic> lista = academicDAO.retrieveAll();
-		List<Academic> teacher = new ArrayList<Academic>();
-		for(Academic academic : lista){
-			Iterator<AcademicType> it = academic.getAcademicTypes().iterator();
+	public List<User> getEmployees(){
+		List<User> lista = userDAO.retrieveAll();
+		List<User> teacher = new ArrayList<User>();
+		for(User user : lista){
+			Iterator<UserType> it = user.getUserTypes().iterator();
 			while(it.hasNext()){
-				if(it.next().equals(AcademicType.Teacher)){
-					teacher.add(academic);
+				if(it.next().equals(UserType.Employee)){
+					teacher.add(user);
 				}
 			}
 		}
 		return teacher;
 	}
-	
-	
-	public List<Academic> getAlumnis(){
-		List<Academic> lista = academicDAO.retrieveAll();
-		List<Academic> alumni = new ArrayList<Academic>();
-		for(Academic academic : lista){
-			Iterator<AcademicType> it = academic.getAcademicTypes().iterator();
-			while(it.hasNext()){
-				if(it.next().equals(AcademicType.Alumni)){
-					alumni.add(academic);
-				}
-			}
-		}
-		return alumni;
-	}
-	
-	
-	
 	
 	
 	
@@ -93,10 +70,12 @@ public class CoreController implements Serializable{
 	
 	
 	
-	
-	public AcademicType[] getAcademicType() {
-		return AcademicType.values();
+	public UserType[] getUserType() {
+		return UserType.values();
 	}
+
+
+
 	
 	
 	

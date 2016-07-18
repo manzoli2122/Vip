@@ -107,4 +107,14 @@ public class CoreInformation implements Serializable {
 		int idx = random.nextInt(quotes.size());
 		return quotes.get(idx);
 	}
+
+	public Double getPerc_Credito() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Double getPerc_Debito() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

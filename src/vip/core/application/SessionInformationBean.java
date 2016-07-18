@@ -9,9 +9,9 @@ import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 
-import vip.core.domain.Academic;
-import vip.core.domain.AcademicType;
-import vip.core.persistence.AcademicDAO;
+import vip.core.domain.User;
+import vip.core.domain.UserType;
+import vip.core.persistence.UserDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 
@@ -35,7 +35,7 @@ public class SessionInformationBean implements SessionInformation {
 	
 	/** The DAO for Academic objects. */
 	@EJB
-	private AcademicDAO academicDAO;
+	private UserDAO academicDAO;
 
 	
 	@Resource 	
@@ -43,13 +43,13 @@ public class SessionInformationBean implements SessionInformation {
 	
 	
 	/** The current user logged in. */
-	private Academic currentUser;
+	private User currentUser;
 
 	
 	
 	/** @see br.org.feees.sigme.core.application.SessionInformation#getCurrentUser() */
 	@Override
-	public Academic getCurrentUser() {
+	public User getCurrentUser() {
 		if( currentUser == null ){
 			Principal principal = sessionC.getCallerPrincipal();
 			if(principal != null){
@@ -71,7 +71,19 @@ public class SessionInformationBean implements SessionInformation {
 	@Override
 	public boolean isAdmin() {
 		if(getCurrentUser()!=null){
-			if(currentUser.getAcademicTypes().contains(AcademicType.Admin)){
+			if(currentUser.getUserTypes().contains(UserType.Admin)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+
+	@Override
+	public boolean isEmployee() {
+		if(getCurrentUser()!=null){
+			if(currentUser.getUserTypes().contains(UserType.Employee)){
 				return true;
 			}
 		}

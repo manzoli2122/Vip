@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.ejb.Local;
 
-import vip.core.domain.Academic;
+import vip.core.domain.User;
 import vip.core.exceptions.LoginFailedException;
 
 /**
@@ -22,10 +22,13 @@ public interface SessionInformation extends Serializable {
 	 * 
 	 * @return The Academic object that represents the user that is currently logged in.
 	 */
-	Academic getCurrentUser();
+	User getCurrentUser();
 	
 	
 	boolean isAdmin();
+
+
+	boolean isEmployee();
 	
 	
 

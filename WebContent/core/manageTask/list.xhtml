@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
+
+<ui:define name="title"><h:outputText value="#{msgsCore['manageTasks.title']}" /></ui:define>
+
+	
+<ui:define name="body">
+	
+	<!-- The listing form. -->
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="filterForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageTasks.title.form.filter']}" /> 
+						
+			<h:panelGroup  id="filterBar" rendered="#{(not empty manageTasksController.filters)}">
+            	<div class="form-group">	
+	            	<div class="col-sm-3">
+	            		<h:selectOneMenu styleClass="form-control" value="#{manageTasksController.filterKey}" id="filter" required="true">
+	            			<f:selectItems value="#{manageTasksController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
+			                <f:ajax event="change" execute="@form" listener="#{manageTasksController.changeFilter}" render="@form :listingForm"  />
+	            		</h:selectOneMenu>
+	            	</div>
+	            	<div class="col-sm-4">
+	            		<h:selectOneMenu styleClass="form-control"  required="false" value="#{manageTasksController.filterParam}" id="filterSelect" rendered="#{manageTasksController.filter.options != null}">
+		                	<f:selectItems value="#{manageTasksController.filter.reversedOptionsLabels}" />
+		                </h:selectOneMenu>
+					 	<p:inputText pt:class="form-control"  id="filterText" required="false" value="#{manageTasksController.filterParam}" rendered="#{manageTasksController.filter.options == null}" />
+                	</div>
+                	<div class="col-sm-2">
+                		<a class="btn btn-block btn-info btn-social" jsf:process="@form" jsf:action="#{manageTasksController.filter}" jsf:update=":listingForm @form" >
+                		   <i class="fa fa-search"></i> <h:outputText value="#{msgs['crud.button.filter']}"/>
+                		</a>
+                	</div>
+					<div class="col-sm-3" jsf:rendered="#{manageTasksController.filtering}">
+						<a class="btn btn-block btn-danger btn-social" jsf:process="@form"	jsf:action="#{manageTasksController.cancelFilter}" jsf:update=":listingForm @form">
+							<i class="fa fa-close"></i> <h:outputText value="#{msgs['crud.button.cancelFilter']}"/>
+						</a>
+                	</div>
+            	</div>
+			</h:panelGroup>
+	
+	</ui:decorate>
+	
+	
+	
+	
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="listingForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageTasks.title.box.list']}" /> 
+			<p:dataTable 
+	   				 	widgetVar="listingTable"
+           			    rowIndexVar="rowIndex"
+               			tableStyleClass="table table-bordered table-striped"
+                  		value="#{manageTasksController.lazyEntities}" 
+                   		var="entity" 
+                   		rows="#{manageTasksController.maxDataTableRowsPerPage}" 
+                   		rowsPerPageTemplate="#{manageTasksController.halfMaxDataTableRowsPerPage},#{manageTasksController.maxDataTableRowsPerPage},#{manageTasksController.doubleMaxDataTableRowsPerPage}"
+                   		paginator="true" 
+                   		lazy="true" 
+                   		selection="#{manageTasksController.selectedEntity}" 
+                  		selectionMode="single" 
+                  		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+                  		paginatorPosition="bottom" 
+                  		loadingMessage="#{msgs['text.ajax.loading']}" 
+                   		emptyMessage="#{manageTasksController.filtering ? msgsCore['manageTasks.text.noEntitiesFiltered'] : msgsCore['manageTasks.text.noEntities']}">
+												
+      			<p:column headerText="#{msgsCore['manageTasks.title.name']}"  style="text-align: center; width:50%;"> 
+           			<h:outputText value="#{entity.name}" />
+           		</p:column>
+           		
+           		<p:column headerText="#{msgsCore['manageTasks.title.valor']}"  style="text-align: center;"> 
+           			<h:outputText value="#{entity.valor}" />
+           		</p:column>
+           		
+           		<p:column headerText="#{msgsCore['manageTasks.title.porcentagem']}"  style="text-align: center;"> 
+           			<h:outputText value="#{entity.porcentagemFuncionario}" />
+           		</p:column>
+           		<p:ajax event="rowSelect" update=":buttonsForm" />
+        	</p:dataTable>
+	</ui:decorate> 
+	
+	
+
+	<h:form id="buttonsForm">
+	    <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
+	       	<p:commandButton pt:class="btn btn-block btn-success btn-social" action="#{manageTasksController.create}"   icon="fa fa-user-plus" value="#{msgs['crud.button.create']}"/>
+	       	<p:commandButton rendered="#{manageTasksController.selectedEntity != null}" pt:class="btn btn-block btn-info btn-social" action="#{manageTasksController.retrieve}" icon="fa fa-file-text" disabled="#{manageTasksController.selectedEntity == null}" value="#{msgs['crud.button.retrieve']}"/>      	
+	      	<p:commandButton rendered="#{manageTasksController.selectedEntity != null}" pt:class="btn btn-block btn-warning btn-social" action="#{manageTasksController.update}" icon="fa fa-refresh" disabled="#{manageTasksController.selectedEntity == null}" value="#{msgs['crud.button.update']}"/>
+	      	<p:commandButton process="@this" ajax=":trashForm"  update=":trashForm" rendered="#{manageTasksController.selectedEntity != null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageTasksController.trash}" icon="fa fa-trash-o" disabled="#{manageTasksController.selectedEntity == null}" value="#{msgs['crud.button.delete']}"/>
+		</ui:decorate>
+	</h:form>
+			
+    	
+    <p>&nbsp;</p>
+    	
+	<h:panelGroup id="trashpanel" rendered="#{not empty manageTasksController.trashCan}" >
+    <ui:decorate template="/resources/#{coreInfo.decorator}/dangerform.xhtml">
+			<ui:param name="formName" value="trashForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageTasks.title.box.trash']}" /> 
+			
+			<h3><h:outputText  value="#{msgs['crud.text.trashHeader']}" /></h3>
+	        <p:dataList value="#{manageTasksController.trashCan}" var="entity" type="ordered">
+	            	#{entity.name} 
+	        </p:dataList> 
+	        <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+					<p:commandButton ajax=":trashForm :buttonsForm :listingForm" update=":trashForm :buttonsForm :listingForm" pt:class="btn btn-block btn-warning btn-social" action="#{manageTasksController.cancelDeletion}"   icon="fa fa-close" value="#{msgs['crud.button.cancelDeletion']}"/>
+		        	<p:commandButton ajax=":trashForm :buttonsForm :listingForm"  update=":trashForm :buttonsForm :listingForm"  pt:class="btn btn-block btn-danger btn-social" action="#{manageTasksController.delete}" icon="fa fa-trash-o"  value="#{msgs['crud.button.confirmDeletion']}"/>
+	        </ui:decorate>			
+	</ui:decorate> 
+	</h:panelGroup>
+		       
+        
+</ui:define> <!-- DEFINE BODY. -->
+</ui:composition>
+

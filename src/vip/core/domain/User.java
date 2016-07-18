@@ -2,31 +2,25 @@ package vip.core.domain;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
+
 import vip.people.domain.Person;
 
 
-/**
- * TODO: document this type.
- *
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
- * @version 1.0
- */
 @Entity
-public class Academic extends Person {
+public class User extends Person {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -37,19 +31,21 @@ public class Academic extends Person {
 	private String shortName;
 
 	/** Electronic address, which also serves as username for identification. */
-	@Basic
+	@NotNull 
+	@Email
+	@Column(unique=true)
 	@Size(max = 100)
 	private String email;
 
 	/** The password, which identifies the user. */
-	@Basic
+	@NotNull 
 	@Size(max = 32)
 	private String password;
 	
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated	
-	private List<AcademicType> academicTypes;
+	private List<UserType> userTypes;
 	
 
 	/** The timestamp of the moment this academic was created. */
@@ -133,12 +129,12 @@ public class Academic extends Person {
 
 	
 	/** Getter for AcademicType. */
-	public List<AcademicType> getAcademicTypes() {
-		return academicTypes;
+	public List<UserType> getUserTypes() {
+		return userTypes;
 	}
 
 	/** Setter for AcademicTypes. */
-	public void setAcademicTypes(List<AcademicType> academicTypes) {
-		this.academicTypes = academicTypes;
+	public void setUserTypes(List<UserType> userTypes) {
+		this.userTypes = userTypes;
 	}
 }

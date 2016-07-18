@@ -2,11 +2,19 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="Vip">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:jboss/datasources/Sae</jta-data-source>
-		<class>vip.core.domain.Academic</class>
+		<jta-data-source>java:jboss/datasources/Salao</jta-data-source>
+		<class>vip.core.domain.User</class>
 		<class>vip.core.domain.VipConfiguration</class>
 		<class>vip.people.domain.Person</class>
 		<class>br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport</class>
+		<class>vip.core.domain.Task</class>
+		<class>vip.core.domain.AdvanceMoney</class>
+		<class>vip.core.domain.Expense</class>
+		<class>vip.secretariat.domain.Income</class>
+		<class>vip.secretariat.domain.Attendance</class>
+		<class>vip.secretariat.domain.EmployeeAttendance</class>
+		<class>vip.secretariat.domain.Payment</class>
+		<class>vip.core.domain.Salary</class>
 		
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
@@ -17,18 +25,20 @@
 		</properties>
 	</persistence-unit>
 	
-	<persistence-unit name="marvinLogin">
+	<persistence-unit name="vipLogin">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>vip.core.domain.Academic</class>
+		
+		<class>br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport</class>
+		
+		<class>vip.core.domain.User</class>
 		<class>vip.core.domain.VipConfiguration</class>
 		<class>vip.people.domain.Person</class>
-		<class>br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport</class>
 		
 		
 		<properties>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/marvin" />
-			<property name="javax.persistence.jdbc.user" value="marvin" />
-			<property name="javax.persistence.jdbc.password" value="marvin" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/salao" />
+			<property name="javax.persistence.jdbc.user" value="salao" />
+			<property name="javax.persistence.jdbc.password" value="salao" />
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="hibernate.enable_lazy_load_no_trans" value="true" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />

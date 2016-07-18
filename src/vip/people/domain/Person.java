@@ -1,23 +1,15 @@
 package vip.people.domain;
 
 import java.util.Date;
-
 import javax.persistence.Basic;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
-/**
- * Domain class that represents people and their most basic attributes, such as name, birthdate and gender.
- * 
- * <i>This class is part of the Engenho de Software "Legal Entity" mini framework for EJB3 (Java EE 6).</i>
- * 
- * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
- */
+
 @MappedSuperclass
 public class Person extends PersistentObjectSupport implements Comparable<Person> {
 	/** Serialization id. */
@@ -34,7 +26,6 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 	protected Date birthDate;
 
 	/** The person's gender: 'M' (male) or 'F' (female). */
-	/** alterei aqui para ser um enum (manzoli) */
 	@Basic
 	protected Gender gender;
 

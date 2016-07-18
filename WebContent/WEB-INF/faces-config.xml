@@ -12,11 +12,15 @@
 		<!-- Loads resource bundles for i18n messages and assigns names to them. -->
 		
 		<resource-bundle>
-			<base-name>vip.core.view.messages</base-name>
+			<base-name>vip.core.view.messagesCore</base-name>
 			<var>msgsCore</var>
 		</resource-bundle>
 		
 		
+		<resource-bundle>
+			<base-name>vip.core.view.messages</base-name>
+			<var>msgs</var>
+		</resource-bundle>
 
 		<!-- Defines the default locale. -->
 		<locale-config>

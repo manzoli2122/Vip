@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.ejb.Local;
 
-import vip.core.domain.Academic;
+import vip.core.domain.User;
 import vip.core.domain.VipConfiguration;
 import vip.core.exceptions.SystemInstallFailedException;
 
@@ -18,5 +18,5 @@ public interface InstallSystemService extends Serializable {
 	 * @param admin
 	 * @throws SystemInstallFailedException
 	 */
-	void installSystem(VipConfiguration config, Academic admin) throws SystemInstallFailedException;
+	void installSystem(VipConfiguration config, User admin) throws SystemInstallFailedException;
 }

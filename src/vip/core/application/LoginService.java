@@ -1,9 +1,10 @@
 package vip.core.application;
 
 import br.ufes.inf.nemo.util.TextUtils;
-import vip.core.domain.Academic;
-import vip.core.domain.AcademicType;
-import vip.core.domain.Academic_;
+import vip.core.domain.User;
+import vip.core.domain.UserType;
+import vip.core.domain.User_;
+import vip.core.persistence.UserDAO;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
@@ -15,10 +16,16 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateful;
+import javax.ejb.Stateless;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -32,15 +39,19 @@ import javax.security.auth.spi.LoginModule;
 
 import org.jboss.security.SimpleGroup;
 import org.jboss.security.SimplePrincipal;
+import java.io.Serializable;
 
 
-
-public class LoginService  implements LoginModule {
+public class LoginService  implements Serializable, LoginModule {
 
 	
+	
+	
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger = Logger.getLogger(LoginService.class.getCanonicalName());
 	
-	private Academic academic;
+	private User academic;
 	
 	private Subject subject;
 	private CallbackHandler callbackHandler; 
@@ -66,8 +77,13 @@ public class LoginService  implements LoginModule {
 	public boolean login() throws LoginException {
 		loginOk = false;
 	    getUsernameAndPassword(); 
+	    
 	    getAcademic();
+	    //logger.log(Level.INFO, "getAcademic() - OK");
+	    
 	    validateUser(); 
+	    //logger.log(Level.INFO, "validateUser() - OK");
+	    
 	    loginOk = true;
 	    return true;
 	}
@@ -84,12 +100,12 @@ public class LoginService  implements LoginModule {
 	    principals.add(callerGroup);
 	    
 	    try {
-	    	EntityManagerFactory emf = Persistence.createEntityManagerFactory("marvinLogin");
+	    	EntityManagerFactory emf = Persistence.createEntityManagerFactory("vipLogin");
 			EntityManager em = emf.createEntityManager();
 			EntityTransaction tx = em.getTransaction();
 			
 			tx.begin();
-			Academic result =  em.find(Academic.class, academic.getId());
+			User result =  em.find(User.class, academic.getId());
 			Date now = new Date(System.currentTimeMillis());
 			result.setLastLoginDate(now);
 			em.merge(result);
@@ -128,7 +144,9 @@ public class LoginService  implements LoginModule {
 	
 	
 	protected void getUsernameAndPassword() throws LoginException{
-	    if( callbackHandler == null ){ throw new LoginException();  } 
+	   
+		
+		if( callbackHandler == null ){ throw new LoginException();  } 
 	    NameCallback nc = new NameCallback("username");
 	    PasswordCallback pc = new PasswordCallback("password: ", false);
 	    Callback[] callbacks = {nc, pc};
@@ -146,28 +164,35 @@ public class LoginService  implements LoginModule {
 	    	System.arraycopy(tmpPassword, 0, credential, 0, tmpPassword.length);
 	        pc.clearPassword();
 	    }
+	    
 	}
 
 	
 	
 	
 	
+	
+	
 	protected void getAcademic() throws LoginException {
 		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("marvinLogin");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("vipLogin");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		
 		tx.begin();
 		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Academic> cq = cb.createQuery(Academic.class);
-		Root<Academic> root = cq.from(Academic.class);
-		cq.where(  cb.equal(root.get(Academic_.email), identity.getName()));
+		CriteriaQuery<User> cq = cb.createQuery(User.class);
+		
+		Root<User> root = cq.from(User.class);
+		cq.where(  cb.equal(root.get(User_.email), identity.getName()));
+		
 		try{
 			academic = em.createQuery(cq).getSingleResult();
 		}
+		
 		catch (Exception e) {
 			academic =null;
+			e.printStackTrace();
 			throw new LoginException();
 		}
 		
@@ -179,7 +204,6 @@ public class LoginService  implements LoginModule {
 	
 	
 	
-	
 
 
 	
@@ -187,9 +211,10 @@ public class LoginService  implements LoginModule {
 	protected Group getRoleSets() throws LoginException {
 		SimpleGroup group = new SimpleGroup("Roles");
 		if(academic!=null){
-			Iterator<AcademicType> lista = academic.getAcademicTypes().iterator();
+			Iterator<UserType> lista = academic.getUserTypes().iterator();
 			while(lista.hasNext()){
 				String role = lista.next().toString();
+				logger.log(Level.INFO, "-----------------------------{0}-----------------------------------",role);
 				group.addMember(new SimplePrincipal(role));
 			}
 		}
