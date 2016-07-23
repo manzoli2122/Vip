@@ -53,7 +53,7 @@
 								<li class="user-header"><img src="#{facesContext.externalContext.requestContextPath}/resources/default/images/blankAvatar.png" class="img-circle"
 									alt="User Image" />
 									<p><h:outputText value="#{sessionController.currentUser.shortName}" />
-										<small><h:outputFormat value="#{msgs['text.memberSince']}"><f:param value="#{sessionController.currentUser.creationDate}" /></h:outputFormat></small>
+										<small><h:outputFormat value="#{msgs['text.memberSince']}"><f:param value="#{sessionController.currentUser.creationDate.time}" /></h:outputFormat></small>
 									</p></li>
 								
 								<!-- Menu Footer-->
@@ -110,14 +110,25 @@
 						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.admin}"  action="#{manageUsersController.list()}"  value=" #{msgsCore['manageUsers.title']}" />
 					</li>
 					
+					 
 					<li>
-						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.admin or sessionController.employee}"  action="#{manageTasksController.list()}"  value=" #{msgsCore['manageTasks.title']}" />
+						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.admin or sessionController.employee}"  action="#{manageClientController.list()}"  value=" #{msgsCore['manageClient.title']}" />
+					</li>
+					
+					
+					
+					<li>
+						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.admin}"  action="#{manageTasksController.list()}"  value=" #{msgsCore['manageTasks.title']}" />
 					</li>
 					
 					<li>
 						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.admin }"  action="#{ manageAdvanceMoneyController.list()}"  value=" #{msgsCore['manageAdvanceMoney.title']}" />
 					</li>
 					
+					
+					<li>
+						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.admin or sessionController.employee}"  action="#{manageAttendanceController.list()}"  value=" #{msgsCore['manageAttendance.title']}" />
+					</li>
 					
 					
 					

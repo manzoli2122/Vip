@@ -1,0 +1,183 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
+ 
+
+<ui:define name="title">  
+	<h:outputText value="#{msgsCore['manageAttendance.title.create']}" 
+				  rendered="#{(! manageAttendanceController.readOnly) and (manageAttendanceController.selectedEntity.id == null)}" />
+   	<h:outputText value="#{msgsCore['manageAttendance.title.update']}" 
+   				  rendered="#{(! manageAttendanceController.readOnly) and (manageAttendanceController.selectedEntity.id != null)}" />
+    <h:outputText value="#{msgsCore['manageAttendance.title.retrieve']}" rendered="#{manageAttendanceController.readOnly}" />
+</ui:define>
+
+	
+<ui:define name="body">
+	
+	
+		<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsCore['manageAttendance.title.form']}" />
+			
+			
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="cliente" />
+				<ui:param name="label" value="#{msgsCore['manageAttendance.title.cliente']}" />
+				<h:selectOneMenu pt:class="form-control" id="cliente" value="#{manageAttendanceController.selectedEntity.cliente}" 
+								 converter="#{coreController.userConverter}" required="true" 
+								 disabled="#{manageAttendanceController.readOnly or not sessionController.admin}">
+					<f:selectItem itemLabel="Selecione o Cliente" itemValue="" />
+					<f:selectItems value="#{coreController.clientes}" var="func" itemLabel="#{func.name}" itemValue="#{func}" />
+					<p:ajax  update="form" />
+				</h:selectOneMenu>
+			</ui:decorate>
+				
+				
+					
+			<h:panelGroup rendered="#{manageAttendanceController.selectedEntity.cliente!=null}">		
+					
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="date" />
+					<ui:param name="label" value="#{msgsCore['manageAttendance.title.date']}" />
+					<p:inputMask   placeholder="Entre com a Data" id="date" mask="#{msgs['format.date.primefaces']}" 
+								   value="#{manageAttendanceController.selectedEntity.createDate.time}" 
+								   disabled="#{manageAttendanceController.readOnly or not sessionController.admin}">
+						<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
+						<p:ajax event="blur" update="dateField" />
+					</p:inputMask>
+				</ui:decorate>
+						
+				
+				
+				<div style="clear: both;">&nbsp;</div>  
+				<p:separator />
+				<div style="clear: both;">&nbsp;</div>  
+				
+				
+				<h:panelGroup id="servicosField" >
+					<p:dataTable 
+								id="servicos"
+								rowIndexVar="rowIndex"
+				       			tableStyleClass="table table-bordered table-striped"
+				           		value="#{manageAttendanceController.selectedEntity.employeeAttendances}" 
+					            var="servico" 
+					            selection="#{manageAttendanceController.employeeAttendance}" 
+	                  			selectionMode="single" 
+					            rowKey="#{servico.uuid}" 
+					            loadingMessage="#{msgs['text.ajax.loading']}" >
+					            	
+						<p:column headerText="#{msgsCore['manageAttendance.title.servico']}"  style="text-align: center; width:40%;"> 
+					    		<h:outputText value="#{servico.task.name}" />
+					    </p:column>
+					           		
+					    <p:column headerText="#{msgsCore['manageAttendance.title.funcionario']}"  style="text-align: center; width:35%;"> 
+					           	<h:outputText value="#{servico.employee.shortName}" />
+					    </p:column>
+					    <p:column headerText="#{msgsCore['manageAttendance.title.valor']}"  style="text-align: center; width:20%;"> 
+					           	<h:outputText value="#{servico.valorComDesconto}">
+					           		<f:convertNumber type="currency" />
+			         			</h:outputText>
+					           		
+					    </p:column>
+					    
+					    
+						<p:ajax event="rowSelect" update="@form" />					
+					</p:dataTable>
+					
+					<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:param name="fieldName" value="valorServico" />
+						<ui:param name="label" value="#{msgsCore['manageAttendance.title.valorServico']}" />
+						<p:inputText  id="valorServico"  value="#{manageAttendanceController.selectedEntity.valor}" disabled="#{true}">
+							<f:convertNumber type="currency" />
+			         	</p:inputText>
+					</ui:decorate>
+				
+				
+				
+					<h:panelGroup rendered="#{!manageAttendanceController.readOnly and manageAttendanceController.alteravel}"  >
+						<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+							<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageAttendanceController.createNewService}"  icon="fa fa-user-plus" value="#{msgsCore['manageAttendance.button.new.servico']}"/>
+							<p:commandButton rendered="#{manageAttendanceController.employeeAttendance!=null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageAttendanceController.excluirServico()}"  disabled="#{ manageAttendanceController.employeeAttendance==null}" icon="fa fa-trash" value="#{msgsCore['manageAttendance.button.excluir.servico']}"/>
+							<p:link rendered="#{manageAttendanceController.employeeAttendance==null}"></p:link>
+						</ui:decorate>
+					</h:panelGroup>
+						
+					
+						
+					<div style="clear: both;">&nbsp;</div>  
+					<p:separator />
+					<div style="clear: both;">&nbsp;</div> 
+					
+			    </h:panelGroup>	    
+			        	
+			    <h:panelGroup id="pagamentossField" rendered="#{!manageAttendanceController.selectedEntity.employeeAttendances.isEmpty()}">
+					<p:dataTable 
+									id="pagamentos"
+									rowIndexVar="rowIndex"
+					       			tableStyleClass="table table-bordered table-striped"
+			                		value="#{manageAttendanceController.selectedEntity.payments}" 
+			                   		var="pagamento" 
+			                   		selection="#{manageAttendanceController.payment}" 
+               						selectionMode="single" 
+			                   		rowKey="#{pagamento.uuid}" 
+			                   		loadingMessage="#{msgs['text.ajax.loading']}" >
+			                   		
+							<p:column headerText="#{msgsCore['manageAttendance.title.pagamentoType']}"  style="text-align: center; width:50%;"> 
+					        	<h:outputText value="#{pagamento.formOfPayment.label}" />
+					   		</p:column>
+					           		
+				      		<p:column headerText="#{msgsCore['manageAttendance.title.valor']}"  style="text-align: center; width:50%;"> 
+			         			<h:outputText value="#{pagamento.valor}">
+			         				<f:convertNumber type="currency" />
+			         			</h:outputText>
+			           		</p:column>
+			       			<p:ajax event="rowSelect" update="@form" />					
+					</p:dataTable>
+					
+					<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:param name="fieldName" value="valorPagamento" />
+						<ui:param name="label" value="#{msgsCore['manageAttendance.title.valorPagamento']}" />
+						<p:inputText  id="valorPagamento"  value="#{manageAttendanceController.selectedEntity.valorPayments}" disabled="#{true}"/>	
+					</ui:decorate>
+				
+				
+					<h:panelGroup rendered="#{!manageAttendanceController.readOnly  and manageAttendanceController.alteravel}"  >
+						<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+							<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageAttendanceController.createNewPagamento()}"  disabled="#{manageAttendanceController.readOnly}" icon="fa fa-user-plus" value="#{msgsCore['manageAttendance.button.new.pagamento']}"/>
+							<p:commandButton rendered="#{manageAttendanceController.payment!=null}"  pt:class="btn btn-block btn-danger btn-social" action="#{manageAttendanceController.excluirPagamento()}"  disabled="#{manageAttendanceController.readOnly or manageAttendanceController.payment==null}" icon="fa fa-trash" value="#{msgsCore['manageAttendance.button.excluir.pagamento']}"/>
+							<p:link rendered="#{manageAttendanceController.payment==null}"></p:link>
+						</ui:decorate>
+					</h:panelGroup>
+				
+			 		<div style="clear: both;">&nbsp;</div>  
+					<p:separator />
+					<div style="clear: both;">&nbsp;</div> 
+				
+				</h:panelGroup>
+					
+					
+		    
+		    </h:panelGroup>
+		    	
+		    	
+		    	
+		    	
+		    	
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+	        	<p:commandButton pt:class="btn btn-block btn-success btn-social" action="#{manageAttendanceController.save}" update=":globalMessages form" disabled="#{manageAttendanceController.readOnly}" icon="fa fa-save" value="#{msgsCore['manageAttendance.button.finalizar']}"/>
+	        	<p:commandButton pt:class="btn btn-block btn-warning btn-social" immediate="true" action="#{manageAttendanceController.list}" icon="fa fa-rotate-left"  value="#{msgs['crud.button.cancel']}"/>
+	        </ui:decorate>
+											
+			
+		</ui:decorate>
+		
+			
+	
+</ui:define>
+</ui:composition>

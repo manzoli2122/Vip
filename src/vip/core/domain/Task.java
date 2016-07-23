@@ -4,15 +4,13 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
 
 @Entity
-public class Task extends  PersistentObjectSupport implements Comparable<Task>{
+public class Task extends  PersistentObjectRegister implements Comparable<Task>{
 
 	private static final long serialVersionUID = 1L;
 
-	
 	@NotNull
 	@Size(max = 50)
 	private String name;
@@ -22,6 +20,9 @@ public class Task extends  PersistentObjectSupport implements Comparable<Task>{
 	
 	@NotNull
 	private Double porcentagemFuncionario;
+	
+	@NotNull
+	private boolean ativo;
 	
 	
 	
@@ -54,6 +55,10 @@ public class Task extends  PersistentObjectSupport implements Comparable<Task>{
 	
 	public Double getPorcentagemFuncionario() { return porcentagemFuncionario; }
 	public void setPorcentagemFuncionario(Double porcentagemFuncionario) { this.porcentagemFuncionario = porcentagemFuncionario; }
+
+
+	public boolean isAtivo() {	return ativo;}
+	public void setAtivo(boolean ativo) {this.ativo = ativo;}
 
 	
 	

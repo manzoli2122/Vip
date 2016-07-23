@@ -1,5 +1,6 @@
 package vip.core.controller;
 
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -124,6 +125,7 @@ public class InstallSystemController extends JSFController {
 		if (!conversation.isTransient()) conversation.end();
 		conversation.begin();
 
+		admin.setBirthDate(Calendar.getInstance());
 		// Go to the first view.
 		return VIEW_PATH + "index.xhtml?faces-redirect=true";
 	}

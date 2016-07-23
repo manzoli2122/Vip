@@ -1,8 +1,7 @@
 package vip.core.domain;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -13,9 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import org.hibernate.validator.constraints.Email;
-
 import vip.people.domain.Person;
 
 
@@ -31,7 +28,6 @@ public class User extends Person {
 	private String shortName;
 
 	/** Electronic address, which also serves as username for identification. */
-	@NotNull 
 	@Email
 	@Column(unique=true)
 	@Size(max = 100)
@@ -50,16 +46,16 @@ public class User extends Person {
 
 	/** The timestamp of the moment this academic was created. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date creationDate;
+	private Calendar creationDate;
 
 	/** The last time the data about the user was updated. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
-	private Date lastUpdateDate;
+	private Calendar lastUpdateDate;
 
 	/** The last time the user logged in the system. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastLoginDate;
+	private Calendar lastLoginDate;
 
 	
 	
@@ -98,32 +94,32 @@ public class User extends Person {
 
 
 	/** Getter for creationDate. */
-	public Date getCreationDate() {
+	public Calendar getCreationDate() {
 		return creationDate;
 	}
 
 	/** Setter for creationDate. */
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(Calendar creationDate) {
 		this.creationDate = creationDate;
 	}
 
 	/** Getter for lastUpdateDate. */
-	public Date getLastUpdateDate() {
+	public Calendar getLastUpdateDate() {
 		return lastUpdateDate;
 	}
 
 	/** Setter for lastUpdateDate. */
-	public void setLastUpdateDate(Date lastUpdateDate) {
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
 	/** Getter for lastLoginDate. */
-	public Date getLastLoginDate() {
+	public Calendar getLastLoginDate() {
 		return lastLoginDate;
 	}
 
 	/** Setter for lastLoginDate. */
-	public void setLastLoginDate(Date lastLoginDate) {
+	public void setLastLoginDate(Calendar lastLoginDate) {
 		this.lastLoginDate = lastLoginDate;
 	}
 

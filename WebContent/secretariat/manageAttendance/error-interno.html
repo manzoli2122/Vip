@@ -1,0 +1,97 @@
+
+<p:panelGrid id="buttonsServico" columns="2" columnClasses="ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank box-footer">
+						<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageAttendanceController.createNewService}"  disabled="#{manageAttendanceController.readOnly}" icon="fa fa-user-plus" value="#{msgsCore['manageAttendance.button.new.servico']}"/>
+						<p:commandButton rendered="#{manageAttendanceController.employeeAttendance!=null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageAttendanceController.excluirServico()}"  disabled="#{manageAttendanceController.readOnly}" icon="fa fa-trash" value="#{msgsCore['manageAttendance.button.excluir.servico']}"/>
+					</p:panelGrid>
+
+
+
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/resources/templates/default/decorator.xhtml">
+
+    <ui:define name="body">
+    	
+    	
+		<h:form id="form">
+ 	
+    		
+        
+        			
+        
+        			<div style="clear: both;">&nbsp;</div> 
+        			<p:separator />
+        			<div style="clear: both;">&nbsp;</div> 
+        			
+        			
+        			<h:panelGroup id="valorField">
+        				<h4 style="text-align:center; color:red;">
+							<h:outputText value="#{msgsSalao['manageAtendimento.form.valor']}" />
+							<h:outputText  id="valor"  value="#{manageAtendimentoController.selectedEntity.calcularValorServicos()}"   >
+								<f:convertNumber pattern="R$ 0.00" />
+							</h:outputText>
+						</h4>
+					</h:panelGroup>
+					
+					<div style="clear: both;">&nbsp;</div> 
+					<div style="clear: both;">&nbsp;</div> 
+					
+        
+                    <h:panelGroup rendered="#{! manageAtendimentoController.readOnly}">
+                    	<p:commandButton styleClass="botaoMenu ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-back" action="#{manageAtendimentoController.list}" value="#{msgsSalao['crud.button.cancel']}" immediate="true" icon="buttonCancel" />
+                        <p:commandButton styleClass="botaoMenu ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-check" action="#{manageAtendimentoController.save}" value="#{msgsSalao['crud.button.save']}"  update=":main:form :main:globalMessages" />
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{manageAtendimentoController.readOnly}">
+                    	<p:commandButton styleClass="botaoMenu ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-edit" rendered="#{manageAtendimentoController.deletavel}" action="#{manageAtendimentoController.update}" value="#{msgsSalao['crud.button.update']}"  disabled="#{!manageAtendimentoController.deletavel}" update=":main:globalMessages"/>
+                    	<p:commandButton styleClass="botaoMenu ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-back" action="#{manageAtendimentoController.list}" value="#{msgsSalao['crud.button.back']}" immediate="true" icon="buttonBack" />
+                       	<p:commandButton styleClass="botaoCancelarFiltro ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-delete" rendered="#{manageAtendimentoController.deletavel}" action="#{manageAtendimentoController.trash}" value="#{msgsSalao['crud.button.delete']}"  disabled="#{!manageAtendimentoController.deletavel}" process="@this" update=":main:trashForm :main:globalMessages" />
+                    </h:panelGroup>
+                  
+                </h:form>
+                
+                
+                
+                
+                
+        
+        
+        
+        <p:dialog header="#{msgsSalao['manageAtendimento.text.newServico']}" widgetVar="servicoDialog" modal="true" width="90%" style="min-width: 300px;" showEffect="fade" hideEffect="fade" >
+			<div class="crud">
+				<ui:decorate template="/resources/templates/default/form.xhtml">
+					<h:form id="servicoForm">
+						
+						<h:panelGroup id="valorField" >
+							<ui:decorate template="/resources/templates/default/formfield.xhtml">
+								<ui:param name="fieldName" value="servicoForm:valor" />
+								<ui:define name="label"><h:outputText value="#{msgsSalao['manageAtendimento.form.valor']}" /></ui:define>
+								<p:inputText type="number" validatorMessage="Valor minimo de ser maior que Zero"  id="valor" value="#{manageAtendimentoController.servico.servico.valor}"  disabled="true" />
+							</ui:decorate>
+						</h:panelGroup>
+						
+						<p:panel rendered="#{!manageAtendimentoController.readOnly }" style="text-align:center">
+							<p:commandButton   styleClass="botaoCancelarFiltro ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-delete ui-btn-inline"  value="Excluir" onclick="servicoDialog.hide()" action="#{manageAtendimentoController.resetServico}" title="#{msgsSalao['manageAtendimento.button.removeServico']}" disabled="#{manageAtendimentoController.readOnly or (manageAtendimentoController.servico == null)}" process="@this" update=":main:form:servicosField">
+								<p:collector value="#{manageAtendimentoController.servico}" removeFrom="#{manageAtendimentoController.selectedEntity.servicos}" />
+							</p:commandButton>
+							<p:commandButton  styleClass="botaoMenu ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-check ui-btn-inline"  action="#{manageAtendimentoController.resetServico}" onclick="servicoDialog.hide()" value="#{msgsSalao['crud.button.save']}"  process="@form" update=":main:form:servicosField">
+								<p:collector  value="#{manageAtendimentoController.servico}" addTo="#{manageAtendimentoController.selectedEntity.servicos}" />
+							</p:commandButton>
+						</p:panel>
+						<p:commandButton styleClass="botaoMenu ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-back" rendered="#{manageAtendimentoController.readOnly }" action="#{manageAtendimentoController.resetServico}" onclick="servicoDialog.hide()" value="Voltar"  />
+						
+					</h:form>
+				</ui:decorate>
+			</div>
+		</p:dialog>
+        
+        
+        
+    </ui:define>  
+    
+</ui:composition>

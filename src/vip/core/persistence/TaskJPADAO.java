@@ -34,6 +34,7 @@ public class TaskJPADAO extends BaseJPADAO<Task> implements TaskDAO {
 	@Override
 	protected List<Order> getOrderList(CriteriaBuilder cb, Root<Task> root) {
 		List<Order> orderList = new ArrayList<Order>();
+		orderList.add(cb.desc(root.get(Task_.ativo)));
 		orderList.add(cb.asc(root.get(Task_.name)));
 		return orderList;
 	}

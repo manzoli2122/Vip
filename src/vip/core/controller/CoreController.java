@@ -11,9 +11,12 @@ import javax.faces.convert.Converter;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
+import vip.core.domain.Task;
 import vip.core.domain.User;
 import vip.core.domain.UserType;
+import vip.core.persistence.TaskDAO;
 import vip.core.persistence.UserDAO;
+import vip.people.domain.Gender;
 
 
 
@@ -30,7 +33,14 @@ public class CoreController implements Serializable{
 	@EJB    	
 	private UserDAO userDAO;
 	
+	@EJB    	
+	private TaskDAO taskDAO;
 	
+	
+	
+	public Gender[] getGender() {
+		return Gender.values();
+	}
 	
 	
 	/** JSF Converter for user objects. */
@@ -48,6 +58,37 @@ public class CoreController implements Serializable{
 	
 	
 	
+	
+	
+	/** JSF Converter for user objects. */
+	private PersistentObjectConverterFromId<Task> taskConverter;
+
+	
+	
+	/** Getter for userConverter */
+	public Converter getTaskConverter() {
+		if (taskConverter == null) {
+			taskConverter = new PersistentObjectConverterFromId<Task>(taskDAO);
+		}
+		return taskConverter;
+	}
+	
+	
+	public List<Task> getTasks(){
+		List<Task> lista = taskDAO.retrieveAll();
+		return lista;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public List<User> getEmployees(){
 		List<User> lista = userDAO.retrieveAll();
 		List<User> teacher = new ArrayList<User>();
@@ -60,6 +101,12 @@ public class CoreController implements Serializable{
 			}
 		}
 		return teacher;
+	}
+	
+	
+	public List<User> getClientes(){
+		List<User> lista = userDAO.retrieveAll();
+		return lista;
 	}
 	
 	

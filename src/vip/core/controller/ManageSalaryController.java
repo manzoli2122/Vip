@@ -1,20 +1,17 @@
 package vip.core.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
-import java.util.logging.Level;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudValidationError;
@@ -85,8 +82,8 @@ public class ManageSalaryController extends CrudController<Salary>{
 	@Override
 	protected Salary createNewEntity() {
 		Salary salario = new Salary();
-		salario.setCreateDate(new Date());
-		salario.setRegister(sessionInformation.getCurrentUser());
+		salario.setCreateDate(Calendar.getInstance());
+		salario.setCreateRegister(sessionInformation.getCurrentUser());
 		return salario;
 	}
 	
@@ -177,7 +174,7 @@ public class ManageSalaryController extends CrudController<Salary>{
 		while(ite.hasNext()){
 			serv = ite.next();
 			serv = atendimento_funcionarioDAO.merge(serv);
-			serv.setSalario(selectedEntity);
+			serv.setSalary(selectedEntity);
 			atendimento_funcionarioDAO.save(serv);					
 		}
 		
@@ -210,7 +207,7 @@ public class ManageSalaryController extends CrudController<Salary>{
 				while(ite.hasNext()){
 					serv = ite.next();
 					serv = atendimento_funcionarioDAO.merge(serv);
-					serv.setSalario(null);
+					serv.setSalary(null);
 					atendimento_funcionarioDAO.save(serv);					
 				}
 				Iterator<AdvanceMoney> ite1 = entity.getVales().iterator();

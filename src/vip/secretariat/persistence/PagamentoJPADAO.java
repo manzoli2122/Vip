@@ -36,12 +36,7 @@ public class PagamentoJPADAO extends BaseJPADAO<Payment> implements PagamentoDAO
 		return entityManager;
 	}
 	
-	@Override
-	protected List<Order> getOrderList(CriteriaBuilder cb, Root<Payment> root) {
-		List<Order> orderList = new ArrayList<Order>();
-		orderList.add(cb.asc(root.get(Payment_.createDate)));
-		return orderList;
-	}
+	
 	
 	
 	
@@ -52,12 +47,7 @@ public class PagamentoJPADAO extends BaseJPADAO<Payment> implements PagamentoDAO
 		CriteriaQuery<Payment> cq = cb.createQuery(getDomainClass());
 		Root<Payment> root = cq.from(getDomainClass());
 		
-		cq.where(
-				cb.between(root.get(Payment_.createDate), init , fim),
-				cb.equal(root.get(Payment_.formOfPayment), FormOfPayment.Cartao_Credito),
-				cb.gt(root.get(Payment_.parcelas), parcela)
-		);
-		
+	
 		applyOrdering(cb, root, cq);
 		
 		
@@ -72,10 +62,7 @@ public class PagamentoJPADAO extends BaseJPADAO<Payment> implements PagamentoDAO
 		CriteriaQuery<Payment> cq = cb.createQuery(getDomainClass());
 		Root<Payment> root = cq.from(getDomainClass());
 		
-		cq.where(
-				cb.equal(root.get(Payment_.createDate), dia ),
-				cb.equal(root.get(Payment_.formOfPayment), FormOfPayment.Cartao_Credito)
-		);
+		
 		
 		applyOrdering(cb, root, cq);
 		
@@ -91,10 +78,7 @@ public class PagamentoJPADAO extends BaseJPADAO<Payment> implements PagamentoDAO
 		CriteriaQuery<Payment> cq = cb.createQuery(getDomainClass());
 		Root<Payment> root = cq.from(getDomainClass());
 		
-		cq.where(
-				cb.equal(root.get(Payment_.createDate), dia ),
-				cb.equal(root.get(Payment_.formOfPayment), FormOfPayment.Dinheiro)
-		);
+		
 		
 		applyOrdering(cb, root, cq);
 		
@@ -110,10 +94,7 @@ public class PagamentoJPADAO extends BaseJPADAO<Payment> implements PagamentoDAO
 		CriteriaQuery<Payment> cq = cb.createQuery(getDomainClass());
 		Root<Payment> root = cq.from(getDomainClass());
 		
-		cq.where(
-				cb.equal(root.get(Payment_.createDate), dia ),
-				cb.equal(root.get(Payment_.formOfPayment), FormOfPayment.Cartao_Debito)
-		);
+		
 		
 		applyOrdering(cb, root, cq);
 		
@@ -130,10 +111,7 @@ public class PagamentoJPADAO extends BaseJPADAO<Payment> implements PagamentoDAO
 		CriteriaQuery<Payment> cq = cb.createQuery(getDomainClass());
 		Root<Payment> root = cq.from(getDomainClass());
 		
-		cq.where(
-				cb.equal(root.get(Payment_.createDate), dia ),
-				cb.equal(root.get(Payment_.formOfPayment), FormOfPayment.Cheque)
-		);
+		
 		
 		applyOrdering(cb, root, cq);
 		

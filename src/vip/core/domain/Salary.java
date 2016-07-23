@@ -14,19 +14,16 @@ import vip.secretariat.domain.EmployeeAttendance;
 
 
 @Entity
-@DiscriminatorValue("SALARY")
+@DiscriminatorValue("Salary")
 public class Salary extends Expense implements Comparable<Salary>{
-
 	
 	private static final long serialVersionUID = 1L;
-
 	
-	@OneToMany(mappedBy="salario" , cascade = CascadeType.MERGE )
+	@OneToMany(mappedBy="salary" , cascade = CascadeType.MERGE )
 	private Set<EmployeeAttendance> servicos;
 	
 	@OneToMany(mappedBy="salary" , cascade = CascadeType.MERGE )
 	private Set<AdvanceMoney> vales;
-	
 	
 	@NotNull
 	@ManyToOne

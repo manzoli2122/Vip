@@ -1,60 +1,91 @@
-package vip.core.controller;
+package vip.secretariat.controller;
 
+import java.util.Calendar;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
-
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
-import vip.core.application.ManageTasksService;
-import vip.core.domain.Task;
+import vip.core.domain.User;
+import vip.secretariat.application.ManageClientService;
+
 
 
 @Named
 @SessionScoped
-public class ManageTasksController extends CrudController<Task>{
-
+public class ManageClientController extends CrudController<User> {
+	
 	private static final long serialVersionUID = 1L;
 
+
 	@EJB
-	private ManageTasksService manageTasksService;
+	private ManageClientService manageClienteService;
 	
 	
 	
 	
-	/*   CONSTRUTOR DA CLASSE */
-	public ManageTasksController(){
-		 viewPath = "/core/manageTask/";
+	
+	/**   CONSTRUTOR DA CLASSE */
+	public ManageClientController(){
+		 viewPath = "/secretariat/manageClient/";
 	     bundleName = "msgsCore";
 	}
 	
-	/* METODO OBRIGATORIO*/
+	
 	@Override
-	protected CrudService<Task> getCrudService() {
-		return manageTasksService;
+	protected CrudService<User> getCrudService() {
+		return manageClienteService;
 	}
 
-	
-
-	/* METODO OBRIGATORIO*/
 	@Override
 	protected void initFilters() {
-		addFilter(new LikeFilter("manageTasks.filter.byName", "name", getI18nMessage(bundleName, "manageTasks.text.filter.byName")));
-	}
-
-	
-	
-	
-	
-	public String ativarDesativarTask(){
-		selectedEntity.setAtivo(!selectedEntity.isAtivo());
-		return save();
+		addFilter(new LikeFilter("manageClient.filter.byName", "name", getI18nMessage(bundleName, "manageUsers.text.filter.byName")));
 	}
 	
 	
 	
+	
+	
+	@Override
+	protected User createNewEntity() {
+		User user = new User();
+		user.setBirthDate(Calendar.getInstance());
+		return user;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	protected void prepEntity() {
+		suggestShortName();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void suggestShortName() {
+		// If the name was filled and the short name is still empty, suggest the first name as short name.
+		String name = selectedEntity.getName();
+		String shortName = selectedEntity.getShortName();
+		
+		if ((name != null) && ((shortName == null) || (shortName.length() == 0))) {
+			int idx = name.indexOf(" ");
+			selectedEntity.setShortName((idx == -1) ? name : name.substring(0, idx).trim());
+		}
+	}
 	
 	
 	
@@ -88,7 +119,5 @@ public class ManageTasksController extends CrudController<Task>{
 			return null;
 		}
 	}
-	
-	
-	
+
 }

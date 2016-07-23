@@ -2,6 +2,7 @@ package vip.core.application;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,7 +54,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			admin.setPassword(TextUtils.produceMd5Hash(admin.getPassword()));
 			
 			// Register the last update date / creation date.
-			Date now = new Date(System.currentTimeMillis());
+			Calendar now = Calendar.getInstance();
 			admin.setLastUpdateDate(now);
 			admin.setCreationDate(now);
 			config.setCreationDate(now);

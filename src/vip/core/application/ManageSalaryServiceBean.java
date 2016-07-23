@@ -88,7 +88,8 @@ public class ManageSalaryServiceBean  extends CrudServiceBean<Salary> implements
 			 email.setAuthenticator(new DefaultAuthenticator(config.getSmtpUsername(), config.getSmtpPassword()));
 			 email.setSSL(true);
 			 email.setFrom(config.getSmtpUsername());
-			 email.setSubject("Salario "+ salario.getFuncionario().getName()+" "+ salario.getCreateDate().toLocaleString().substring(0,10)+" "+salario.getId());
+			// email.setSubject("Salario "+ salario.getFuncionario().getName()+" "+ salario.getCreateDate().toLocaleString().substring(0,10)+" "+salario.getId());
+			 email.setSubject("Salario "+ salario.getFuncionario().getName()+" "+ salario.getCreateDate().getTime().toString().substring(0,10)+" "+salario.getId());
 			 email.setMsg(msg);
 			 email.addTo(emailAddress);
 			 email.addTo(config.getSmtpUsername());

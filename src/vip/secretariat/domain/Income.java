@@ -1,7 +1,7 @@
 package vip.secretariat.domain;
 
-import java.util.Date;
-import java.util.Set;
+import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
@@ -29,7 +29,7 @@ public abstract class Income extends  PersistentObjectSupport {
 	/*  */
 	@NotNull
 	@Temporal(TemporalType.DATE)
-	protected Date createDate;
+	protected Calendar createDate;
 	
 	@NotNull
 	protected Double valor;
@@ -38,24 +38,24 @@ public abstract class Income extends  PersistentObjectSupport {
 	@ManyToOne
 	protected User register;
 	
+	@NotNull
 	@OneToMany(mappedBy="income" , cascade = CascadeType.ALL, orphanRemoval = true)
-	protected Set<Payment> pagamentos;
-
+	protected List<Payment> payments;
 	
 	
 	
-	public Date getCreateDate() { return createDate; 	}
-	public void setCreateDate(Date createDate) { this.createDate = createDate; }
+	
+	public List<Payment> getPayments() {return payments; }
+	public void setPayments(List<Payment> payments) { this.payments = payments; }
+	
+	public Calendar getCreateDate() { return createDate; 	}
+	public void setCreateDate(Calendar createDate) { this.createDate = createDate; }
 
 	public Double getValor() { 	return valor; }
 	public void setValor(Double valor) { this.valor = valor; }
 
 	public User getRegister() { return register; }
 	public void setRegister(User register) { this.register = register; }
-
-	public Set<Payment> getPagamentos() { return pagamentos; }
-	public void setPagamentos(Set<Payment> pagamentos) { this.pagamentos = pagamentos; }
-	
 
 
 }

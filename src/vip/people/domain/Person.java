@@ -1,5 +1,6 @@
 package vip.people.domain;
 
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.MappedSuperclass;
@@ -23,7 +24,7 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 
 	/** The person's birth date. */
 	@Temporal(TemporalType.DATE)
-	protected Date birthDate;
+	protected Calendar birthDate;
 
 	/** The person's gender: 'M' (male) or 'F' (female). */
 	@Basic
@@ -40,12 +41,12 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 	}
 
 	/** Getter for birthDate. */
-	public Date getBirthDate() {
+	public Calendar getBirthDate() {
 		return birthDate;
 	}
 
 	/** Setter for birthDate. */
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(Calendar birthDate) {
 		this.birthDate = birthDate;
 	}
 

@@ -1,7 +1,6 @@
 package vip.core.domain;
 
-import java.util.Date;
-
+import java.util.Calendar;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -11,22 +10,17 @@ import javax.validation.constraints.NotNull;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
-/**
- * TODO: document this type.
- *
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
- * @version 1.0
- */
+
+
 @Entity
 public class VipConfiguration extends PersistentObjectSupport {
-	/** Serialization id. */
+	
 	private static final long serialVersionUID = 1L;
 
-	/** The timestamp of the moment this configuration came in effect. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date creationDate;
+	private Calendar creationDate;
 	
-	/** Acronym of the institution that is using Marvin. */
+	
 	@Basic
 	private String institutionAcronym;
 	
@@ -34,19 +28,19 @@ public class VipConfiguration extends PersistentObjectSupport {
 	@ManyToOne
 	private User administrador;
 	
-	/** Address for the SMTP server that sends e-mail. */
+	
 	@NotNull
 	private String smtpServerAddress;
 	
-	/** Port for the SMTP server that sends e-mail. */
+	
 	@NotNull
 	private Integer smtpServerPort;
 	
-	/** Username to connect to the SMTP server that sends email. */
+	
 	@NotNull
 	private String smtpUsername;
 	
-	/** Password to connect to the SMTP server that sends email. */
+	
 	@NotNull
 	private String smtpPassword;
 	
@@ -62,8 +56,8 @@ public class VipConfiguration extends PersistentObjectSupport {
 	
 	/** GETTERS AND SETTERS */
 	
-	public Date getCreationDate() {	return creationDate;}
-	public void setCreationDate(Date creationDate) {this.creationDate = creationDate;}
+	public Calendar getCreationDate() {	return creationDate;}
+	public void setCreationDate(Calendar creationDate) {this.creationDate = creationDate;}
 	
 	public String getInstitutionAcronym() {	return institutionAcronym;}
 	public void setInstitutionAcronym(String institutionAcronym) { this.institutionAcronym = institutionAcronym;}	

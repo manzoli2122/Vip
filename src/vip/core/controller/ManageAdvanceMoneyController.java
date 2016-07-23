@@ -1,6 +1,6 @@
 package vip.core.controller;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -58,10 +58,15 @@ public class ManageAdvanceMoneyController extends CrudController<AdvanceMoney>{
 	@Override
 	protected AdvanceMoney createNewEntity() {
 		AdvanceMoney advanceMoney = new AdvanceMoney();
-		advanceMoney.setCreateDate(new Date());
+		advanceMoney.setCreateDate(Calendar.getInstance());
 		return advanceMoney;
 	}
 
+	
+	
+	
+	
+	
 	
 	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#save() */
 	@Override

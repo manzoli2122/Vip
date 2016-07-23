@@ -1,6 +1,7 @@
 package vip.core.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -77,13 +78,13 @@ public class ManageUsersController extends CrudController<User>{
 	@Override
 	protected User createNewEntity() {
 		userTypes = new ArrayList<UserType>() ;
-		return super.createNewEntity();
+		User user = new User();
+		user.setBirthDate(Calendar.getInstance());
+		return user;
 	}
 	
 	
-	public Gender[] getGender() {
-		return Gender.values();
-	}
+	
 
 
 	public List<UserType> getUserTypes() {
@@ -98,7 +99,16 @@ public class ManageUsersController extends CrudController<User>{
 	
 	
 	
-	
+	public void suggestShortName() {
+		// If the name was filled and the short name is still empty, suggest the first name as short name.
+		String name = selectedEntity.getName();
+		String shortName = selectedEntity.getShortName();
+		
+		if ((name != null) && ((shortName == null) || (shortName.length() == 0))) {
+			int idx = name.indexOf(" ");
+			selectedEntity.setShortName((idx == -1) ? name : name.substring(0, idx).trim());
+		}
+	}
 	
 	
 	

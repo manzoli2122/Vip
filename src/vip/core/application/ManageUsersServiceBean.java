@@ -1,19 +1,16 @@
 package vip.core.application;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
-
+import java.util.Calendar;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
-
 import vip.core.domain.User;
 import vip.core.domain.VipConfiguration;
 import vip.core.persistence.UserDAO;
@@ -23,7 +20,7 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 
 @Stateless
-@DeclareRoles({ "Admin" , "Employee" })
+@DeclareRoles({ "Admin" , "Employee" , "Cliente" })
 @RolesAllowed({ "Admin" })
 public class ManageUsersServiceBean extends CrudServiceBean<User> implements ManageUsersService{
 
@@ -51,13 +48,15 @@ public class ManageUsersServiceBean extends CrudServiceBean<User> implements Man
 	
 	@Override
 	public void validateUpdate(User entity) throws CrudException {
-		Date now = new Date(System.currentTimeMillis());
-		entity.setLastUpdateDate(now);
+		entity.setLastUpdateDate(Calendar.getInstance());
 	}
+	
+	
+	
 	
 	@Override
 	public void validateCreate(User entity) throws CrudException {
-		Date now = new Date(System.currentTimeMillis());
+		Calendar now = Calendar.getInstance();
 		entity.setLastUpdateDate(now);
 		entity.setCreationDate(now);
 		sendEmailRegister(entity);

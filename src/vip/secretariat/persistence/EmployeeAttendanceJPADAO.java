@@ -44,7 +44,7 @@ public class EmployeeAttendanceJPADAO extends BaseJPADAO<EmployeeAttendance> imp
 	@Override
 	protected List<Order> getOrderList(CriteriaBuilder cb, Root<EmployeeAttendance> root) {
 		List<Order> orderList = new ArrayList<Order>();
-		orderList.add(cb.desc(root.get(EmployeeAttendance_.atendimento)));
+		orderList.add(cb.desc(root.get(EmployeeAttendance_.attendance)));
 		return orderList;
 	}
 	
@@ -60,8 +60,8 @@ public class EmployeeAttendanceJPADAO extends BaseJPADAO<EmployeeAttendance> imp
 		
 		// Applies ordering.
 		//applyOrdering(cb, root, cq);
-		cq.where(cb.equal(root.get(EmployeeAttendance_.funcionario), funcionario),
-				 cb.isNull(root.get(EmployeeAttendance_.salario)));
+		cq.where(cb.equal(root.get(EmployeeAttendance_.employee), funcionario),
+				 cb.isNull(root.get(EmployeeAttendance_.salary)));
 
 		// Return the list of objects.
 		List<EmployeeAttendance> result = em.createQuery(cq).getResultList();

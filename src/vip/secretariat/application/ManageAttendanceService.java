@@ -7,6 +7,8 @@ import vip.secretariat.domain.Attendance;
 
 
 @Local
-public interface ManageAtendimentoService extends CrudService<Attendance>{
+public interface ManageAttendanceService extends CrudService<Attendance>{
+
+	boolean isAlteravel(Attendance attendance);
 
 }

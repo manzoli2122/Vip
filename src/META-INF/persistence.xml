@@ -15,6 +15,7 @@
 		<class>vip.secretariat.domain.EmployeeAttendance</class>
 		<class>vip.secretariat.domain.Payment</class>
 		<class>vip.core.domain.Salary</class>
+		<class>vip.core.domain.PersistentObjectRegister</class>
 		
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />

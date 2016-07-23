@@ -9,4 +9,7 @@ import vip.core.domain.Task;
 @Local
 public interface ManageTasksService extends CrudService<Task>{
 
+	
+	boolean isDeletavel(Task entity);
+
 }

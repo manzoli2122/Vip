@@ -13,19 +13,9 @@ import vip.core.domain.User;
 public class EmployeeAttendance extends  PersistentObjectSupport implements Comparable<EmployeeAttendance>{
 
 	private static final long serialVersionUID = 1L;
-	
+		
 	@NotNull
-	private boolean salarioCalculado;
-	
-	@NotNull
-	private Double valor;
-	
 	private Double desconto;
-	
-	@NotNull
-	private Double porcentagemFuncionario;
-	
-	
 	
 	@NotNull
 	@ManyToOne
@@ -33,14 +23,14 @@ public class EmployeeAttendance extends  PersistentObjectSupport implements Comp
 	
 	@NotNull
 	@ManyToOne
-	private User funcionario;
+	private User employee;
 		
 	@NotNull
 	@ManyToOne
-	private Attendance atendimento;
+	private Attendance attendance;
 	
 	@ManyToOne
-	private Salary salario;
+	private Salary salary;
 
 	
 	
@@ -48,17 +38,6 @@ public class EmployeeAttendance extends  PersistentObjectSupport implements Comp
 	
 	
 	
-	
-	
-	
-	
-	public Salary getSalario() {
-		return salario;
-	}
-
-	public void setSalario(Salary salario) {
-		this.salario = salario;
-	}
 
 	@Override
 	public int compareTo(EmployeeAttendance o) {
@@ -67,49 +46,41 @@ public class EmployeeAttendance extends  PersistentObjectSupport implements Comp
 
 	@Override
 	public String toString() {
-		return  task.toString() +" feito por "+ funcionario.toString();
+		return  task.toString() +" feito por "+ employee.toString();
 	}
 	
-	public Double getComissao(){ return ( getValor() * getPorcentagemFuncionario() ); }
+	public Double getComissao(){ return ( getValorComDesconto() * getPorcentagemFuncionario() ); }
+	
+	public Double getValorComDesconto() { return (task.getValor()-desconto);  }	
+	
+	public Double getPorcentagemFuncionario() { return task.getPorcentagemFuncionario(); }
+	
+	public boolean isSalarioCalculado() { return salary!=null; }
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	/* GETTERS AND SETTERS */
 
+	public User getEmployee() { 	return employee; }
+	public void setEmployee(User employee) { this.employee = employee; }
+
+	public Attendance getttendance() { return attendance; }
+	public void setAttendance(Attendance attendance) { this.attendance = attendance; }
+
 	public Task getTask() {	return task; }
-	public void setTask(Task task) {
-		if(!salarioCalculado||task==null){
-			this.task = task; 
-			valor = task.getValor();
-			porcentagemFuncionario =task.getPorcentagemFuncionario();
-		}
-		this.task = task;
-	}
+	public void setTask(Task task) {this.task = task;}
 
-	public User getFuncionario() { 	return funcionario; }
-	public void setFuncionario(User funcionario) { if(!salarioCalculado||funcionario==null) this.funcionario = funcionario; }
-
-	public boolean isSalarioCalculado() { return salarioCalculado; }
-	public void setSalarioCalculado(boolean salarioCalculado) { this.salarioCalculado = salarioCalculado; }
-
-	public Attendance getAtendimento() { return atendimento; }
-	public void setAtendimento(Attendance atendimento) { if(!salarioCalculado||atendimento==null) this.atendimento = atendimento; }
+	public Salary getSalary() { return salary;}
+	public void setSalary(Salary salary) { this.salary = salary; }
 	
-	public Double getValor() { if(desconto!=null)return(valor - desconto); return valor; }
-	public void setValor(Double valor) { if(!salarioCalculado||valor==null) this.valor = valor; }
-	
-	public Double getPorcentagemFuncionario() { return porcentagemFuncionario; }
-	public void setPorcentagemFuncionario(Double porcentagemFuncionario) { 
-		if(!salarioCalculado||porcentagemFuncionario==null)
-			this.porcentagemFuncionario = porcentagemFuncionario;
-	}
-
-	public Double getDesconto() {
-		return desconto;
-	}
-
-	public void setDesconto(Double desconto) {
-		this.desconto = desconto;
-	}
+	public Double getDesconto() { return desconto; 	}
+	public void setDesconto(Double desconto) { 	this.desconto = desconto;	}
 	
 	
 }

@@ -30,7 +30,7 @@
 				<p:inputText id="name"  value="#{manageUsersController.selectedEntity.name}" 
 								required="true" pt:placeholder="#{msgsCore['manageUsers.placeholder.name']}"
 								disabled="#{manageUsersController.readOnly  or (manageUsersController.selectedEntity.id!=null)}">
-					<f:ajax event="blur" render="nameField" />
+					<f:ajax event="blur" render="nameField shortNameField" listener="#{manageUsersController.suggestShortName}"/>
 				</p:inputText>
 			</ui:decorate>
 		
@@ -74,7 +74,7 @@
 				<h:selectOneMenu pt:class="form-control" id="gender" value="#{manageUsersController.selectedEntity.gender}" 
 									 disabled="#{manageUsersController.readOnly}" >
 						<f:selectItem itemLabel="#{msgsCore['manageUsers.form.gender.blankOption']}" itemValue="" />
-						<f:selectItems value="#{manageUsersController.gender}" var="type" itemLabel="#{type.label}" itemValue="#{type}" />
+						<f:selectItems value="#{coreController.gender}" var="type" itemLabel="#{type.label}" itemValue="#{type}" />
 						<p:ajax event="change" update="genderField" />
 				</h:selectOneMenu>				
 			</ui:decorate>
@@ -83,13 +83,11 @@
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="birthDate" />
 				<ui:param name="label" value="#{msgsCore['manageUsers.title.birthDate']}" />
-				
-				<p:inputMask id="birthDate" pt:class="form-control" value="#{manageUsersController.selectedEntity.birthDate}"
+				<p:inputMask id="birthDate" pt:class="form-control" value="#{manageUsersController.selectedEntity.birthDate.time}"
 			           			 mask="#{msgs['format.date.primefaces']}" disabled="#{manageUsersController.readOnly}">
 						<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" locale="pt_BR" 
 										   timeZone="America/Sao_Paulo"/>
-					</p:inputMask>			
-					
+					</p:inputMask>	
 			</ui:decorate>
 			
 			

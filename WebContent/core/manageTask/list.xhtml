@@ -82,6 +82,14 @@
            		<p:column headerText="#{msgsCore['manageTasks.title.porcentagem']}"  style="text-align: center;"> 
            			<h:outputText value="#{entity.porcentagemFuncionario}" />
            		</p:column>
+           		
+           		
+           		<p:column headerText="#{msgsCore['manageTasks.title.ativo']}"  style="text-align: center; width:10%;"> 
+           			<h:outputText rendered="#{entity.ativo}" value="X" />
+           		</p:column>
+           		
+           		
+           		
            		<p:ajax event="rowSelect" update=":buttonsForm" />
         	</p:dataTable>
 	</ui:decorate> 
@@ -89,10 +97,14 @@
 	
 
 	<h:form id="buttonsForm">
-	    <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
+	    <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-03.xhtml">
 	       	<p:commandButton pt:class="btn btn-block btn-success btn-social" action="#{manageTasksController.create}"   icon="fa fa-user-plus" value="#{msgs['crud.button.create']}"/>
-	       	<p:commandButton rendered="#{manageTasksController.selectedEntity != null}" pt:class="btn btn-block btn-info btn-social" action="#{manageTasksController.retrieve}" icon="fa fa-file-text" disabled="#{manageTasksController.selectedEntity == null}" value="#{msgs['crud.button.retrieve']}"/>      	
-	      	<p:commandButton rendered="#{manageTasksController.selectedEntity != null}" pt:class="btn btn-block btn-warning btn-social" action="#{manageTasksController.update}" icon="fa fa-refresh" disabled="#{manageTasksController.selectedEntity == null}" value="#{msgs['crud.button.update']}"/>
+	       	
+	      	
+	      	<p:commandButton rendered="#{(manageTasksController.selectedEntity != null) and !manageTasksController.selectedEntity.ativo}" pt:class="btn btn-block btn-warning btn-social" action="#{manageTasksController.ativarDesativarTask()}" icon="fa fa-refresh" disabled="#{manageTasksController.selectedEntity == null}" value="#{msgsCore['manageTasks.button.ativar']}"/>
+	      	<p:commandButton rendered="#{(manageTasksController.selectedEntity != null) and manageTasksController.selectedEntity.ativo}" pt:class="btn btn-block btn-warning btn-social" action="#{manageTasksController.ativarDesativarTask()}" icon="fa fa-refresh" disabled="#{manageTasksController.selectedEntity == null}" value="#{msgsCore['manageTasks.button.desativar']}"/>
+	      	
+	      	
 	      	<p:commandButton process="@this" ajax=":trashForm"  update=":trashForm" rendered="#{manageTasksController.selectedEntity != null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageTasksController.trash}" icon="fa fa-trash-o" disabled="#{manageTasksController.selectedEntity == null}" value="#{msgs['crud.button.delete']}"/>
 		</ui:decorate>
 	</h:form>

@@ -53,6 +53,9 @@
   <security-role>
     <role-name>Admin</role-name>
   </security-role>
+  <security-role>
+    <role-name>Cliente</role-name>
+  </security-role>
   
   
   <welcome-file-list>

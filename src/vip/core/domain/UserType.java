@@ -4,8 +4,8 @@ package vip.core.domain;
 public enum UserType {
 
 	Admin("Administrador"),
-	Employee("Funcionario");
-	
+	Employee("Funcionario"),
+	Cliente("Cliente");
 	
 	private final String label;
 

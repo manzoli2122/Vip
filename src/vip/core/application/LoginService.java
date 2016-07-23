@@ -4,28 +4,21 @@ import br.ufes.inf.nemo.util.TextUtils;
 import vip.core.domain.User;
 import vip.core.domain.UserType;
 import vip.core.domain.User_;
-import vip.core.persistence.UserDAO;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.security.acl.Group;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -106,8 +99,8 @@ public class LoginService  implements Serializable, LoginModule {
 			
 			tx.begin();
 			User result =  em.find(User.class, academic.getId());
-			Date now = new Date(System.currentTimeMillis());
-			result.setLastLoginDate(now);
+			
+			result.setLastLoginDate(Calendar.getInstance());
 			em.merge(result);
 			
 			tx.commit();

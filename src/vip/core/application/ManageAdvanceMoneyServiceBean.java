@@ -6,7 +6,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
-import br.ufes.inf.nemo.jbutler.ejb.application.CrudOperation;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import vip.core.domain.AdvanceMoney;
@@ -14,7 +13,7 @@ import vip.core.persistence.AdvanceMoneyDAO;;
 
 
 @Stateless
-@DeclareRoles({ "Admin" , "Employee" })
+@DeclareRoles({ "Admin" , "Employee" , "Cliente"})
 @RolesAllowed({ "Admin" })
 public class ManageAdvanceMoneyServiceBean extends CrudServiceBean<AdvanceMoney> implements ManageAdvanceMoneyService{
 
@@ -36,24 +35,17 @@ public class ManageAdvanceMoneyServiceBean extends CrudServiceBean<AdvanceMoney>
 	}
 
 	@Override
-	public void validateCreate(AdvanceMoney entity) throws CrudException {
-				
-		entity.setRegister(sessionInformation.getCurrentUser());
-		
+	public void validateCreate(AdvanceMoney entity) throws CrudException {		
+		entity.setCreateRegister(sessionInformation.getCurrentUser());
 		super.validateCreate(entity);
 	}
 	
 	
 	@Override
 	public void validateUpdate(AdvanceMoney entity) throws CrudException {
-
-		if(!entity.getRegister().equals(sessionInformation.getCurrentUser())){
-			CrudException crudException = null;
-			String crudExceptionMessage =  "Este vale não pode ser alterado.";
-			crudException = addValidationError(crudException, crudExceptionMessage, null , "manageAdvanceMoney.error.update");
-			throw crudException;
+		if(!entity.getCreateRegister().equals(sessionInformation.getCurrentUser())){
+			int i = 9/0;
 		}
-		
 		super.validateUpdate(entity);
 	}
 	
@@ -61,7 +53,6 @@ public class ManageAdvanceMoneyServiceBean extends CrudServiceBean<AdvanceMoney>
 	
 	@Override
 	public void validateDelete(AdvanceMoney entity) throws CrudException {
-		
 		if(entity.getSalary()==null){
 			int i = 9/0;
 		}
