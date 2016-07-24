@@ -74,7 +74,7 @@
                    		
 				
 				<p:column headerText="#{msgsCore['manageAdvanceMoney.title.date']}"  style="text-align:center">
-                            <h:outputText value="#{entity.createDate}" >
+                            <h:outputText value="#{entity.createDate.time}" >
                             	<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
                             </h:outputText> 
                 </p:column>
@@ -84,7 +84,9 @@
            		</p:column>
            		
            		<p:column headerText="#{msgsCore['manageAdvanceMoney.title.valor']}"  style="text-align: center;"> 
-           			<h:outputText value="#{entity.valor}" />
+           			<h:outputText value="#{entity.valor}">
+           				<f:convertNumber type="currency" />
+           			</h:outputText>
            		</p:column>
            		
            		
@@ -114,7 +116,7 @@
 			
 			<h3><h:outputText  value="#{msgs['crud.text.trashHeader']}" /></h3>
 	        <p:dataList value="#{manageAdvanceMoneyController.trashCan}" var="entity" type="ordered">
-	        		<h:outputText value="#{entity.createDate}" >
+	        		<h:outputText value="#{entity.createDate.time}" >
                           	<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
                     </h:outputText> 
 	            	#{entity.funcionario.name}  #{entity.valor}

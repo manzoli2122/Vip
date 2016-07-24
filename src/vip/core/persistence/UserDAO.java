@@ -11,15 +11,7 @@ import vip.core.domain.User;
 
 @Local
 public interface UserDAO extends BaseDAO<User> {
-	/**
-	 * TODO: document this method.
-	 * @param email
-	 * @return
-	 * @throws PersistentObjectNotFoundException
-	 * @throws MultiplePersistentObjectsFoundException
-	 */
+	
 	User retrieveByEmail(String email) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 
-	
-	
 }

@@ -20,7 +20,7 @@ import vip.core.application.SessionInformation;
 
 
 @Stateless
-@DeclareRoles({ "Admin" , "Employee" })
+@DeclareRoles({ "Admin" , "Employee" , "Cliente" })
 @RolesAllowed({ "Admin", "Employee" })
 public class ManageAttendanceServiceBean extends CrudServiceBean<Attendance> implements ManageAttendanceService{
 
@@ -48,9 +48,7 @@ public class ManageAttendanceServiceBean extends CrudServiceBean<Attendance> imp
 	
 	 @Override
 	public void validateCreate(Attendance entity) throws CrudException {
-		
-		 entity.setRegister(sessionInformation.getCurrentUser());
-		 
+				 
 		Double servico = entity.getValor();
 		Double pagamento = entity.getValorPayments();
 		
@@ -61,6 +59,12 @@ public class ManageAttendanceServiceBean extends CrudServiceBean<Attendance> imp
 			int i = 9/0;
 		}
 		
+		entity.setCreateRegister(sessionInformation.getCurrentUser());
+		entity.setLastUpdateRegister(sessionInformation.getCurrentUser());
+			
+		Calendar hoje = Calendar.getInstance();
+		//entity.setCreateDate(hoje);
+		entity.setLastUpdateDate(hoje);
 	}
 	 
 	 
@@ -76,13 +80,13 @@ public class ManageAttendanceServiceBean extends CrudServiceBean<Attendance> imp
 			
 		Double dif =  pagamento - servico;
 			
-		if ((dif*dif)>0.0025) {
+		if (((dif*dif)>0.0025)||!isAlteravel(entity)) {
 			int i = 9/0;
 		}
 		
-		if(!isAlteravel(entity)){
-			int i = 9/0;
-		}
+		entity.setLastUpdateRegister(sessionInformation.getCurrentUser());
+		entity.setLastUpdateDate(Calendar.getInstance());
+		
 	}
 	
 	 
@@ -93,16 +97,9 @@ public class ManageAttendanceServiceBean extends CrudServiceBean<Attendance> imp
 	//@RolesAllowed({ "Admin" })
 	@Override
 	public void validateDelete(Attendance entity) throws CrudException {	
-		Iterator<EmployeeAttendance> iter = entity.getEmployeeAttendances().iterator();
-		
-		if(!sessionInformation.getCurrentUser().equals(entity.getRegister()) && !sessionInformation.isAdmin()){
+				
+		if( !isAlteravel(entity) ){
 			int i = 9/0;
-		}
-		
-		while(iter.hasNext()){
-			if(iter.next().getSalary()!=null){
-				int i = 9/0;
-			}
 		}
 		
 	}
@@ -115,8 +112,18 @@ public class ManageAttendanceServiceBean extends CrudServiceBean<Attendance> imp
 	@Override
 	public boolean isAlteravel(Attendance attendance){
 		
+		Iterator<EmployeeAttendance> iter = attendance.getEmployeeAttendances().iterator();
+		while(iter.hasNext()){
+			if(iter.next().getSalary()!=null){
+				return false;
+			}
+		}
+		
 		if(sessionInformation.isAdmin()){
 			return true;
+		}
+		if(!sessionInformation.getCurrentUser().equals(attendance.getCreateRegister())){
+			return false;
 		}
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

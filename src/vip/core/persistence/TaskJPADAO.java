@@ -24,13 +24,11 @@ public class TaskJPADAO extends BaseJPADAO<Task> implements TaskDAO {
 	@PersistenceContext(unitName="Vip")
 	private EntityManager entityManager;
 	
-
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
 
-	
 	@Override
 	protected List<Order> getOrderList(CriteriaBuilder cb, Root<Task> root) {
 		List<Order> orderList = new ArrayList<Order>();
@@ -38,6 +36,7 @@ public class TaskJPADAO extends BaseJPADAO<Task> implements TaskDAO {
 		orderList.add(cb.asc(root.get(Task_.name)));
 		return orderList;
 	}
+	
 	
 	@Override
 	public List<Task> findByName(String param) {	

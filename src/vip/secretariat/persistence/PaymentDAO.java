@@ -9,7 +9,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import vip.secretariat.domain.Payment;
 
 @Local
-public interface PagamentoDAO  extends BaseDAO<Payment>{
+public interface PaymentDAO  extends BaseDAO<Payment>{
 
 	
 

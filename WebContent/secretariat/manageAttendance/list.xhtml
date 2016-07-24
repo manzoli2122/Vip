@@ -99,8 +99,8 @@
 	    <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
 	       	<p:commandButton pt:class="btn btn-block btn-success btn-social" action="#{manageAttendanceController.create}"   icon="fa fa-user-plus" value="#{msgs['crud.button.create']}"/>
 	       	<p:commandButton rendered="#{manageAttendanceController.selectedEntity != null}" pt:class="btn btn-block btn-info btn-social" action="#{manageAttendanceController.retrieve}" icon="fa fa-file-text" disabled="#{manageAttendanceController.selectedEntity == null}" value="#{msgs['crud.button.retrieve']}"/>      	
-	      	<p:commandButton rendered="#{manageAttendanceController.selectedEntity != null}" pt:class="btn btn-block btn-warning btn-social" action="#{manageAttendanceController.update}" icon="fa fa-refresh" disabled="#{manageAttendanceController.selectedEntity == null}" value="#{msgs['crud.button.update']}"/>
-	      	<p:commandButton process="@this" ajax=":trashForm"  update=":trashForm" rendered="#{manageAttendanceController.selectedEntity != null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageAttendanceController.trash}" icon="fa fa-trash-o" disabled="#{manageAttendanceController.selectedEntity == null}" value="#{msgs['crud.button.delete']}"/>
+	      	<p:commandButton rendered="#{manageAttendanceController.selectedEntity != null}" pt:class="btn btn-block btn-warning btn-social" action="#{manageAttendanceController.update}" icon="fa fa-refresh" disabled="#{(manageAttendanceController.selectedEntity == null) or (!manageAttendanceController.alteravel)}" value="#{msgs['crud.button.update']}"/>
+	      	<p:commandButton process="@this" ajax=":trashForm"  update=":trashForm" rendered="#{manageAttendanceController.selectedEntity != null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageAttendanceController.trash}" icon="fa fa-trash-o" disabled="#{(manageAttendanceController.selectedEntity == null)  or (!manageAttendanceController.alteravel)}" value="#{msgs['crud.button.delete']}"/>
 		</ui:decorate>
 	</h:form>
 			

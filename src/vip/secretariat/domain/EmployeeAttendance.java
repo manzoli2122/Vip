@@ -3,7 +3,6 @@ package vip.secretariat.domain;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 import vip.core.domain.Salary;
 import vip.core.domain.Task;
@@ -29,6 +28,7 @@ public class EmployeeAttendance extends  PersistentObjectSupport implements Comp
 	@ManyToOne
 	private Attendance attendance;
 	
+	//@ManyToOne(cascade = CascadeType.ALL)
 	@ManyToOne
 	private Salary salary;
 
@@ -70,7 +70,7 @@ public class EmployeeAttendance extends  PersistentObjectSupport implements Comp
 	public User getEmployee() { 	return employee; }
 	public void setEmployee(User employee) { this.employee = employee; }
 
-	public Attendance getttendance() { return attendance; }
+	public Attendance getAtendance() { return attendance; }
 	public void setAttendance(Attendance attendance) { this.attendance = attendance; }
 
 	public Task getTask() {	return task; }

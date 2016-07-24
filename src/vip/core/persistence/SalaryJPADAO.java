@@ -22,12 +22,6 @@ public class SalaryJPADAO extends BaseJPADAO<Salary> implements  SalaryDAO {
 	@PersistenceContext(unitName="Vip")
 	private EntityManager entityManager;
 	
-	
-	
-	@Override
-	public Class<Salary> getDomainClass() {
-		return Salary.class;
-	}
 
 	@Override
 	protected EntityManager getEntityManager() {

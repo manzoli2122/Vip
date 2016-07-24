@@ -19,26 +19,15 @@ import vip.secretariat.domain.EmployeeAttendance_;
 @Stateless
 public class EmployeeAttendanceJPADAO extends BaseJPADAO<EmployeeAttendance> implements EmployeeAttendanceDAO{
 
-	
 	private static final long serialVersionUID = 1L;
-	
-	
 	
 	@PersistenceContext(unitName="Vip")
 	private EntityManager entityManager;
 	
-	
-	
-	@Override
-	public Class<EmployeeAttendance> getDomainClass() {
-		return EmployeeAttendance.class;
-	}
-
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
-	
 	
 	
 	@Override
@@ -50,7 +39,7 @@ public class EmployeeAttendanceJPADAO extends BaseJPADAO<EmployeeAttendance> imp
 	
 	
 	@Override
-	public List<EmployeeAttendance> retrieveSalario(User funcionario){
+	public List<EmployeeAttendance> retrieveServicoAberto(User funcionario){
 		
 		if(funcionario==null) return null;
 		EntityManager em = getEntityManager();
@@ -58,12 +47,9 @@ public class EmployeeAttendanceJPADAO extends BaseJPADAO<EmployeeAttendance> imp
 		CriteriaQuery<EmployeeAttendance> cq = cb.createQuery(getDomainClass());
 		Root<EmployeeAttendance> root = cq.from(getDomainClass());
 		
-		// Applies ordering.
-		//applyOrdering(cb, root, cq);
 		cq.where(cb.equal(root.get(EmployeeAttendance_.employee), funcionario),
 				 cb.isNull(root.get(EmployeeAttendance_.salary)));
 
-		// Return the list of objects.
 		List<EmployeeAttendance> result = em.createQuery(cq).getResultList();
 		return result;
 	}

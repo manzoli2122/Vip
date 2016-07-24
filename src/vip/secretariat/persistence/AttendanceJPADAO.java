@@ -23,10 +23,6 @@ public class AttendanceJPADAO extends BaseJPADAO<Attendance> implements Attendan
 	@PersistenceContext(unitName="Vip")
 	private EntityManager entityManager;
 	
-	@Override
-	public Class<Attendance> getDomainClass() {
-		return Attendance.class;
-	}
 
 	@Override
 	protected EntityManager getEntityManager() {

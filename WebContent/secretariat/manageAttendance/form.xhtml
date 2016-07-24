@@ -31,7 +31,7 @@
 				<ui:param name="label" value="#{msgsCore['manageAttendance.title.cliente']}" />
 				<h:selectOneMenu pt:class="form-control" id="cliente" value="#{manageAttendanceController.selectedEntity.cliente}" 
 								 converter="#{coreController.userConverter}" required="true" 
-								 disabled="#{manageAttendanceController.readOnly or not sessionController.admin}">
+								 disabled="#{manageAttendanceController.readOnly}">
 					<f:selectItem itemLabel="Selecione o Cliente" itemValue="" />
 					<f:selectItems value="#{coreController.clientes}" var="func" itemLabel="#{func.name}" itemValue="#{func}" />
 					<p:ajax  update="form" />
@@ -100,7 +100,7 @@
 				
 				
 				
-					<h:panelGroup rendered="#{!manageAttendanceController.readOnly and manageAttendanceController.alteravel}"  >
+					<h:panelGroup rendered="#{!manageAttendanceController.readOnly}"  > 
 						<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 							<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageAttendanceController.createNewService}"  icon="fa fa-user-plus" value="#{msgsCore['manageAttendance.button.new.servico']}"/>
 							<p:commandButton rendered="#{manageAttendanceController.employeeAttendance!=null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageAttendanceController.excluirServico()}"  disabled="#{ manageAttendanceController.employeeAttendance==null}" icon="fa fa-trash" value="#{msgsCore['manageAttendance.button.excluir.servico']}"/>
@@ -147,7 +147,7 @@
 					</ui:decorate>
 				
 				
-					<h:panelGroup rendered="#{!manageAttendanceController.readOnly  and manageAttendanceController.alteravel}"  >
+					<h:panelGroup rendered="#{!manageAttendanceController.readOnly }"  >
 						<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 							<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageAttendanceController.createNewPagamento()}"  disabled="#{manageAttendanceController.readOnly}" icon="fa fa-user-plus" value="#{msgsCore['manageAttendance.button.new.pagamento']}"/>
 							<p:commandButton rendered="#{manageAttendanceController.payment!=null}"  pt:class="btn btn-block btn-danger btn-social" action="#{manageAttendanceController.excluirPagamento()}"  disabled="#{manageAttendanceController.readOnly or manageAttendanceController.payment==null}" icon="fa fa-trash" value="#{msgsCore['manageAttendance.button.excluir.pagamento']}"/>

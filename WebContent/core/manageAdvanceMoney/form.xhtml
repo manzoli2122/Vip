@@ -30,25 +30,21 @@
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="funcionario" />
 				<ui:param name="label" value="#{msgsCore['manageAdvanceMoney.title.funcionario']}" />
-				
 				<h:selectOneMenu pt:class="form-control" id="funcionario" value="#{manageAdvanceMoneyController.selectedEntity.funcionario}" converter="#{coreController.userConverter}" required="true" disabled="#{manageAdvanceMoneyController.readOnly}">
 					<f:selectItem itemLabel="#{msgsCore['manageAdvanceMoney.form.funcionario.blankOption']}" itemValue="" />
 					<f:selectItems value="#{coreController.employees}" var="func" itemLabel="#{func.name}" itemValue="#{func}" />
 					<p:ajax event="change" update="funcionarioField"  />
 				</h:selectOneMenu>
-					
 			</ui:decorate>
 		
 		
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="valor" />
 				<ui:param name="label" value="#{msgsCore['manageAdvanceMoney.title.valor']}" />
-		
 				<p:inputText type="number"  id="valor" required="true" value="#{manageAdvanceMoneyController.selectedEntity.valor}" size="10"  disabled="#{manageAdvanceMoneyController.readOnly}" >
 					<f:validateDoubleRange minimum="0.0"  />
 					<p:ajax event="blur" update="valorField" />
 				</p:inputText>	
-		
 			</ui:decorate>
 						
 		
@@ -57,11 +53,9 @@
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="descricao" />
 				<ui:param name="label" value="#{msgsCore['manageAdvanceMoney.title.descricao']}" /> 
-		
 			    <p:inputText id="descricao" value="#{manageAdvanceMoneyController.selectedEntity.descricao}" size="100"  disabled="#{manageAdvanceMoneyController.readOnly}">
 	            	<p:ajax event="blur" update="descricaoField" />
 	            </p:inputText>
-	                        
 			</ui:decorate> 
 	           
 		
@@ -70,12 +64,10 @@
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="date" />
 				<ui:param name="label" value="#{msgsCore['manageAdvanceMoney.title.date']}" />
-				
-				<p:inputMask required="true" id="date" mask="#{msgs['format.date.primefaces']}" value="#{manageAdvanceMoneyController.selectedEntity.createDate}" disabled="#{manageAdvanceMoneyController.readOnly or not sessionController.admin}">
+				<p:inputMask required="true" id="date" mask="#{msgs['format.date.primefaces']}" value="#{manageAdvanceMoneyController.selectedEntity.createDate.time}" disabled="#{manageAdvanceMoneyController.readOnly or not sessionController.admin}">
 					<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
 					<p:ajax event="blur" update="dateField" />
 				</p:inputMask>
-			
 			</ui:decorate>
 						
 				

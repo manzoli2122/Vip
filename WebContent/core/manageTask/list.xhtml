@@ -76,7 +76,9 @@
            		</p:column>
            		
            		<p:column headerText="#{msgsCore['manageTasks.title.valor']}"  style="text-align: center;"> 
-           			<h:outputText value="#{entity.valor}" />
+           			<h:outputText value="#{entity.valor}" >
+           				<f:convertNumber type="currency" />
+           			</h:outputText>
            		</p:column>
            		
            		<p:column headerText="#{msgsCore['manageTasks.title.porcentagem']}"  style="text-align: center;"> 
@@ -85,7 +87,7 @@
            		
            		
            		<p:column headerText="#{msgsCore['manageTasks.title.ativo']}"  style="text-align: center; width:10%;"> 
-           			<h:outputText rendered="#{entity.ativo}" value="X" />
+           			<h:outputText rendered="#{entity.ativo}" value="X" /> 
            		</p:column>
            		
            		

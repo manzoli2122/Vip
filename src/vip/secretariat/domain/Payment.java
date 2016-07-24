@@ -33,9 +33,6 @@ public class Payment extends  PersistentObjectSupport  implements Comparable<Pay
 	
 	
 	
-	
-	
-	@NotNull
 	private Double perc_cartao;
 	
 	

@@ -58,9 +58,7 @@ public class ManageAttendanceController extends CrudController<Attendance> {
 	/* METODO OBRIGATORIO */
 	@Override
 	protected void initFilters() {
-		addFilter(
-			new MultipleChoiceFilter<User>("manageUser.filter.byCliente", "cliente", "Por Cliente" ,getLista() ,getMap()));
-		
+		addFilter(new MultipleChoiceFilter<User>("manageUser.filter.byCliente", "cliente", "Por Cliente" ,getLista() ,getMap()));
 	}
 	/*	FUNCOES PARA O FILTRO */
 	private Map<String, String> getMap(){
@@ -152,13 +150,15 @@ public class ManageAttendanceController extends CrudController<Attendance> {
 	/* PREPARA UM ATENDIMENTO ANTES DE SALVA-LO */
 	@Override
 	protected void prepEntity() {
-		
 		//selectedEntity.setEmployeeAttendance(employeeAttendances);
 		//selectedEntity.setPayments(payments);
-		
-		
 		//selectedEntity.setValor(selectedEntity.calcularValorServicos());
 	}
+	
+	
+	
+	
+	
 	
 	
 	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#save() */
@@ -212,20 +212,7 @@ public class ManageAttendanceController extends CrudController<Attendance> {
 	}
 	
 
-	public boolean isDeletavel(){
-		if(selectedEntity==null)return false;
-		Iterator<EmployeeAttendance> iter = selectedEntity.getEmployeeAttendances().iterator();
-		while(iter.hasNext()){
-			if(iter.next().getSalary()!=null){
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	
-	
-	
+
 	
 	
 	

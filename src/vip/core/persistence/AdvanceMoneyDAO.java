@@ -11,6 +11,6 @@ import vip.core.domain.User;
 @Local
 public interface AdvanceMoneyDAO extends BaseDAO<AdvanceMoney>{
 
-	List<AdvanceMoney> retrieveSalario(User funcionario);
+	List<AdvanceMoney> retrieveValesAbertos(User funcionario);
 
 }

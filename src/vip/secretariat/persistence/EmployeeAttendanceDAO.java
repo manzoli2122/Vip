@@ -12,6 +12,8 @@ import vip.secretariat.domain.EmployeeAttendance;
 @Local
 public interface EmployeeAttendanceDAO extends BaseDAO<EmployeeAttendance>{
 
-	List<EmployeeAttendance> retrieveSalario(User funcionario);
+	
+
+	List<EmployeeAttendance> retrieveServicoAberto(User funcionario);
 
 }

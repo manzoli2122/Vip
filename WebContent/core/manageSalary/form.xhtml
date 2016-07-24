@@ -1,182 +1,208 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                template="/resources/templates/default/decorator.xhtml">
-    
-    <ui:define name="body">
-    	
-    	<h2 style="text-align:center;">
-            <h:outputText value="#{msgsSalao['manageSalario.title.create']}" rendered="#{(! manageSalarioController.readOnly) and (manageSalarioController.selectedEntity.id == null)}" />
-            <h:outputText value="#{msgsSalao['manageSalario.title.update']}" rendered="#{(! manageSalarioController.readOnly) and (manageSalarioController.selectedEntity.id != null)}" />
-            <h:outputText value="#{msgsSalao['manageSalario.title.retrieve']}" rendered="#{manageSalarioController.readOnly}" />
-        </h2> 
-        
-    	<h:form id="form">
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
  
-    					<h:panelGroup id="funcionarioField">
-							<ui:decorate template="/resources/templates/default/formfield.xhtml">
-								<ui:param name="fieldName" value="form:funcionario" />
-								<p:selectOneMenu id="funcionario" value="#{manageSalarioController.selectedEntity.funcionario}" converter="#{coreController.userConverter}" required="true" disabled="#{manageSalarioController.readOnly}">
-									<f:selectItem itemLabel="#{msgsSalao['manageSalario.form.funcionario.blankOption']}" itemValue="" />
-									<f:selectItems value="#{coreController.funcionarios}" var="func" itemLabel="#{func.name}" itemValue="#{func}" />
-									<p:ajax  update=":main:form" listener="#{manageSalarioController.buscarServicos()}" />
-								</p:selectOneMenu>
-							</ui:decorate>
-						</h:panelGroup>
-						
-						
-						
-						
-						<h:panelGroup id="servicosField" rendered="#{!manageSalarioController.selectedEntity.servicos.isEmpty()}" >
-								<div style="clear: both;">&nbsp;</div> 
-								<p:separator/>	
-								<h4 style="text-align:center;"><h:outputText value="#{msgsSalao['manageSalario.form.servicos']}" /></h4>
-								<p:dataTable 
-										rowIndexVar="rowIndex"
-										id="servicos"
-										value="#{manageSalarioController.selectedEntity.servicos}" 
-										var="servico"
-										tableStyleClass ="tabela" 
-										disabledSelection="true"
-										rowKey="#{servico.uuid}" 
-										loadingMessage="#{msgsSalao['text.ajax.loading']}" 
-										emptyMessage="#{msgsSalao['manageSalario.text.noServicos']}">
-										
-									
-								    <p:column  style="text-align:center">
-										<h:outputText value="#{servico.atendimento.createDate}" >
-											<f:convertDateTime type="date" pattern="#{msgsSalao['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
-										</h:outputText>
-									</p:column>
-									
-									<p:column style="text-align:center" >
-										<h:outputText value="#{servico.servico.name}" />
-									</p:column>
-									
-									<p:column   style="text-align:center" >
-										<h:outputText value=" R$ " /><h:outputText value="#{servico.comissao}" >
-											<f:convertNumber pattern="0.00" />
-										</h:outputText>
-									</p:column>
-					
-								</p:dataTable>
-								<div style="clear: both;">&nbsp;</div>
-						</h:panelGroup>
-						
-						
-						
-						 
-						
-						<h:panelGroup id="valesField"  rendered="#{!manageSalarioController.selectedEntity.vales.isEmpty()}">	
-								<div style="clear: both;">&nbsp;</div>
-								<p:separator/>
-								<h4 style="text-align:center;"> <h:outputText  value="#{msgsSalao['manageSalario.form.vales']}" />	</h4>
-								<p:dataTable 
-										rowIndexVar="rowIndex"
-										id="vales"
-										value="#{manageSalarioController.selectedEntity.vales}" 
-										var="vale"
-										tableStyleClass ="tabela" 
-										disabledSelection="true"
-										rowKey="#{vale.uuid}" 
-										loadingMessage="#{msgsSalao['text.ajax.loading']}" 
-										emptyMessage="#{msgsSalao['manageSalario.text.noVales']}">
-										
-								    <p:column  style="text-align:center">
-										<h:outputText value="#{vale.createDate}" >
-											<f:convertDateTime type="date" pattern="#{msgsSalao['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
-										</h:outputText>
-									</p:column>
-									
-									<p:column  style="text-align:center" >
-										<h:outputText value=" R$ " /><h:outputText value="#{vale.valor}" >
-											<f:convertNumber pattern="0.00" />
-										</h:outputText>
-									</p:column>
-					
-								</p:dataTable>
-								<div style="clear: both;">&nbsp;</div>
-						</h:panelGroup>
-    					
-    					
-    					
-    					
-    					<div style="clear: both;">&nbsp;</div> 
-    					<p:separator/>
-						<div style="clear: both;">&nbsp;</div> 
-    
-    					<h:panelGroup >
-							<h:outputText value=" Total Serviços : "/>
-							<h:outputText value="#{manageSalarioController.selectedEntity.calcularServicos()}">
-								<f:convertNumber pattern="R$ 0.00" />
-							</h:outputText>
-						</h:panelGroup>
-    
-    					<div style="clear: both;">&nbsp;</div> 
-    
-    					<h:panelGroup>
-							<h:outputText value=" Total Vales : "/>
-							<h:outputText value="#{manageSalarioController.selectedEntity.calcularVales()}">
-								<f:convertNumber pattern="R$ 0.00" />
-							</h:outputText>
-						</h:panelGroup>
-														
-    					<div style="clear: both;">&nbsp;</div> 
-    					<p:separator/>
-						<div style="clear: both;">&nbsp;</div> 
-    
-    					<h:panelGroup>
-							<h:outputText value=" Salário Total : "/>
-							<h:outputText value="#{manageSalarioController.selectedEntity.valor}">
-								<f:convertNumber pattern="R$ 0.00" />
-							</h:outputText>
-						</h:panelGroup>
-    					
-    					<div style="clear: both;">&nbsp;</div> 
-    					<div style="clear: both;">&nbsp;</div> 
-    					    
-        
-                    	<h:panelGroup rendered="#{! manageSalarioController.readOnly}">
-                            <p:commandButton styleClass="botaoMenu ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-back" action="#{manageSalarioController.list}" value="#{msgsSalao['crud.button.cancel']}" immediate="true" icon="buttonCancel" />
-                            <p:commandButton styleClass="botaoMenu ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-check" action="#{manageSalarioController.save}" value="#{msgsSalao['crud.button.save']}" icon="buttonOk" update=":main:form :main:globalMessages" />
-                        </h:panelGroup>
-                        
-                        <h:panelGroup rendered="#{manageSalarioController.readOnly}">
-                            <p:commandButton styleClass="botaoMenu ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-back" action="#{manageSalarioController.list}" value="#{msgsSalao['crud.button.back']}" immediate="true" icon="buttonBack" />
-                        	<p:commandButton styleClass="botaoCancelarFiltro ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-delete" action="#{manageSalarioController.trash}" value="#{msgsSalao['crud.button.delete']}" icon="buttonTrash" disabled="#{manageSalarioController.selectedEntity == null}" process="@this" update=":main:trashForm :main:globalMessages" />
-                
-                        </h:panelGroup>
-                   
-                </h:form>
-                
-                
-            <h:form id="trashForm">
-                <p:panel id="trashPanel" styleClass="trashPanel" header="#{msgsSalao['crud.text.trashHeader']}" toggleable="true" rendered="#{not empty manageSalarioController.trashCan}">
-                    <p:dataList value="#{manageSalarioController.trashCan}" var="entity" type="unordered">
-                        #{entity.createDate} , #{entity.funcionario.name}
-                    </p:dataList>
-                    
-                    <p:commandButton styleClass="botaoMenu ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-back" action="#{manageSalarioController.cancelDeletion}" value="#{msgsSalao['crud.button.cancelDeletion']}" icon="buttonCancel" update=":main:trashForm" />
-                    <p:commandButton styleClass="botaoMenu ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-check" action="#{manageSalarioController.delete}" value="#{msgsSalao['crud.button.confirmDeletion']}" icon="buttonOk" />
-                    
-                </p:panel>
-            </h:form>
-           
-    </ui:define>  
-    
-    <ui:define name="help">
-    
-    	<p> Passos para Cadastrar um Salario:</p>
-    	
-    	<p>
-    		 → Apenas selecione o Funcinário, será buscado os atendimentos que o funcionario fez e os seus 
-    		 vales e será calculado o valor do salário.
-		</p>
+
+<ui:define name="title">  
+	<h:outputText value="#{msgsCore['manageSalary.title.create']}" 
+				  rendered="#{(! manageSalaryController.readOnly) and (manageSalaryController.selectedEntity.id == null)}" />
+   	<h:outputText value="#{msgsCore['manageSalary.title.update']}" 
+   				  rendered="#{(! manageSalaryController.readOnly) and (manageSalaryController.selectedEntity.id != null)}" />
+    <h:outputText value="#{msgsCore['manageSalary.title.retrieve']}" rendered="#{manageSalaryController.readOnly}" />
+</ui:define>
+
+	
+<ui:define name="body">
+	
+	
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
 			
-    </ui:define>
-      
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsCore['manageSalary.title.form']}" />
+					
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="funcionario" />
+				<ui:param name="label"
+					value="#{msgsCore['manageSalary.title.funcionario']}" />
+				<h:selectOneMenu pt:class="form-control" id="funcionario" value="#{manageSalaryController.selectedEntity.funcionario}" 
+								 converter="#{coreController.userConverter}" required="true" disabled="#{manageSalaryController.readOnly}">
+					<f:selectItem itemLabel="#{msgsCore['manageSalary.form.funcionario.blankOption']}" itemValue="" />
+					<f:selectItems value="#{coreController.employees}" var="func" itemLabel="#{func.name}" itemValue="#{func}" />
+					<p:ajax event="change" update="form funcionarioField valesField servicosField" listener="#{manageSalaryController.buscarServicos()}" />
+				</h:selectOneMenu>
+			</ui:decorate>
+			
+			
+			
+			<h:panelGroup id="tudoField" rendered="#{manageSalaryController.selectedEntity.funcionario!=null }" >
+			
+			
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="date" />
+					<ui:param name="label" value="#{msgsCore['manageSalary.title.date']}" />
+					<p:inputMask value="#{manageSalaryController.selectedEntity.createDate.time}" mask="#{msgs['format.date.primefaces']}" 
+								 disabled="#{manageSalaryController.readOnly or not sessionController.admin}" required="true" id="date">
+						<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
+						<p:ajax event="blur" update="dateField" />
+					</p:inputMask>
+				</ui:decorate>
+			
+			
+			
+				
+				<h:panelGroup id="servicosField" rendered="#{!manageSalaryController.selectedEntity.servicos.isEmpty()}" >
+					
+					<div style="clear: both;">&nbsp;</div> 
+					
+					<h2 style="text-align:center;"><h:outputText value="#{msgsCore['manageSalary.form.servicos']}" /></h2>
+					
+					<p:dataTable 
+								rowIndexVar="rowIndex"
+								id="servicos"
+								value="#{manageSalaryController.selectedEntity.servicos}" 
+								var="servico"
+								tableStyleClass ="tabela" 
+								disabledSelection="true"
+								rowKey="#{servico.uuid}" 
+								loadingMessage="#{msgs['text.ajax.loading']}" 
+								emptyMessage="#{msgsCore['manageSalary.text.noServicos']}">
+										
+						    <p:column headerText="#{msgsCore['manageSalary.title.date']}" style="text-align:center; width:32%;">
+								<h:outputText value="#{servico.atendance.createDate.time}" >
+									<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
+								</h:outputText>
+							</p:column>
+								
+							<p:column headerText="#{msgsCore['manageSalary.title.servico']}" style="text-align:center" > 
+								<h:outputText value="#{servico.task.name}" />
+							</p:column>
+									
+							<p:column   headerText="#{msgsCore['manageSalary.title.comisao']}" style="text-align:center; width:25%;" >
+								<h:outputText value="#{servico.comissao}" >
+									<f:convertNumber type="currency" />
+	           					</h:outputText>
+							</p:column>
+					
+						</p:dataTable>
+						<div style="clear: both;">&nbsp;</div>
+					</h:panelGroup>
+			
+			
+			
+		
+				
+					<h:panelGroup id="valesField"  rendered="#{!manageSalaryController.selectedEntity.vales.isEmpty()}">	
+						<div style="clear: both;">&nbsp;</div>
+						
+						<h2 style="text-align:center;"> <h:outputText  value="#{msgsCore['manageSalary.form.vales']}" />	</h2>
+						<p:dataTable 
+								rowIndexVar="rowIndex"
+								id="vales"
+								value="#{manageSalaryController.selectedEntity.vales}" 
+								var="vale"
+								tableStyleClass ="tabela" 
+								disabledSelection="true"
+								rowKey="#{vale.uuid}" 
+								loadingMessage="#{msgs['text.ajax.loading']}" 
+								emptyMessage="#{msgsCore['manageSalary.text.noVales']}">
+								
+						    <p:column headerText="#{msgsCore['manageSalary.title.date']}" style="text-align:center; width:32%;">
+								<h:outputText value="#{vale.createDate.time}" >
+									<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" locale="pt_BR" 
+													   timeZone="America/Sao_Paulo"/>
+								</h:outputText>
+							</p:column>
+							
+							<p:column headerText="#{msgsCore['manageSalary.title.descricao']}" style="text-align:center" > 
+								<h:outputText value="#{vale.descricao}" />
+							</p:column>
+								
+							<p:column  style="text-align:center; width:25%;" headerText="#{msgsCore['manageSalary.title.valor']}">
+								<h:outputText value="#{vale.valor}">
+									<f:convertNumber type="currency" />
+           						</h:outputText>
+							</p:column>
+					
+						</p:dataTable>
+					
+						<div style="clear: both;">&nbsp;</div>
+					</h:panelGroup>
+		
+		
+		
+					<div style="clear: both;">&nbsp;</div>
+					<div style="clear: both;">&nbsp;</div>
+					
+					
+					<h:panelGroup id="totalServicoField">
+						<div class="form-group" >
+							<h:outputText value="Total Serviços " pt:class="col-sm-2 control-label" />
+							<div class="col-sm-10">
+								<h:outputText id="totalServico" pt:class="form-control" 
+											  value="#{manageSalaryController.calcularServicos()}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+							</div>
+						</div>
+					</h:panelGroup>		
+					
+			
+			
+			
+					<div style="clear: both;">&nbsp;</div>
+					
+					<h:panelGroup id="totalValeField">
+						<div class="form-group" >
+							<h:outputText value="Total Vales " pt:class="col-sm-2 control-label" />
+							<div class="col-sm-10">
+								<h:outputText id="totalVale" pt:class="form-control"  
+											  value="#{manageSalaryController.calcularVales()}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+							</div>
+						</div>
+					</h:panelGroup>		
+					
+					<div style="clear: both;">&nbsp;</div>
+			
+					<h:panelGroup id="valorField">
+						<div class="form-group" style="height: 74px;" >
+							<h:outputText style="height: 44px; color:red; font-size: x-large;"  pt:class="col-sm-2 control-label"
+										  value="#{msgsCore['manageSalary.title.valorLiquido']}"  />
+							<div class="col-sm-10">
+								<h:outputText style="height: 44px; color:red; font-size: x-large;" id="valor" pt:class="form-control"  
+											  value="#{manageSalaryController.selectedEntity.valor}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+							</div>
+						</div>
+					</h:panelGroup>	
+					
+					
+			</h:panelGroup>
+			
+		
+		
+	
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+	        	
+	        	<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageSalaryController.save}" 
+	        					 update=":globalMessages form" icon="fa fa-save" value="#{msgs['crud.button.save']}"
+	        					 disabled="#{manageSalaryController.readOnly or manageSalaryController.selectedEntity.funcionario==null}" />
+	        	<p:commandButton pt:class="btn btn-block btn-warning btn-social" immediate="true" action="#{manageSalaryController.list}" 
+	        					 icon="fa fa-rotate-left"  value="#{msgs['crud.button.back']}"/>
+	        					 
+	        </ui:decorate>
+											
+			
+	</ui:decorate>
+	
+</ui:define>
 </ui:composition>
+

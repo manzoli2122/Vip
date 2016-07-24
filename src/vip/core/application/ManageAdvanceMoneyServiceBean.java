@@ -1,5 +1,7 @@
 package vip.core.application;
 
+import java.util.Calendar;
+
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -34,29 +36,42 @@ public class ManageAdvanceMoneyServiceBean extends CrudServiceBean<AdvanceMoney>
 		return valeDAO;
 	}
 
+	
+	
+	
+	
+	
 	@Override
-	public void validateCreate(AdvanceMoney entity) throws CrudException {		
+	public void validateCreate(AdvanceMoney entity) throws CrudException {	
+		
 		entity.setCreateRegister(sessionInformation.getCurrentUser());
-		super.validateCreate(entity);
+		entity.setLastUpdateRegister(sessionInformation.getCurrentUser());
+		
+		Calendar hoje = Calendar.getInstance();
+		//entity.setCreateDate(hoje);
+		entity.setLastUpdateDate(hoje);
+	
 	}
 	
 	
 	@Override
 	public void validateUpdate(AdvanceMoney entity) throws CrudException {
-		if(!entity.getCreateRegister().equals(sessionInformation.getCurrentUser())){
-			int i = 9/0;
-		}
-		super.validateUpdate(entity);
+		
+		entity.setLastUpdateRegister(sessionInformation.getCurrentUser());
+		entity.setLastUpdateDate(Calendar.getInstance());
 	}
 	
 	
 	
 	@Override
 	public void validateDelete(AdvanceMoney entity) throws CrudException {
-		if(entity.getSalary()==null){
+		
+		if((!entity.getCreateRegister().equals(sessionInformation.getCurrentUser())) ||(entity.getSalary()==null) ){
 			int i = 9/0;
 		}
-		super.validateDelete(entity);
+		
+		
+		
 	}
 	
 	

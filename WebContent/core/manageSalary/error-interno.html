@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/resources/templates/default/decorator.xhtml">
+    
+    <ui:define name="body">
+    	
+    	<h:form id="form">
+ 
+    					
+					
+    					
+    					
+    					<div style="clear: both;">&nbsp;</div> 
+    					<p:separator/>
+						<div style="clear: both;">&nbsp;</div> 
+    
+    					<h:panelGroup >
+							<h:outputText value=" Total Serviços : "/>
+							<h:outputText value="#{manageSalarioController.selectedEntity.calcularServicos()}">
+								<f:convertNumber pattern="R$ 0.00" />
+							</h:outputText>
+						</h:panelGroup>
+    
+    					
+    
+    					<h:panelGroup>
+							<h:outputText value=" Total Vales : "/>
+							<h:outputText value="#{manageSalarioController.selectedEntity.calcularVales()}">
+								<f:convertNumber pattern="R$ 0.00" />
+							</h:outputText>
+						</h:panelGroup>
+														
+    					
+    
+    			
+    					
+    					
+                </h:form>
+         
+    </ui:define>  
+          
+</ui:composition>

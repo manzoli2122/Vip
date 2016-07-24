@@ -5,67 +5,126 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                template="/resources/templates/default/decorator.xhtml">
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
 
-    <ui:define name="body">
-    	
-    	<p:button icon="ui-icon-home" outcome="/index.faces" value="Home" styleClass="botaoMenu" />
-    	<p:commandButton icon="ui-icon-star" styleClass="botaoMenu" action="#{manageSalarioController.create}" value="Criar Novo Salario"  update=":main:globalMessages"/>
-         
-        <h1 style="text-align:center;"><h:outputText value="#{msgsSalao['manageSalario.title']}" /></h1>
+<ui:define name="title"><h:outputText value="#{msgsCore['manageSalary.title']}" /></ui:define>
 
-        
-        <h:form id="filterForm" >
-			<h:panelGroup styleClass="botaoFiltro" id="filterBar" rendered="#{(not empty manageSalarioController.filters) and !manageSalarioController.filtering}">
-               	<p:selectOneMenu id="filter" required="true" value="#{manageSalarioController.filterKey}">
-                    	<f:selectItems value="#{manageSalarioController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
-                        <f:ajax event="change" execute="@form" listener="#{manageSalarioController.changeFilter}" render="@form :main:listingForm" />
-                   	</p:selectOneMenu>
-                    <p:inputText id="filterText" size="20" required="false" value="#{manageSalarioController.filterParam}" rendered="#{manageSalarioController.filter.options == null}" />
-                    <p:selectOneMenu id="filterSelect" required="false" value="#{manageSalarioController.filterParam}" rendered="#{manageSalarioController.filter.options != null}">
-                    	<f:selectItems value="#{manageSalarioController.filter.reversedOptionsLabels}" />
-                    </p:selectOneMenu>
-                    <p:commandButton  action="#{manageSalarioController.filter}" process="@form"  value="Buscar" icon="ui-icon-search"  update=":main:filterForm :main:listingForm "/>
-        	</h:panelGroup>
- 		</h:form>  
-
-		<div style="clear: both;">&nbsp;</div>
-		
-        <h:form id="listingForm">
-            	<h:panelGroup id="filterInfo" rendered="#{manageSalarioController.filtering}">
-	            	<p:commandButton styleClass="botaoCancelarFiltro" action="#{manageSalarioController.cancelFilter}" process="@form"  value="Cancelar Filtro" icon="ui-icon-search" update="@form :main:filterForm"/>
-				</h:panelGroup>
-				
-               <p:dataTable
-                        widgetVar="listingTable"
-                        rowIndexVar="rowIndex"
-                        value="#{manageSalarioController.lazyEntities}" 
-                        var="entity" 
-                        rows="#{manageSalarioController.maxDataTableRowsPerPage}" 
-                        lazy="true"
-                        tableStyleClass ="tabela" 
-                        loadingMessage="#{msgsSalao['text.ajax.loading']}" 
-                        emptyMessage="#{manageSalarioController.filtering ? msgsSalao['manageSalario.text.noEntitiesFiltered'] : msgsSalao['manageSalario.text.noEntities']}">
+	
+<ui:define name="body"> 
+	
+	<!-- The listing form. -->
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="filterForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageSalary.title.form.filter']}" /> 
 						
-                        <p:column   style="text-align:center">
-                            <h:outputText value="#{entity.createDate}" >
-                            	<f:convertDateTime type="date" pattern="#{msgsSalao['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
-                            </h:outputText>
-                            <div style="clear: both;">&nbsp;</div>
-                        </p:column>
-                        <p:column style="text-align:center">
-                        	<p:commandLink action="#{manageSalarioController.retrieve(entity.id)}" >
-                            	<h:outputText value=" #{entity.funcionario.name} " />
-                            	 <h:outputText value=" R$ " />
-	                            <h:outputText value="#{entity.valor}" >
-	                            	<f:convertNumber pattern="0.00" />
-	                            </h:outputText>
-                            </p:commandLink>
-                            <div style="clear: both;">&nbsp;</div>
-                        </p:column>
-            	</p:dataTable>
-            	
-            </h:form>
+			<h:panelGroup  id="filterBar" rendered="#{(not empty manageSalaryController.filters)}">
+            	<div class="form-group">	
+	            	<div class="col-sm-3">
+	            		<h:selectOneMenu styleClass="form-control" value="#{manageSalaryController.filterKey}" id="filter" required="true">
+	            			<f:selectItems value="#{manageSalaryController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
+			                <f:ajax event="change" execute="@form" listener="#{manageSalaryController.changeFilter}" render="@form :listingForm"  />
+	            		</h:selectOneMenu>
+	            	</div>
+	            	<div class="col-sm-4">
+	            		<h:selectOneMenu styleClass="form-control"  required="false" value="#{manageSalaryController.filterParam}" id="filterSelect" rendered="#{manageSalaryController.filter.options != null}">
+		                	<f:selectItems value="#{manageSalaryController.filter.reversedOptionsLabels}" />
+		                </h:selectOneMenu>
+					 	<p:inputText pt:class="form-control"  id="filterText" required="false" value="#{manageSalaryController.filterParam}" rendered="#{manageSalaryController.filter.options == null}" />
+                	</div>
+                	<div class="col-sm-2">
+                		<a class="btn btn-block btn-info btn-social" jsf:process="@form" jsf:action="#{manageSalaryController.filter}" jsf:update=":listingForm @form" >
+                		   <i class="fa fa-search"></i> <h:outputText value="#{msgs['crud.button.filter']}"/>
+                		</a>
+                	</div>
+					<div class="col-sm-3" jsf:rendered="#{manageSalaryController.filtering}">
+						<a class="btn btn-block btn-danger btn-social" jsf:process="@form"	jsf:action="#{manageSalaryController.cancelFilter}" jsf:update=":listingForm @form">
+							<i class="fa fa-close"></i> <h:outputText value="#{msgs['crud.button.cancelFilter']}"/>
+						</a>
+                	</div>
+            	</div>
+			</h:panelGroup>
+	
+	</ui:decorate>
+	
+	
+	
+	
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="listingForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageSalary.title.box.list']}" /> 
+			<p:dataTable 
+	   				 	widgetVar="listingTable"
+           			    rowIndexVar="rowIndex"
+               			tableStyleClass="table table-bordered table-striped"
+                  		value="#{manageSalaryController.lazyEntities}" 
+                   		var="entity" 
+                   		rows="#{manageSalaryController.maxDataTableRowsPerPage}" 
+                   		rowsPerPageTemplate="#{manageSalaryController.halfMaxDataTableRowsPerPage},#{manageSalaryController.maxDataTableRowsPerPage},#{manageSalaryController.doubleMaxDataTableRowsPerPage}"
+                   		paginator="true" 
+                   		lazy="true" 
+                   		selection="#{manageSalaryController.selectedEntity}" 
+                  		selectionMode="single" 
+                  		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+                  		paginatorPosition="bottom" 
+                  		loadingMessage="#{msgs['text.ajax.loading']}" 
+                   		emptyMessage="#{manageSalaryController.filtering ? msgsCore['manageSalary.text.noEntitiesFiltered'] : msgsCore['manageSalary.text.noEntities']}">
+                
+                
+                <p:column headerText="#{msgsCore['manageSalary.title.date']}"  style="text-align:center; width:32%;">
+                            <h:outputText value="#{entity.createDate.time}" >
+                            	<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
+                            </h:outputText> 
+                </p:column>
+                
+                <p:column headerText="#{msgsCore['manageSalary.title.funcionario']}"  style="text-align: center; "> 
+           			<h:outputText value="#{entity.funcionario.name}" />
+           		</p:column>
+                   		
+				<p:column headerText="#{msgsCore['manageSalary.title.valor']}"  style="text-align: center; width:22%;"> 
+           			<h:outputText value="#{entity.valor}" >
+           				<f:convertNumber type="currency" />
+           			</h:outputText>
+           		</p:column>        		
+           		
+           		
+           		<p:ajax event="rowSelect" update=":buttonsForm" />
+        	</p:dataTable>
+	</ui:decorate> 
+	
+	
 
-    </ui:define>
+	<h:form id="buttonsForm">
+	    <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-03.xhtml">
+	       	<p:commandButton pt:class="btn btn-block btn-success btn-social" action="#{manageSalaryController.create}"   icon="fa fa-user-plus" value="#{msgs['crud.button.create']}"/>
+	       	<p:commandButton rendered="#{manageSalaryController.selectedEntity != null}" pt:class="btn btn-block btn-info btn-social" action="#{manageSalaryController.retrieve}" icon="fa fa-file-text" disabled="#{manageSalaryController.selectedEntity == null}" value="#{msgs['crud.button.retrieve']}"/>      	
+	      	<p:commandButton process="@this" ajax=":trashForm"  update=":trashForm" rendered="#{manageSalaryController.selectedEntity != null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageSalaryController.trash}" icon="fa fa-trash-o" disabled="#{manageSalaryController.selectedEntity == null}" value="#{msgs['crud.button.delete']}"/>
+		</ui:decorate>
+	</h:form>
+			
+    	
+    <p>&nbsp;</p>
+    	
+	<h:panelGroup id="trashpanel" rendered="#{not empty manageSalaryController.trashCan}" >
+    <ui:decorate template="/resources/#{coreInfo.decorator}/dangerform.xhtml">
+			<ui:param name="formName" value="trashForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageSalary.title.box.trash']}" /> 
+			
+			<h3><h:outputText  value="#{msgs['crud.text.trashHeader']}" /></h3>
+	        <p:dataList value="#{manageSalaryController.trashCan}" var="entity" type="ordered">
+	        		<h:outputText value="#{entity.createDate.time}" >
+                          	<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
+                    </h:outputText> 
+	            	#{entity.funcionario.name}  
+	        </p:dataList> 
+	        <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+					<p:commandButton ajax=":trashForm :buttonsForm :listingForm" update=":trashForm :buttonsForm :listingForm" pt:class="btn btn-block btn-warning btn-social" action="#{manageSalaryController.cancelDeletion}"   icon="fa fa-close" value="#{msgs['crud.button.cancelDeletion']}"/>
+		        	<p:commandButton ajax=":trashForm :buttonsForm :listingForm"  update=":trashForm :buttonsForm :listingForm"  pt:class="btn btn-block btn-danger btn-social" action="#{manageSalaryController.delete}" icon="fa fa-trash-o"  value="#{msgs['crud.button.confirmDeletion']}"/>
+	        </ui:decorate>			
+	</ui:decorate> 
+	</h:panelGroup>
+		       
+        
+</ui:define> <!-- DEFINE BODY. -->
 </ui:composition>

@@ -24,18 +24,12 @@ public class AdvanceMoneyJPADAO extends BaseJPADAO<AdvanceMoney> implements  Adv
 	
 	@PersistenceContext(unitName="Vip")
 	private EntityManager entityManager;
-	
-	
-	
-	@Override
-	public Class<AdvanceMoney> getDomainClass() {
-		return AdvanceMoney.class;
-	}
 
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
+	
 	
 	@Override
 	protected List<Order> getOrderList(CriteriaBuilder cb, Root<AdvanceMoney> root) {
@@ -48,7 +42,7 @@ public class AdvanceMoneyJPADAO extends BaseJPADAO<AdvanceMoney> implements  Adv
 	
 	
 	@Override
-	public List<AdvanceMoney> retrieveSalario(User funcionario) {
+	public List<AdvanceMoney> retrieveValesAbertos(User funcionario) {
 		if(funcionario==null) return null;
 		EntityManager em = getEntityManager();
 		CriteriaBuilder cb = em.getCriteriaBuilder();

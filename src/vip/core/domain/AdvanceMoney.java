@@ -16,17 +16,25 @@ public class AdvanceMoney extends Expense implements Comparable<AdvanceMoney>{
 		
 	private String descricao;
 
+	//@NotNull
+	//@Temporal(TemporalType.TIMESTAMP)
+	//protected Calendar takeDate;
+	
 	@NotNull
 	@ManyToOne
 	private User funcionario;
 
 	@ManyToOne
+	//@ManyToOne(cascade = CascadeType.PERSIST)
 	private Salary salary;
 	
 	
 
 	
 	
+	
+	//public Calendar getTakeDate() {	return takeDate;}
+	//public void setTakeDate(Calendar takeDate) {this.takeDate = takeDate;}
 	
 	public User getFuncionario() {	return funcionario;	}
 	public void setFuncionario(User funcionario) {	this.funcionario = funcionario;	}
