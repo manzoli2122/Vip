@@ -119,7 +119,6 @@ public class ManageSalaryController extends CrudController<Salary>{
 			return super.save();
 		}
 		catch(Exception e){
-			selectedEntity.setId(null);
 			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_ERROR, getBundlePrefix() + ".error.save" , summarizeSelectedEntity()  );
 			return null;
 		}

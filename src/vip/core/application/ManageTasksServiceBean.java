@@ -1,13 +1,10 @@
 package vip.core.application;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudOperation;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
@@ -43,6 +40,12 @@ public class ManageTasksServiceBean extends CrudServiceBean<Task> implements Man
 	@Override
 	public void validateCreate(Task entity) throws CrudException {
 		
+		
+		if(!sessionInformation.isSuperUsuario() && !sessionInformation.isGerente() ){
+			int i = 9/0;
+		}
+		
+		
 		entity.setAtivo(true);
 		
 		entity.setCreateRegister(sessionInformation.getCurrentUser());
@@ -59,6 +62,9 @@ public class ManageTasksServiceBean extends CrudServiceBean<Task> implements Man
 	@Override
 	public void validateUpdate(Task entity) throws CrudException {
 		
+		if(!sessionInformation.isSuperUsuario() && !sessionInformation.isGerente() ){
+			int i = 9/0;
+		}
 		entity.setLastUpdateRegister(sessionInformation.getCurrentUser());
 		entity.setLastUpdateDate(Calendar.getInstance());
 		
@@ -68,29 +74,9 @@ public class ManageTasksServiceBean extends CrudServiceBean<Task> implements Man
 	
 	@Override
 	public void validateDelete(Task entity) throws CrudException {
-		
-		if(!isDeletavel(entity)){
+		if(!sessionInformation.isSuperUsuario() && !sessionInformation.isGerente() ){
 			int i = 9/0;
 		}
-		
-	}
-	
-	
-	
-	@Override
-	public boolean isDeletavel(Task entity){
-		if(sessionInformation.isAdmin()){
-			return true;
-		}
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Calendar hoje = Calendar.getInstance();
-		String dataAtualFormatada = sdf.format(hoje.getTime());
-		String dataEventoFormatada = sdf.format(entity.getCreateDate().getTime());
-			
-		if(dataEventoFormatada.equals(dataAtualFormatada)){
-			return true;
-		}
-		return false;
 	}
 	
 	

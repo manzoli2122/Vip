@@ -107,6 +107,10 @@ public class ManageSalaryServiceBean  extends CrudServiceBean<Salary> implements
 	@Override
 	public void validateCreate(Salary entity) throws CrudException {
 		
+		if(!sessionInformation.isSuperUsuario() && !sessionInformation.isGerente() ){
+			int i = 9/0;
+		}
+		
 		entity.setCreateRegister(sessionInformation.getCurrentUser());
 		entity.setLastUpdateRegister(sessionInformation.getCurrentUser());
 			
@@ -154,6 +158,10 @@ public class ManageSalaryServiceBean  extends CrudServiceBean<Salary> implements
 	
 	@Override
 	public void validateDelete(Salary entity) throws CrudException {
+		
+		if(!sessionInformation.isSuperUsuario() && !sessionInformation.isGerente() ){
+			int i = 9/0;
+		}
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Calendar hoje = Calendar.getInstance();

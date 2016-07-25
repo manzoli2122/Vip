@@ -30,7 +30,10 @@ public class Salary extends Expense implements Comparable<Salary>{
 	@Override
 	public int compareTo(Salary o) { 	return super.compareTo(o); }
 
-
+	@Override
+	public String toString() {
+		return "Salário de R$ " + valor.toString() + " do " + funcionario.getName() ;
+	}
 	
 	
 	

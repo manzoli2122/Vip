@@ -98,6 +98,7 @@
 				<h:form id="sidebarMenuForm">
 				
 				<ul class="sidebar-menu">
+					
 					<li class="header"><h:outputText value="#{msgs['title.menu']}" /></li>
 					
 					<li><h:commandLink action="#{installSystemController.begin}" rendered="#{not coreInfo.systemInstalled}"><i class="fa fa-cogs"></i> <span><h:outputText value="#{msgsCore['core.menu.installSystem']}" /></span></h:commandLink></li>
@@ -106,19 +107,20 @@
 						<p:commandLink styleClass="fa fa-key" rendered="#{coreInfo.systemInstalled and not sessionController.loggedIn}"  action="#{coreController.login()}"  value=" #{msgsCore['core.menu.login']}"  />
 					</li>
 					
+					
+					
+					
+					
+					
+					
+					
+					
 					<li>
 						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.admin}"  action="#{manageUsersController.list()}"  value=" #{msgsCore['manageUsers.title']}" />
 					</li>
-					
 					 
 					<li>
-						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.admin or sessionController.employee}"  action="#{manageClientController.list()}"  value=" #{msgsCore['manageClient.title']}" />
-					</li>
-					
-					
-					
-					<li>
-						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.admin}"  action="#{manageTasksController.list()}"  value=" #{msgsCore['manageTasks.title']}" />
+						<p:commandLink styleClass="fa fa-users" rendered="#{!sessionController.admin and sessionController.employee}"  action="#{manageClientController.list()}"  value=" #{msgsCore['manageClient.title']}" />
 					</li>
 					
 					<li>
@@ -131,9 +133,35 @@
 					</li>
 					
 					
-					<li>
-						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.admin}"  action="#{manageSalaryController.list()}"  value=" #{msgsCore['manageSalary.title']}" />
+					
+					
+					
+					
+					
+					
+					
+					<li  class="header"> <h:outputText value="FUNÇÕES GERENCIAIS" rendered="#{sessionController.superUsuario or sessionController.gerente}" /></li>
+					
+					<li> 
+						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.superUsuario}"  action="#{manageConfigurationController.list()}"  value=" #{msgsCore['manageConfiguration.title']}" />
 					</li>
+					
+					<li>
+						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.superUsuario or sessionController.gerente}"  action="#{manageTasksController.list()}"  value=" #{msgsCore['manageTasks.title']}" />
+					</li>
+					
+					<li>
+						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.superUsuario or sessionController.gerente}"  action="#{manageSalaryController.list()}"  value=" #{msgsCore['manageSalary.title']}" />
+					</li>
+					
+					
+					
+					
+					
+					
+					
+					
+					
 					
 	
 					

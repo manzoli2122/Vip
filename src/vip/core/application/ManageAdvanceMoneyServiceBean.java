@@ -23,22 +23,17 @@ public class ManageAdvanceMoneyServiceBean extends CrudServiceBean<AdvanceMoney>
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	private AdvanceMoneyDAO valeDAO;
+	private AdvanceMoneyDAO advanceMoneyDAO;
 	
 	@EJB 
 	private SessionInformation sessionInformation;
-	
-	
-	
+		
 	
 	@Override
 	public BaseDAO<AdvanceMoney> getDAO() {
-		return valeDAO;
+		return advanceMoneyDAO;
 	}
 
-	
-	
-	
 	
 	
 	@Override
@@ -48,7 +43,6 @@ public class ManageAdvanceMoneyServiceBean extends CrudServiceBean<AdvanceMoney>
 		entity.setLastUpdateRegister(sessionInformation.getCurrentUser());
 		
 		Calendar hoje = Calendar.getInstance();
-		//entity.setCreateDate(hoje);
 		entity.setLastUpdateDate(hoje);
 	
 	}
@@ -57,21 +51,42 @@ public class ManageAdvanceMoneyServiceBean extends CrudServiceBean<AdvanceMoney>
 	@Override
 	public void validateUpdate(AdvanceMoney entity) throws CrudException {
 		
+		if( entity.getSalary() != null ) {
+			int i = 9/0;
+		}
+		
 		entity.setLastUpdateRegister(sessionInformation.getCurrentUser());
 		entity.setLastUpdateDate(Calendar.getInstance());
+		
+		if(sessionInformation.isSuperUsuario()|| sessionInformation.isGerente()){
+			return ;
+		}
+		
+		if(!entity.getCreateRegister().equals(sessionInformation.getCurrentUser())  ){
+			int i = 9/0;
+		}
 	}
+	
+	
+	
+	
 	
 	
 	
 	@Override
 	public void validateDelete(AdvanceMoney entity) throws CrudException {
 		
-		if((!entity.getCreateRegister().equals(sessionInformation.getCurrentUser())) ||(entity.getSalary()==null) ){
+		if(entity.getSalary()!=null){
 			int i = 9/0;
 		}
+
+		if(sessionInformation.isSuperUsuario()|| sessionInformation.isGerente()){
+			return ;
+		}
 		
-		
-		
+		if(!entity.getCreateRegister().equals(sessionInformation.getCurrentUser())  ){
+			int i = 9/0;
+		}
 	}
 	
 	

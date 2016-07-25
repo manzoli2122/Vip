@@ -38,35 +38,7 @@ public class SessionController extends JSFController {
 	@EJB
 	private SessionInformation sessionInformation;
 
-	
-	
-	/** Input: e-mail for authentication. 
-	private String email;  */
 
-	/** Input: password for authentication. 
-	private String password;  */
-
-	/** Getter for email. 
-	public String getEmail() {
-		return email;
-	}  */
-
-	/** Setter for email.
-	public void setEmail(String email) {
-		this.email = email;
-	}    */
-
-	/** Getter for password. 
-	public String getPassword() {
-		return password;
-	}   */
-
-	/** Setter for password.
-	public void setPassword(String password) {
-		this.password = password;
-	}    */
-	
-	
 	
 
 	
@@ -80,48 +52,30 @@ public class SessionController extends JSFController {
 	}
 	
 
+	public boolean isSuperUsuario() {
+		return sessionInformation.isSuperUsuario();
+	}
 	
+	
+	public boolean isGerente() {
+		return sessionInformation.isGerente();
+	}
 	
 	
 
-	/**
-	 * Indicates if the user has already been identified.
-	 * 
-	 * @return <code>true</code> if the user is logged in, <code>false</code> otherwise.
-	 */
+	
 	public boolean isLoggedIn() {
 		return sessionInformation.getCurrentUser() != null;
 	}
 
-	/**
-	 * Provides the current authenticated user.
-	 * 
-	 * @return The Academic object that represents the user that has been authenticated in this session.
-	 */
+	
 	public User getCurrentUser() {
 		return sessionInformation.getCurrentUser();
 	}
 
-	/**
-	 * Provides the current date/time.
-	 * 
-	 * @return A Date object representing the date/time the method was called.
-	 */
-	public Date getNow() {
-		return new Date(System.currentTimeMillis());
-	}
-
 	
 	
 	
-	
-	
-	/**
-	 * Provides the expiration date/time for the user session. This makes it possible to warn the user when his session
-	 * will expire.
-	 * 
-	 * @return A Date object representing the date/time of the user's session expiration.
-	 */
 	public Date getSessionExpirationTime() {
 		Date expTime = null;
 
@@ -144,43 +98,4 @@ public class SessionController extends JSFController {
 	}
 
 	
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * Accesses the Login service to authenticate the user given his email and password.
-	 
-	public String login() {
-		try {
-			// Uses the Login service to authenticate the user.
-			logger.log(Level.FINEST, "User attempting login with email \"{0}\"...", email);
-			sessionInformation.login(email, password);
-		}
-		catch (LoginFailedException e) {
-			// Checks if it's a normal login exception (wrong username or password) or not.
-			switch (e.getReason()) {
-			case INCORRECT_PASSWORD:
-			case UNKNOWN_USERNAME:
-				// Normal login exception (invalid usernaem or password). Report the error to the user.
-				logger.log(Level.INFO, "Login failed for \"{0}\". Reason: \"{1}\"", new Object[] { email, e.getReason() });
-				addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_ERROR, "login.error.nomatch.summary", "login.error.nomatch.detail");
-				return null;
-
-			default:
-				// System failure exception. Report a fatal error and ask the user to contact the administrators.
-				logger.log(Level.INFO, "System failure during login. Email: \"" + email + "\"; reason: \"" + e.getReason() + "\"", e);
-				addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_FATAL, "login.error.fatal.summary", new Object[0], "login.error.fatal.detail", new Object[] { new Date(System.currentTimeMillis()) });
-				return null;
-			}
-		}
-
-		// If everything is OK, redirect back to the home screen.
-		return "/index.xhtml?faces-redirect=true";
-	}
-	
-	*/
 }

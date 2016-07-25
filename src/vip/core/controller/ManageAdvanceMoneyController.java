@@ -75,8 +75,9 @@ public class ManageAdvanceMoneyController extends CrudController<AdvanceMoney>{
 			return super.save();
 		}
 		catch(Exception e){
-			selectedEntity.setId(null);
+			//selectedEntity.setId(null);
 			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_ERROR, getBundlePrefix() + ".error.save" , summarizeSelectedEntity()  );
+			//selectedEntity = createNewEntity();
 			return null;
 		}
 	}

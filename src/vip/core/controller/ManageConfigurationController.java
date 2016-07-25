@@ -6,58 +6,46 @@ import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
-import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
-import vip.core.application.ManageTasksService;
-import vip.core.domain.Task;
+import vip.core.application.ManageConfigurationService;
+import vip.core.domain.VipConfiguration;
+
+
+
 
 
 @Named
 @SessionScoped
-public class ManageTasksController extends CrudController<Task>{
+public class ManageConfigurationController extends CrudController<VipConfiguration>{
 
+	
 	private static final long serialVersionUID = 1L;
 
+	
+	
 	@EJB
-	private ManageTasksService manageTasksService;
-	
-	
+	private ManageConfigurationService  manageConfigurationService ;
 	
 	
 	/*   CONSTRUTOR DA CLASSE */
-	public ManageTasksController(){
-		 viewPath = "/core/manageTask/";
+	public ManageConfigurationController(){
+		 viewPath = "/core/manageConfiguration/";
 	     bundleName = "msgsCore";
 	}
 	
-	/* METODO OBRIGATORIO*/
+	
+	
+	
+	
+	
 	@Override
-	protected CrudService<Task> getCrudService() {
-		return manageTasksService;
+	protected CrudService<VipConfiguration> getCrudService() {
+		return manageConfigurationService;
 	}
 
-	
-
-	/* METODO OBRIGATORIO*/
 	@Override
 	protected void initFilters() {
-		addFilter(new LikeFilter("manageTasks.filter.byName", "name", getI18nMessage(bundleName, "manageTasks.text.filter.byName")));
 	}
-
-	
-	
-	
-	
-	public String ativarDesativarTask(){
-		selectedEntity.setAtivo(!selectedEntity.isAtivo());
-		return save();
-	}
-	
-	
-	
-	
-	
-	
 	
 	
 	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#save() */
@@ -87,7 +75,5 @@ public class ManageTasksController extends CrudController<Task>{
 			return null;
 		}
 	}
-	
-	
-	
+
 }

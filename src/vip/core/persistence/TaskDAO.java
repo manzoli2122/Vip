@@ -13,4 +13,6 @@ public interface TaskDAO extends BaseDAO<Task>{
 
 	List<Task> findByName(String param);
 
+	List<Task> retrieveAtivos();
+
 }

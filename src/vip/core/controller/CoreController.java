@@ -74,8 +74,8 @@ public class CoreController implements Serializable{
 	}
 	
 	
-	public List<Task> getTasks(){
-		List<Task> lista = taskDAO.retrieveAll();
+	public List<Task> getTasksAtivos(){
+		List<Task> lista = taskDAO.retrieveAtivos();
 		return lista;
 	}
 	
@@ -102,6 +102,25 @@ public class CoreController implements Serializable{
 		}
 		return teacher;
 	}
+	
+	
+	public List<User> getAdministradores(){
+		List<User> lista = userDAO.retrieveAll();
+		List<User> teacher = new ArrayList<User>();
+		for(User user : lista){
+			Iterator<UserType> it = user.getUserTypes().iterator();
+			while(it.hasNext()){
+				if(it.next().equals(UserType.Admin)){
+					teacher.add(user);
+				}
+			}
+		}
+		return teacher;
+	}
+	
+	
+	
+	
 	
 	
 	public List<User> getClientes(){

@@ -2,7 +2,6 @@ package vip.core.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,7 +9,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
-
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
 import vip.core.domain.Task;
 import vip.core.domain.Task_;
@@ -49,5 +47,24 @@ public class TaskJPADAO extends BaseJPADAO<Task> implements TaskDAO {
 		List<Task> result = entityManager.createQuery(cq).getResultList();
 		return result;
 	}
+	
+	
+	@Override
+	public List<Task> retrieveAtivos() {
+		
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Task> cq = cb.createQuery(getDomainClass());
+		Root<Task> root = cq.from(getDomainClass());
+		
+		cq.where(cb.equal(root.get(Task_.ativo), true));
+		
+		cq.select(root);
+
+		applyOrdering(cb, root, cq);
+
+		List<Task> result = entityManager.createQuery(cq).getResultList();
+		return result;
+	}
+
 
 }

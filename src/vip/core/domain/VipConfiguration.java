@@ -1,25 +1,16 @@
 package vip.core.domain;
 
-import java.util.Calendar;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
-import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
-
 
 
 @Entity
-public class VipConfiguration extends PersistentObjectSupport {
+public class VipConfiguration extends PersistentObjectRegister implements Comparable<VipConfiguration>{
+
 	
 	private static final long serialVersionUID = 1L;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Calendar creationDate;
-	
 	
 	@Basic
 	private String institutionAcronym;
@@ -27,6 +18,10 @@ public class VipConfiguration extends PersistentObjectSupport {
 	@NotNull
 	@ManyToOne
 	private User administrador;
+	
+	
+	@ManyToOne
+	private User gerente;
 	
 	
 	@NotNull
@@ -52,12 +47,17 @@ public class VipConfiguration extends PersistentObjectSupport {
 	
 	/** Constructor. */
 	public VipConfiguration() { }
+	
+	@Override
+	public int compareTo(VipConfiguration o) {
+		return super.compareTo(o);
+	}
 
 	
 	/** GETTERS AND SETTERS */
 	
-	public Calendar getCreationDate() {	return creationDate;}
-	public void setCreationDate(Calendar creationDate) {this.creationDate = creationDate;}
+	public User getGerente() {return gerente;}
+	public void setGerente(User gerente) {this.gerente = gerente;}
 	
 	public String getInstitutionAcronym() {	return institutionAcronym;}
 	public void setInstitutionAcronym(String institutionAcronym) { this.institutionAcronym = institutionAcronym;}	
@@ -76,6 +76,9 @@ public class VipConfiguration extends PersistentObjectSupport {
 	
 	public User getAdministrador() { return administrador; }
 	public void setAdministrador(User administrador) { this.administrador = administrador;}
+
+
+	
 
 	
 }

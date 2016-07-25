@@ -59,7 +59,7 @@
 					<ui:param name="label" value="#{msgsCore['manageUsers.title.gender']}" />
 					<h:selectOneMenu pt:class="form-control" id="gender" value="#{installSystemController.admin.gender}" >
 							<f:selectItem itemLabel="#{msgsCore['manageUsers.form.gender.blankOption']}" itemValue="" />
-							<f:selectItems value="#{manageUsersController.gender}" var="type" itemLabel="#{type.label}" itemValue="#{type}" />
+							<f:selectItems value="#{coreController.gender}" var="type" itemLabel="#{type.label}" itemValue="#{type}" />
 							<p:ajax event="change" update="genderField" />
 					</h:selectOneMenu>				
 				</ui:decorate>

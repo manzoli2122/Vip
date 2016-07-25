@@ -3,13 +3,10 @@ package vip.core.application;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-
 import br.ufes.inf.nemo.util.TextUtils;
 import vip.core.domain.User;
 import vip.core.domain.UserType;
@@ -18,33 +15,27 @@ import vip.core.exceptions.SystemInstallFailedException;
 import vip.core.persistence.UserDAO;
 import vip.core.persistence.VipConfigurationDAO;
 
-/**
- * TODO: document this type.
- *
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
- * @version 1.0
- */
+
+
+
 @Stateless
 public class InstallSystemServiceBean implements InstallSystemService {
-	/** Serialization id. */
+	
 	private static final long serialVersionUID = 1L;
 
-	/** The logger. */
 	private static final Logger logger = Logger.getLogger(InstallSystemServiceBean.class.getCanonicalName());
 
-	/** The DAO for Academic objects. */
 	@EJB
 	private UserDAO userDAO;
 	
-	/** The DAO for MarvinConfiguration objects. */
 	@EJB
 	private VipConfigurationDAO marvinConfigurationDAO;
 
-	/** Global information about the application. */
 	@EJB
 	private CoreInformation coreInformation;
 
-	/** @see vip.core.application.InstallSystemService#installSystem(br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration, br.ufes.inf.nemo.User.core.domain.Academic) */
+	
+	
 	@Override
 	public void installSystem(VipConfiguration config, User admin) throws SystemInstallFailedException {
 		logger.log(Level.FINER, "Installing system...");
@@ -57,7 +48,10 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			Calendar now = Calendar.getInstance();
 			admin.setLastUpdateDate(now);
 			admin.setCreationDate(now);
-			config.setCreationDate(now);
+			
+			config.setLastUpdateDate(now);
+			config.setCreateDate(now);
+			
 			admin.setUserTypes(new ArrayList<UserType>());
 			admin.getUserTypes().add(UserType.Admin);
 			admin.getUserTypes().add(UserType.Employee);
@@ -74,9 +68,12 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			admin = userDAO.refresh(admin);
 			
 			config.setAdministrador(admin);
+			config.setCreateRegister(admin);
+			config.setLastUpdateRegister(admin);
+			
 			
 			// Saves Marvin's configuration.
-			logger.log(Level.FINER, "Persisting configuration data...\n\t- Date = {0}\n\t- Acronym = {1}", new Object[] { config.getCreationDate(), config.getInstitutionAcronym() });
+			logger.log(Level.FINER, "Persisting configuration data...\n\t- Date = {0}\n\t- Acronym = {1}", new Object[] { config.getCreateDate(), config.getInstitutionAcronym() });
 			marvinConfigurationDAO.save(config);
 			logger.log(Level.FINE, "The configuration has been saved");
 			

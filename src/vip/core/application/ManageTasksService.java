@@ -10,6 +10,5 @@ import vip.core.domain.Task;
 public interface ManageTasksService extends CrudService<Task>{
 
 	
-	boolean isDeletavel(Task entity);
 
 }

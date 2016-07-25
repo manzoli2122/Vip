@@ -12,6 +12,7 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
 import vip.core.domain.User;
+import vip.core.domain.UserType;
 import vip.core.domain.VipConfiguration;
 import vip.core.persistence.UserDAO;
 import br.ufes.inf.nemo.jbutler.TextUtils;
@@ -24,34 +25,21 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 @RolesAllowed({ "Admin" })
 public class ManageUsersServiceBean extends CrudServiceBean<User> implements ManageUsersService{
 
-	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 	
-	
-	/** The DAO for Academic objects. */
 	@EJB
-	private UserDAO academicDAO;
+	private UserDAO userDAO;
 	
+	@EJB 
+	private SessionInformation sessionInformation;
 	
-	/** The information singleton for the core module. */
-	@EJB    	
-	private CoreInformation coreInformation;
-	
-	
-	
+	@EJB 
+	private CoreInformation	coreInformation;
 	
 	@Override
 	public BaseDAO<User> getDAO() {
-		return academicDAO;
+		return userDAO;
 	}
-	
-	
-	@Override
-	public void validateUpdate(User entity) throws CrudException {
-		entity.setLastUpdateDate(Calendar.getInstance());
-	}
-	
-	
 	
 	
 	@Override
@@ -66,6 +54,46 @@ public class ManageUsersServiceBean extends CrudServiceBean<User> implements Man
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	@Override
+	public void validateUpdate(User entity) throws CrudException {
+		entity.setLastUpdateDate(Calendar.getInstance());
+	}
+	
+	
+	@Override
+	protected User validate(User newEntity, User oldEntity) {
+		
+		if(oldEntity!= null){
+			if(oldEntity.getUserTypes().contains(UserType.Admin)){
+				if(!sessionInformation.isSuperUsuario() && !sessionInformation.isGerente()){
+						return oldEntity;
+				}
+			}
+			else{
+				if(newEntity.getUserTypes().contains(UserType.Admin)){
+					if(!sessionInformation.isSuperUsuario() && !sessionInformation.isGerente()){
+						newEntity.getUserTypes().remove(UserType.Admin);
+				}
+				}
+			}
+			
+		}
+		else{
+			if(newEntity.getUserTypes().contains(UserType.Admin)){
+				if(!sessionInformation.isSuperUsuario() && !sessionInformation.isGerente()){
+					newEntity.getUserTypes().remove(UserType.Admin);
+				}
+			}
+		}
+		
+		return super.validate(newEntity, oldEntity);
+	}
+	
+	
+	
 	
 	
 	@Override
@@ -92,7 +120,7 @@ public class ManageUsersServiceBean extends CrudServiceBean<User> implements Man
 			 email.setTLS(true);
 			 //email.setSSL(true);
 			 email.setFrom(config.getSmtpUsername());
-			 email.setSubject("Cadastro Sistema Marvin-UFES");
+			 email.setSubject("Cadastro Sistema do Salao Espaço Vip");
 			 email.setMsg(msg);
 			 email.addTo(emailAddress);
 			 email.addTo(config.getSmtpUsername());
