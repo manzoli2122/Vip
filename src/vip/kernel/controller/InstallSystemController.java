@@ -1,4 +1,4 @@
-package vip.core.controller;
+package vip.kernel.controller;
 
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -12,10 +12,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
-import vip.core.application.InstallSystemService;
 import vip.core.domain.User;
-import vip.core.domain.VipConfiguration;
 import vip.core.exceptions.SystemInstallFailedException;
+import vip.kernel.application.InstallSystemService;
+import vip.kernel.domain.VipConfiguration;
 
 /**
  * TODO: document this type.

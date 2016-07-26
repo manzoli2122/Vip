@@ -11,7 +11,8 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import vip.core.domain.AdvanceMoney;
-import vip.core.persistence.AdvanceMoneyDAO;;
+import vip.core.persistence.AdvanceMoneyDAO;
+import vip.kernel.application.SessionInformation;;
 
 
 @Stateless

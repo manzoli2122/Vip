@@ -1,4 +1,4 @@
-package vip.core.application;
+package vip.kernel.application;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -10,10 +10,10 @@ import javax.ejb.Stateless;
 import br.ufes.inf.nemo.util.TextUtils;
 import vip.core.domain.User;
 import vip.core.domain.UserType;
-import vip.core.domain.VipConfiguration;
 import vip.core.exceptions.SystemInstallFailedException;
 import vip.core.persistence.UserDAO;
 import vip.core.persistence.VipConfigurationDAO;
+import vip.kernel.domain.VipConfiguration;
 
 
 

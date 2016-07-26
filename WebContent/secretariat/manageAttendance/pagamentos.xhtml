@@ -30,35 +30,42 @@
 		           		<h:selectOneMenu pt:class="form-control"  id="pagamentoType" value="#{manageAttendanceController.payment.formOfPayment}"   required="true" disabled="#{manageAttendanceController.readOnly}">
 							<f:selectItem itemLabel="Selecione o Tipo de Pagamento" itemValue="" />
 							<f:selectItems value="#{secretariatController.formOfPayment}" var="type" itemLabel="#{type.label}" itemValue="#{type}" />
-							<p:ajax update="pagamentoTypeField"  />
+							<p:ajax update="pagamentoTypeField formPagamento"  />
 						</h:selectOneMenu>	
 					</ui:decorate>
 					
 					
-					
-					
-					<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
-						<ui:param name="fieldName" value="valorPagamento" />
-						<ui:param name="label" value="#{msgsCore['manageAttendance.title.valorPagamento']}" />
-		        		<p:inputText type="number" validatorMessage="Valor minimo de ser maior que Zero"  id="valorPagamento" value="#{manageAttendanceController.payment.valor}" size="10"  required="true" >
-							<f:validateDoubleRange minimum="0.0"  />
-							<p:ajax event="blur" update="valorPagamentoField" />
-						</p:inputText>	
-					</ui:decorate>
-					
-					
+					<h:panelGroup rendered="#{manageAttendanceController.payment.formOfPayment!=null}">
+						
+						<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="valorPagamento" />
+							<ui:param name="label" value="#{msgsCore['manageAttendance.placeholder.valor']}" />
+			        		<p:inputText type="number" validatorMessage="Valor minimo de ser maior que Zero"  id="valorPagamento" value="#{manageAttendanceController.payment.valor}" size="10"  required="true" >
+								<f:validateDoubleRange minimum="0.0"  />
+								<p:ajax event="blur" update="valorPagamentoField" />
+							</p:inputText>	
+						</ui:decorate>
 					
 					
 					
-					<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
-						<ui:param name="fieldName" value="parcelas" />
-						<ui:param name="label" value="#{msgsCore['manageAttendance.title.parcelas']}" />
-		        		<p:inputText  id="parcelas" value="#{manageAttendanceController.payment.parcelas}" size="10"  required="true" >
-							<f:convertNumber pattern="0" />
-							<f:validateLongRange minimum="1" maximum="3"  />
-							<p:ajax event="blur" update="parcelasField" />
-						</p:inputText>
-					</ui:decorate> 
+						<h:panelGroup rendered="#{manageAttendanceController.payment.credito}">
+					
+							<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+								<ui:param name="fieldName" value="parcelas" />
+								<ui:param name="label" value="#{msgsCore['manageAttendance.title.parcelas']}" />
+				        		<p:inputText  id="parcelas" value="#{manageAttendanceController.payment.parcelas}" size="10"  required="true" >
+									<f:convertNumber pattern="0" />
+									<f:validateLongRange minimum="1" maximum="3"  />
+									<p:ajax event="blur" update="parcelasField" />
+								</p:inputText>
+							</ui:decorate> 
+							
+						</h:panelGroup>
+					
+					</h:panelGroup>
+					
+					
+					
 					
 					
 		            
@@ -70,7 +77,5 @@
 			
 		</ui:decorate>
 		
-	
-	
 </ui:define>
 </ui:composition>

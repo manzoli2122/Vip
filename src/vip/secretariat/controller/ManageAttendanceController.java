@@ -15,10 +15,10 @@ import javax.inject.Named;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.MultipleChoiceFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
-import vip.core.application.CoreInformation;
-import vip.core.application.SessionInformation;
 import vip.core.domain.User;
 import vip.core.persistence.UserDAO;
+import vip.kernel.application.CoreInformation;
+import vip.kernel.application.SessionInformation;
 import vip.secretariat.application.ManageAttendanceService;
 import vip.secretariat.domain.Attendance;
 import vip.secretariat.domain.EmployeeAttendance;
@@ -202,10 +202,10 @@ public class ManageAttendanceController extends CrudController<Attendance> {
 	public void calcula_Porcentagem(){
 		
 		if(FormOfPayment.Cartao_Credito.equals(payment.getFormOfPayment())){
-			payment.setPerc_cartao(coreInformation.getPerc_Credito());
+			//payment.setPerc_cartao(coreInformation.getPerc_Credito());
 		}
 		else if(FormOfPayment.Cartao_Debito.equals(payment.getFormOfPayment())){
-			payment.setPerc_cartao(coreInformation.getPerc_Debito());
+			//payment.setPerc_cartao(coreInformation.getPerc_Debito());
 		}
 		
 	}
@@ -265,6 +265,12 @@ public class ManageAttendanceController extends CrudController<Attendance> {
 	}
 	
 	public String savePagamento(){
+		if(payment.isCredito()){
+			payment.setPerc_cartao(coreInformation.getCurrentConfig().getPerc_credito());
+		}
+		else if(payment.isDebito()){
+			payment.setPerc_cartao(coreInformation.getCurrentConfig().getPerc_debito());
+		}
 		selectedEntity.getPayments().add(payment);
 		payment=null;
 		return getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();
@@ -279,7 +285,6 @@ public class ManageAttendanceController extends CrudController<Attendance> {
 	
 	public Payment getPayment() { return payment; }
 	public void setPayment(Payment payment) { this.payment = payment; }
-	
 	
 	
 }

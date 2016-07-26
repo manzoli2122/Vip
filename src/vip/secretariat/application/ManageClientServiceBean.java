@@ -13,10 +13,10 @@ import br.ufes.inf.nemo.jbutler.TextUtils;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
-import vip.core.application.CoreInformation;
 import vip.core.domain.User;
 import vip.core.domain.UserType;
 import vip.core.persistence.UserDAO;
+import vip.kernel.application.CoreInformation;
 
 
 

@@ -67,7 +67,7 @@
 								id="servicos"
 								value="#{manageSalaryController.selectedEntity.servicos}" 
 								var="servico"
-								tableStyleClass ="tabela" 
+								tableStyleClass ="table table-bordered table-striped" 
 								disabledSelection="true"
 								rowKey="#{servico.uuid}" 
 								loadingMessage="#{msgs['text.ajax.loading']}" 
@@ -91,7 +91,7 @@
 					
 						</p:dataTable>
 						<div style="clear: both;">&nbsp;</div>
-					</h:panelGroup>
+				</h:panelGroup>
 			
 			
 			
@@ -106,7 +106,7 @@
 								id="vales"
 								value="#{manageSalaryController.selectedEntity.vales}" 
 								var="vale"
-								tableStyleClass ="tabela" 
+								tableStyleClass ="table table-bordered table-striped" 
 								disabledSelection="true"
 								rowKey="#{vale.uuid}" 
 								loadingMessage="#{msgs['text.ajax.loading']}" 

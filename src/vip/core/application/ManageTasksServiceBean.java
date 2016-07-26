@@ -11,6 +11,7 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import vip.core.domain.Task;
 import vip.core.persistence.TaskDAO;
+import vip.kernel.application.SessionInformation;
 
 
 

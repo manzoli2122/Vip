@@ -1,4 +1,4 @@
-package vip.core.domain;
+package vip.kernel.domain;
 
 import java.util.Calendar;
 
@@ -9,6 +9,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
+import vip.core.domain.User;
 
 
 

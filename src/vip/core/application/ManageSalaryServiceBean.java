@@ -23,10 +23,11 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import vip.core.domain.AdvanceMoney;
 import vip.core.domain.Salary;
-import vip.core.domain.VipConfiguration;
 import vip.core.persistence.AdvanceMoneyDAO;
 import vip.core.persistence.SalaryDAO;
 import vip.core.persistence.VipConfigurationDAO;
+import vip.kernel.application.SessionInformation;
+import vip.kernel.domain.VipConfiguration;
 import vip.secretariat.domain.EmployeeAttendance;
 import vip.secretariat.persistence.EmployeeAttendanceDAO;
 

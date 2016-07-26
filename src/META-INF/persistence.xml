@@ -4,8 +4,8 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasources/Salao</jta-data-source>
 		<class>vip.core.domain.User</class>
-		<class>vip.core.domain.VipConfiguration</class>
-		<class>vip.people.domain.Person</class>
+		<class>vip.kernel.domain.VipConfiguration</class>
+		<class>vip.kernel.domain.Person</class>
 		<class>br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport</class>
 		<class>vip.core.domain.Task</class>
 		<class>vip.core.domain.AdvanceMoney</class>
@@ -15,7 +15,7 @@
 		<class>vip.secretariat.domain.EmployeeAttendance</class>
 		<class>vip.secretariat.domain.Payment</class>
 		<class>vip.core.domain.Salary</class>
-		<class>vip.core.domain.PersistentObjectRegister</class>
+		<class>vip.kernel.domain.PersistentObjectRegister</class>
 		
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />

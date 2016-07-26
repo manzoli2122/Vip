@@ -56,9 +56,7 @@
 				
 				
 				<div style="clear: both;">&nbsp;</div>  
-				<p:separator />
-				<div style="clear: both;">&nbsp;</div>  
-				
+				<h2 style="text-align:center;"><h:outputText value="#{msgsCore['manageAttendance.form.servicos']}" /></h2>
 				
 				<h:panelGroup id="servicosField" >
 					<p:dataTable 
@@ -90,13 +88,7 @@
 						<p:ajax event="rowSelect" update="@form" />					
 					</p:dataTable>
 					
-					<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
-						<ui:param name="fieldName" value="valorServico" />
-						<ui:param name="label" value="#{msgsCore['manageAttendance.title.valorServico']}" />
-						<p:inputText  id="valorServico"  value="#{manageAttendanceController.selectedEntity.valor}" disabled="#{true}">
-							<f:convertNumber type="currency" />
-			         	</p:inputText>
-					</ui:decorate>
+					
 				
 				
 				
@@ -111,12 +103,15 @@
 					
 						
 					<div style="clear: both;">&nbsp;</div>  
-					<p:separator />
-					<div style="clear: both;">&nbsp;</div> 
+					
 					
 			    </h:panelGroup>	    
 			        	
 			    <h:panelGroup id="pagamentossField" rendered="#{!manageAttendanceController.selectedEntity.employeeAttendances.isEmpty()}">
+					
+					<div style="clear: both;">&nbsp;</div>  
+					<h2 style="text-align:center;"> <h:outputText  value="#{msgsCore['manageAttendance.form.pagamentos']}" /></h2>
+					
 					<p:dataTable 
 									id="pagamentos"
 									rowIndexVar="rowIndex"
@@ -140,11 +135,7 @@
 			       			<p:ajax event="rowSelect" update="@form" />					
 					</p:dataTable>
 					
-					<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
-						<ui:param name="fieldName" value="valorPagamento" />
-						<ui:param name="label" value="#{msgsCore['manageAttendance.title.valorPagamento']}" />
-						<p:inputText  id="valorPagamento"  value="#{manageAttendanceController.selectedEntity.valorPayments}" disabled="#{true}"/>	
-					</ui:decorate>
+					
 				
 				
 					<h:panelGroup rendered="#{!manageAttendanceController.readOnly }"  >
@@ -160,18 +151,38 @@
 					<div style="clear: both;">&nbsp;</div> 
 				
 				</h:panelGroup>
+				
+				
+				
 					
+					<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:param name="fieldName" value="valorServico" />
+						<ui:param name="label" value="#{msgsCore['manageAttendance.title.valorServico']}" />
+						<p:inputText  id="valorServico"  value="#{manageAttendanceController.selectedEntity.valor}" disabled="#{true}">
+							<f:convertNumber type="currency" />
+			         	</p:inputText>
+					</ui:decorate>
 					
+					<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:param name="fieldName" value="valorPagamento" />
+						<ui:param name="label" value="#{msgsCore['manageAttendance.title.valorPagamento']}" />
+						<p:inputText  id="valorPagamento"  value="#{manageAttendanceController.selectedEntity.valorPayments}" disabled="#{true}">	
+							<f:convertNumber type="currency" />
+			         	</p:inputText>
+					</ui:decorate>
 		    
 		    </h:panelGroup>
 		    	
-		    	
+		    
 		    	
 		    	
 		    	
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
-	        	<p:commandButton pt:class="btn btn-block btn-success btn-social" action="#{manageAttendanceController.save}" update=":globalMessages form" disabled="#{manageAttendanceController.readOnly}" icon="fa fa-save" value="#{msgsCore['manageAttendance.button.finalizar']}"/>
-	        	<p:commandButton pt:class="btn btn-block btn-warning btn-social" immediate="true" action="#{manageAttendanceController.list}" icon="fa fa-rotate-left"  value="#{msgs['crud.button.cancel']}"/>
+	        	<p:commandButton pt:class="btn btn-block btn-success btn-social" action="#{manageAttendanceController.save}" 
+	        					 update=":globalMessages form" disabled="#{manageAttendanceController.readOnly}" icon="fa fa-save" 
+	        					 value="#{msgsCore['manageAttendance.button.finalizar']}"/>
+	        	<p:commandButton pt:class="btn btn-block btn-warning btn-social" immediate="true" action="#{manageAttendanceController.list}" 
+	        					 icon="fa fa-rotate-left"  value="#{msgs['crud.button.cancel']}"/>
 	        </ui:decorate>
 											
 			

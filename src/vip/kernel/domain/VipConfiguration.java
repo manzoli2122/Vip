@@ -1,9 +1,11 @@
-package vip.core.domain;
+package vip.kernel.domain;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+
+import vip.core.domain.User;
 
 
 @Entity
@@ -39,7 +41,9 @@ public class VipConfiguration extends PersistentObjectRegister implements Compar
 	@NotNull
 	private String smtpPassword;
 	
+	private Double perc_credito;
 	
+	private Double perc_debito;
 
 	
 	
@@ -77,8 +81,11 @@ public class VipConfiguration extends PersistentObjectRegister implements Compar
 	public User getAdministrador() { return administrador; }
 	public void setAdministrador(User administrador) { this.administrador = administrador;}
 
+	public Double getPerc_credito() {return perc_credito;}
+	public void setPerc_credito(Double perc_credito) {this.perc_credito = perc_credito;}
 
-	
+	public Double getPerc_debito() {return perc_debito;}
+	public void setPerc_debito(Double perc_debito) {this.perc_debito = perc_debito;}
 
-	
+
 }

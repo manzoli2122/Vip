@@ -12,7 +12,7 @@ import javax.inject.Named;
 import vip.core.application.ManageUsersService;
 import vip.core.domain.User;
 import vip.core.domain.UserType;
-import vip.people.domain.Gender;
+import vip.kernel.domain.Gender;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;

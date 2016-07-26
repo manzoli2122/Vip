@@ -1,4 +1,4 @@
-package vip.core.application;
+package vip.kernel.application;
 
 import java.security.Principal;
 import javax.annotation.Resource;
@@ -64,6 +64,8 @@ public class SessionInformationBean implements SessionInformation {
 		return false;
 	}
 
+	
+	
 	@Override
 	public boolean isSuperUsuario(){
 		try {

@@ -1,4 +1,4 @@
-package vip.core.controller;
+package vip.kernel.controller;
 
 import java.util.Date;
 import java.util.logging.Level;
@@ -10,9 +10,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-import vip.core.application.CoreInformation;
-import vip.core.application.SessionInformation;
 import vip.core.domain.User;
+import vip.kernel.application.CoreInformation;
+import vip.kernel.application.SessionInformation;
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 
 /**

@@ -1,4 +1,4 @@
-package vip.core.controller;
+package vip.kernel.controller;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -7,8 +7,8 @@ import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
-import vip.core.application.ManageConfigurationService;
-import vip.core.domain.VipConfiguration;
+import vip.kernel.application.ManageConfigurationService;
+import vip.kernel.domain.VipConfiguration;
 
 
 

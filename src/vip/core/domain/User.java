@@ -13,7 +13,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
-import vip.people.domain.Person;
+
+import vip.kernel.domain.Person;
 
 
 @Entity

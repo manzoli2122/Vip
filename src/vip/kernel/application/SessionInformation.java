@@ -1,4 +1,4 @@
-package vip.core.application;
+package vip.kernel.application;
 
 import java.io.Serializable;
 import javax.ejb.Local;

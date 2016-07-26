@@ -7,6 +7,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotNull;
 
+import vip.kernel.domain.PersistentObjectRegister;
+
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

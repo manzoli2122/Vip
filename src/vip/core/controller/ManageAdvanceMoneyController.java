@@ -16,9 +16,9 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.MultipleChoiceFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import vip.core.application.ManageAdvanceMoneyService;
-import vip.core.application.SessionInformation;
 import vip.core.domain.AdvanceMoney;
 import vip.core.domain.User;
+import vip.kernel.application.SessionInformation;
 
 
 @Named

@@ -13,10 +13,8 @@ public class Payment extends  PersistentObjectSupport  implements Comparable<Pay
 
 	private static final long serialVersionUID = 1L;
 
-	/* no caso de ser cheque */
 	private boolean compensado;
 	
-	/*  no caso de se cartao de credito */
 	private int parcelas;
 	
 	@NotNull
@@ -31,20 +29,17 @@ public class Payment extends  PersistentObjectSupport  implements Comparable<Pay
 	@Enumerated(EnumType.STRING) 
 	private FormOfPayment formOfPayment;
 	
-	
-	
 	private Double perc_cartao;
 	
 	
 	
 	
 	public boolean isCredito(){ return FormOfPayment.Cartao_Credito.equals(formOfPayment); }
+	public boolean isDebito(){ return FormOfPayment.Cartao_Debito.equals(formOfPayment); }
 	
 	public  String toString(){ 
 		String print = formOfPayment.getLabel()+ ", R$ " + valor;
-		if(isCredito()){
-			print+= (", em " + parcelas + " parcelas");
-		}
+		if(isCredito()){print+= (", em " + parcelas + " parcelas");	}
 		return print; 
 	}
 		
@@ -89,18 +84,7 @@ public class Payment extends  PersistentObjectSupport  implements Comparable<Pay
 	public void setIncome(Income income) {	this.income = income;}
 
 	public Double getPerc_cartao() { return perc_cartao; }
-	public void setPerc_cartao(Double perc_cartao) { 
-		this.perc_cartao = 1.0;
-		if(formOfPayment!=null){
-			if(FormOfPayment.Cartao_Credito.equals(formOfPayment) || FormOfPayment.Cartao_Debito.equals(formOfPayment) ){
-				this.perc_cartao = perc_cartao;
-			}
-		}
-		
-	}
+	public void setPerc_cartao(Double perc_cartao) { this.perc_cartao = perc_cartao;}
 	
-	
-	
-
 	
 }

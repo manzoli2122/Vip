@@ -9,7 +9,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-import vip.core.domain.PersistentObjectRegister;
+
+import vip.kernel.domain.PersistentObjectRegister;
 
 
 @Entity

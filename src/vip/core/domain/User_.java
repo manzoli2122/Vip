@@ -5,9 +5,9 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-import vip.people.domain.Person_;
+import vip.kernel.domain.Person_;
 
-@Generated(value="Dali", date="2016-07-23T14:57:36.192-0300")
+@Generated(value="Dali", date="2016-07-25T22:27:40.499-0300")
 @StaticMetamodel(User.class)
 public class User_ extends Person_ {
 	public static volatile SingularAttribute<User, String> shortName;

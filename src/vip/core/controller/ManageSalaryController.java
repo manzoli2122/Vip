@@ -14,9 +14,9 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.MultipleChoiceFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import vip.core.application.ManageSalaryService;
-import vip.core.application.SessionInformation;
 import vip.core.domain.Salary;
 import vip.core.domain.User;
+import vip.kernel.application.SessionInformation;
 
 
 @Named

@@ -1,4 +1,4 @@
-package vip.core.application;
+package vip.kernel.application;
 
 import br.ufes.inf.nemo.util.TextUtils;
 import vip.core.domain.User;

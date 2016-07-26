@@ -1,12 +1,12 @@
-package vip.core.application;
+package vip.kernel.application;
 
 import java.io.Serializable;
 
 import javax.ejb.Local;
 
 import vip.core.domain.User;
-import vip.core.domain.VipConfiguration;
 import vip.core.exceptions.SystemInstallFailedException;
+import vip.kernel.domain.VipConfiguration;
 
 
 

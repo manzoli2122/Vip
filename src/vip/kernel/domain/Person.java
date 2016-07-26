@@ -1,4 +1,4 @@
-package vip.people.domain;
+package vip.kernel.domain;
 
 import java.util.Calendar;
 import java.util.Date;

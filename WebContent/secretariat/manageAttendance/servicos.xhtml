@@ -28,10 +28,9 @@
 				     	<h:selectOneMenu  pt:class="form-control" id="servico" value="#{manageAttendanceController.employeeAttendance.task}" converter="#{coreController.taskConverter}" required="true" disabled="#{manageAttendanceController.readOnly}">
 							<f:selectItem itemLabel="#{msgsCore['manageAttendance.form.servico.blankOption']}" itemValue="" /> 
 							<f:selectItems value="#{coreController.tasksAtivos}" var="serv" itemLabel="#{serv.name}" itemValue="#{serv}" />
-							<p:ajax  update="servicoField" />
+							<p:ajax  update="formServico" />
 						</h:selectOneMenu>
 					</ui:decorate>
-					
 					
 					
 					
@@ -51,14 +50,32 @@
 						<ui:param name="fieldName" value="desconto" />
 						<ui:param name="label" value="#{msgsCore['manageAttendance.title.desconto']}" />
 					
-						<p:inputText validatorMessage="Valor minimo de ser maior que Zero"  type="number" id="desconto"  value="#{manageAttendanceController.employeeAttendance.desconto}" disabled="#{manageAtendimentoController.readOnly }" >
-									<f:validateDoubleRange minimum="0.0"  />
-									<p:ajax  update="descontoField" />
+						<p:inputText validatorMessage="Valor minimo de ser maior que Zero e menor que #{manageAttendanceController.employeeAttendance.task.valor.toString()}"  type="number" id="desconto"  value="#{manageAttendanceController.employeeAttendance.desconto}" disabled="#{manageAtendimentoController.readOnly }" >
+									<f:validateDoubleRange minimum="0.0" maximum="#{manageAttendanceController.employeeAttendance.task.valor}" />
+									<p:ajax  update="descontoField valorliquidoField" />
 						</p:inputText>	
 							
 		            </ui:decorate>  
 					
 					
+					
+						<h:panelGroup id="valorliquidoField" rendered="#{manageAttendanceController.employeeAttendance.task!=null}">
+							<div class="form-group" style="height: 74px;" >
+								<h:outputText style="height: 44px; color:red; font-size: x-large;"  pt:class="col-sm-2 control-label"
+											  value="#{msgsCore['manageAttendance.title.valor']}"  />
+								<div class="col-sm-10">
+									<h:outputText style="height: 44px; color:red; font-size: x-large;" id="valorliquido" pt:class="form-control"  
+												  value="#{manageAttendanceController.employeeAttendance.valorComDesconto}">
+										<f:convertNumber type="currency" />
+									</h:outputText>
+								</div>
+							</div>
+						</h:panelGroup>	
+
+
+
+
+						
 		            
 		            <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 			        	<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageAttendanceController.saveService}" update="formServico" disabled="#{manageAttendanceController.readOnly}" icon="fa fa-save" value="#{msgsCore['manageAttendance.button.save']}"/>

@@ -1,9 +1,9 @@
-package vip.core.application;
+package vip.kernel.application;
 
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
-import vip.core.domain.VipConfiguration;
+import vip.kernel.domain.VipConfiguration;
 
 
 

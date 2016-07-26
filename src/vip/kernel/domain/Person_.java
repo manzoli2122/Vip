@@ -1,4 +1,4 @@
-package vip.people.domain;
+package vip.kernel.domain;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport_;
 import java.util.Calendar;

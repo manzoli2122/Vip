@@ -11,10 +11,10 @@ import javax.ejb.Stateless;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import vip.kernel.application.SessionInformation;
 import vip.secretariat.domain.Attendance;
 import vip.secretariat.domain.EmployeeAttendance;
 import vip.secretariat.persistence.AttendanceDAO;
-import vip.core.application.SessionInformation;
 
 
 

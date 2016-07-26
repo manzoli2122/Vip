@@ -16,7 +16,7 @@ import vip.core.domain.User;
 import vip.core.domain.UserType;
 import vip.core.persistence.TaskDAO;
 import vip.core.persistence.UserDAO;
-import vip.people.domain.Gender;
+import vip.kernel.domain.Gender;
 
 
 
