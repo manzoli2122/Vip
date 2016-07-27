@@ -11,8 +11,8 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
-import vip.core.persistence.VipConfigurationDAO;
 import vip.kernel.domain.VipConfiguration;
+import vip.kernel.persistence.VipConfigurationDAO;
 
 
 

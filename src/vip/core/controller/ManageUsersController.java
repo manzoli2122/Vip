@@ -3,7 +3,6 @@ package vip.core.controller;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -12,7 +11,6 @@ import javax.inject.Named;
 import vip.core.application.ManageUsersService;
 import vip.core.domain.User;
 import vip.core.domain.UserType;
-import vip.kernel.domain.Gender;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
@@ -24,7 +22,7 @@ public class ManageUsersController extends CrudController<User>{
 	private static final long serialVersionUID = 1L;
 	
 	
-	private static final Logger logger = Logger.getLogger(ManageUsersController.class.getCanonicalName());
+	//private static final Logger logger = Logger.getLogger(ManageUsersController.class.getCanonicalName());
 	
 	
 	@EJB

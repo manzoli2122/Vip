@@ -1,4 +1,4 @@
-package vip.core.persistence;
+package vip.kernel.persistence;
 
 import java.util.List;
 import javax.ejb.Stateless;

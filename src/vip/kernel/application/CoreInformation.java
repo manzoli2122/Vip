@@ -15,8 +15,8 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 
-import vip.core.persistence.VipConfigurationDAO;
 import vip.kernel.domain.VipConfiguration;
+import vip.kernel.persistence.VipConfigurationDAO;
 import br.ufes.inf.nemo.jbutler.ResourceUtil;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 

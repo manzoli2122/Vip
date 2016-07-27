@@ -46,8 +46,6 @@ public class CoreController implements Serializable{
 	/** JSF Converter for user objects. */
 	private PersistentObjectConverterFromId<User> userConverter;
 
-	
-	
 	/** Getter for userConverter */
 	public Converter getUserConverter() {
 		if (userConverter == null) {
@@ -63,8 +61,6 @@ public class CoreController implements Serializable{
 	/** JSF Converter for user objects. */
 	private PersistentObjectConverterFromId<Task> taskConverter;
 
-	
-	
 	/** Getter for userConverter */
 	public Converter getTaskConverter() {
 		if (taskConverter == null) {
@@ -78,13 +74,6 @@ public class CoreController implements Serializable{
 		List<Task> lista = taskDAO.retrieveAtivos();
 		return lista;
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -117,9 +106,6 @@ public class CoreController implements Serializable{
 		}
 		return teacher;
 	}
-	
-	
-	
 	
 	
 	

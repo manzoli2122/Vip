@@ -25,9 +25,9 @@ import vip.core.domain.AdvanceMoney;
 import vip.core.domain.Salary;
 import vip.core.persistence.AdvanceMoneyDAO;
 import vip.core.persistence.SalaryDAO;
-import vip.core.persistence.VipConfigurationDAO;
 import vip.kernel.application.SessionInformation;
 import vip.kernel.domain.VipConfiguration;
+import vip.kernel.persistence.VipConfigurationDAO;
 import vip.secretariat.domain.EmployeeAttendance;
 import vip.secretariat.persistence.EmployeeAttendanceDAO;
 

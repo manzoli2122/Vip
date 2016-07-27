@@ -32,8 +32,8 @@
 		<class>br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport</class>
 		
 		<class>vip.core.domain.User</class>
-		<class>vip.core.domain.VipConfiguration</class>
-		<class>vip.people.domain.Person</class>
+		<class>vip.kernel.domain.VipConfiguration</class>
+		<class>vip.kernel.domain.Person</class>
 		
 		
 		<properties>

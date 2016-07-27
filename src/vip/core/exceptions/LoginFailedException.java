@@ -1,40 +1,25 @@
 package vip.core.exceptions;
 
-/**
- * Application exception that represents the fact that the user could not be authenticated.
- * 
- * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
- * @version 1.0
- */
+
 public class LoginFailedException extends Exception {
-	/** Serialization id. */
+	
 	private static final long serialVersionUID = 1L;
 
-	/** Reason for the failed login. */
 	private LoginFailedReason reason;
 
-	/** Constructor using fields. */
 	public LoginFailedException(LoginFailedReason reason) {
 		this.reason = reason;
 	}
 
-	/** Constructor from superclass, using fields. */
 	public LoginFailedException(Throwable t, LoginFailedReason reason) {
 		super(t);
 		this.reason = reason;
 	}
 
-	/** Getter for reason. */
 	public LoginFailedReason getReason() {
 		return reason;
 	}
 
-	/**
-	 * Enumeration of the reasons that a spiritist's authentication might fail.
-	 *
-	 * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
-	 * @version 1.0
-	 */
 	public enum LoginFailedReason {
 		/** The provided username is unknown, i.e., there's no user with the given username in the database. */
 		UNKNOWN_USERNAME("unknownUsername"),

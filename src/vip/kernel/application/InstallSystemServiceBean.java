@@ -12,8 +12,8 @@ import vip.core.domain.User;
 import vip.core.domain.UserType;
 import vip.core.exceptions.SystemInstallFailedException;
 import vip.core.persistence.UserDAO;
-import vip.core.persistence.VipConfigurationDAO;
 import vip.kernel.domain.VipConfiguration;
+import vip.kernel.persistence.VipConfigurationDAO;
 
 
 
