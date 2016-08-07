@@ -7,18 +7,18 @@
     
     <application>
 		<!-- Defines the resource bundle that contains the standard JSF messages (overriding the ones provided). -->
-		<message-bundle>vip.core.view.faces</message-bundle>
+		<message-bundle>vip.kernel.controller.faces</message-bundle>
 
 		<!-- Loads resource bundles for i18n messages and assigns names to them. -->
 		
 		<resource-bundle>
-			<base-name>vip.core.view.messagesCore</base-name>
+			<base-name>vip.kernel.controller.messagesCore</base-name>
 			<var>msgsCore</var>
 		</resource-bundle>
 		
 		
 		<resource-bundle>
-			<base-name>vip.core.view.messages</base-name>
+			<base-name>vip.kernel.controller.messages</base-name>
 			<var>msgs</var>
 		</resource-bundle>
 

@@ -94,14 +94,16 @@
 	</ui:decorate> 
 	
 	
+	
 
 	<h:form id="buttonsForm">
-	    <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-03.xhtml">
+	    <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
 	       	<p:commandButton pt:class="btn btn-block btn-success btn-social" action="#{manageSalaryController.create}"   icon="fa fa-user-plus" value="#{msgs['crud.button.create']}"/>
-	       	<p:commandButton rendered="#{manageSalaryController.selectedEntity != null}" pt:class="btn btn-block btn-info btn-social" action="#{manageSalaryController.retrieve}" icon="fa fa-file-text" disabled="#{manageSalaryController.selectedEntity == null}" value="#{msgs['crud.button.retrieve']}"/>      	
+	       	<p:commandButton ajax="@form" rendered="#{manageSalaryController.selectedEntity != null}" pt:class="btn btn-block btn-warning btn-social" action="#{manageSalaryController.sendEmailInfoFuncionario()}" icon="fa fa-file-text" disabled="#{manageSalaryController.selectedEntity == null}" value="#{msgsCore['manageSalary.title.sendEmail']}"/>      	
+	      	<p:commandButton rendered="#{manageSalaryController.selectedEntity != null}" pt:class="btn btn-block btn-info btn-social" action="#{manageSalaryController.retrieve}" icon="fa fa-file-text" disabled="#{manageSalaryController.selectedEntity == null}" value="#{msgs['crud.button.retrieve']}"/>      	
 	      	<p:commandButton process="@this" ajax=":trashForm"  update=":trashForm" rendered="#{manageSalaryController.selectedEntity != null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageSalaryController.trash}" icon="fa fa-trash-o" disabled="#{manageSalaryController.selectedEntity == null}" value="#{msgs['crud.button.delete']}"/>
 		</ui:decorate>
-	</h:form>
+	</h:form> 
 			
     	
     <p>&nbsp;</p>

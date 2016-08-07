@@ -89,10 +89,17 @@
 					</p:dataTable>
 					
 					
+					<h:panelGroup rendered="#{!manageAttendanceController.readOnly and sessionController.superUsuario}"  > 
+						<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-03.xhtml">
+							<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageAttendanceController.createNewService}"  icon="fa fa-user-plus" value="#{msgsCore['manageAttendance.button.new.servico']}"/>
+							<p:commandButton disabled="#{ manageAttendanceController.employeeAttendance==null}" pt:class="btn btn-block btn-warning btn-social" action="#{manageAttendanceController.updateService}"  icon="fa fa-user-plus" value="#{msgs['crud.button.update']}"/>
+							<p:commandButton rendered="#{manageAttendanceController.employeeAttendance!=null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageAttendanceController.excluirServico()}"  disabled="#{ manageAttendanceController.employeeAttendance==null}" icon="fa fa-trash" value="#{msgsCore['manageAttendance.button.excluir.servico']}"/>
+							<p:link rendered="#{manageAttendanceController.employeeAttendance==null}"></p:link>
+						</ui:decorate>
+					</h:panelGroup>
 				
 				
-				
-					<h:panelGroup rendered="#{!manageAttendanceController.readOnly}"  > 
+					<h:panelGroup rendered="#{!manageAttendanceController.readOnly and !sessionController.superUsuario}"  > 
 						<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 							<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageAttendanceController.createNewService}"  icon="fa fa-user-plus" value="#{msgsCore['manageAttendance.button.new.servico']}"/>
 							<p:commandButton rendered="#{manageAttendanceController.employeeAttendance!=null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageAttendanceController.excluirServico()}"  disabled="#{ manageAttendanceController.employeeAttendance==null}" icon="fa fa-trash" value="#{msgsCore['manageAttendance.button.excluir.servico']}"/>
@@ -147,35 +154,46 @@
 					</h:panelGroup>
 				
 			 		<div style="clear: both;">&nbsp;</div>  
-					<p:separator />
+					
 					<div style="clear: both;">&nbsp;</div> 
 				
 				</h:panelGroup>
 				
 				
+				<div style="clear: both;">&nbsp;</div> 
 				
+					<h:panelGroup id="valorServicoField">
+						<div class="form-group" style="height: 74px;" >
+							<h:outputText style="height: 44px; color:red; font-size:large;"  pt:class="col-sm-3 control-label"
+										  value="#{msgsCore['manageAttendance.title.valorServico']}"  />
+							<div class="col-sm-9">
+								<h:outputText style="height: 44px; color:red; font-size: x-large;" id="valorServico" pt:class="form-control"  
+											  value="#{manageAttendanceController.selectedEntity.valor}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+							</div>
+						</div>
+					</h:panelGroup>
 					
-					<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
-						<ui:param name="fieldName" value="valorServico" />
-						<ui:param name="label" value="#{msgsCore['manageAttendance.title.valorServico']}" />
-						<p:inputText  id="valorServico"  value="#{manageAttendanceController.selectedEntity.valor}" disabled="#{true}">
-							<f:convertNumber type="currency" />
-			         	</p:inputText>
-					</ui:decorate>
 					
-					<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
-						<ui:param name="fieldName" value="valorPagamento" />
-						<ui:param name="label" value="#{msgsCore['manageAttendance.title.valorPagamento']}" />
-						<p:inputText  id="valorPagamento"  value="#{manageAttendanceController.selectedEntity.valorPayments}" disabled="#{true}">	
-							<f:convertNumber type="currency" />
-			         	</p:inputText>
-					</ui:decorate>
-		    
+					
+					<h:panelGroup id="valorPagamentoField">
+						<div class="form-group" style="height: 74px;" >
+							<h:outputText style="height: 44px; color:blue; font-size:large;"  pt:class="col-sm-3 control-label"
+										  value="#{msgsCore['manageAttendance.title.valorPagamento']}"  />
+							<div class="col-sm-9">
+								<h:outputText style="height: 44px; color:blue; font-size: x-large;" id="valorPagamento" pt:class="form-control"  
+											  value="#{manageAttendanceController.selectedEntity.valorPayments}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+							</div>
+						</div>
+					</h:panelGroup>
+					
+				
 		    </h:panelGroup>
 		    	
 		    
-		    	
-		    	
 		    	
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 	        	<p:commandButton pt:class="btn btn-block btn-success btn-social" action="#{manageAttendanceController.save}" 
@@ -187,8 +205,6 @@
 											
 			
 		</ui:decorate>
-		
-			
 	
 </ui:define>
 </ui:composition>
