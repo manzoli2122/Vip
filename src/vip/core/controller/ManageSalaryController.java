@@ -102,8 +102,16 @@ public class ManageSalaryController extends CrudController<Salary>{
 	}
 	
 	
-	public void sendEmailInfo(){
-		manageSalaryService.sendEmailInfo(selectedEntity);
+	public String sendEmailInfoFuncionario(){
+		try{
+			manageSalaryService.sendEmailInfo(selectedEntity, selectedEntity.getFuncionario().getEmail());
+			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_ERROR, getBundlePrefix() + ".email.funcionario" , summarizeSelectedEntity()  );
+			
+		}catch(Exception e){
+			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_ERROR, getBundlePrefix() + ".error.email.funcionario" , summarizeSelectedEntity()  );
+		}
+		
+		return null;
 	}
 	
 	

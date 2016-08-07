@@ -9,12 +9,14 @@ import vip.core.domain.Salary;
 public interface ManageSalaryService extends CrudService<Salary>{
 
 	
-	void sendEmailInfo(Salary salario);
+	
 
 	void buscarServicos(Salary selectedEntity);
 
 	Double calcularServicos(Salary salary);
 
 	Double calcularVales(Salary salary);
+
+	void sendEmailInfo(Salary salario, String destinatario);
 
 }

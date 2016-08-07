@@ -102,17 +102,16 @@ public class ManageUsersServiceBean extends CrudServiceBean<User> implements Man
 	public void sendEmailRegister(User entity){
 		
 		MultiPartEmail email;
-		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		
-		String emailAddress = entity.getEmail();
-		emailAddress = "manzoli2122@gmail.com";
+		//HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		//String emailAddress = entity.getEmail();
+		//emailAddress = "manzoli2122@gmail.com";
 		VipConfiguration config = coreInformation.getCurrentConfig(); 
 		
-		String msg = "Bem Vindo Ao Sistema Marvin, ele agrega ferramentas úteis para o gerenciamento de tarefas de ensino e pesquisa em uma universidade. \n\n"
-				+ "para realizar o primeiro acesso entre na pagina \n"
-				+ origRequest.getRequestURL().substring(0, origRequest.getRequestURL().indexOf(origRequest.getServletPath())) + "\n"
-				+ "para realizar login entra com seu email, sua senha inicial será: \n"
-				+ entity.getPassword();
+		String msg = "Cadastro de Usuário \n\n"
+				+ "nome: "+ entity .getName()
+				+ "email: "+ entity .getEmail()
+				+ "senha: "+ entity .getPassword()
+				+ "aniversário: "+ entity .getBirthDate().getTime().toLocaleString().substring(0,10);
 		
 		try{
 			 email = new MultiPartEmail();
@@ -120,11 +119,10 @@ public class ManageUsersServiceBean extends CrudServiceBean<User> implements Man
 			 email.setSmtpPort(config.getSmtpServerPort());
 			 email.setAuthenticator(new DefaultAuthenticator(config.getSmtpUsername(), config.getSmtpPassword()));
 			 email.setTLS(true);
-			 //email.setSSL(true);
 			 email.setFrom(config.getSmtpUsername());
-			 email.setSubject("Cadastro Sistema do Salao Espaço Vip");
+			 email.setSubject("Salao Espaço Vip - Cadastro Usuário " + entity.getShortName());
 			 email.setMsg(msg);
-			 email.addTo(emailAddress);
+			 //email.addTo(emailAddress);
 			 email.addTo(config.getSmtpUsername());
 			 email.send();
 		

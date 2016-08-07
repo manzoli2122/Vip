@@ -80,7 +80,6 @@ public class ManageAttendanceController extends CrudController<Attendance> {
 	
 	
 	
-	
 	/*   CONSTRUTOR DA CLASSE */
 	public ManageAttendanceController(){
 		 viewPath = "/secretariat/manageAttendance/";
@@ -140,7 +139,6 @@ public class ManageAttendanceController extends CrudController<Attendance> {
 		
 		if (selectedEntity.getEmployeeAttendances() == null)
 			selectedEntity.setEmployeeAttendances(new ArrayList<EmployeeAttendance>());
-		payment = null;
 		
 		if (selectedEntity.getPayments() == null)
 			selectedEntity.setPayments(new ArrayList<Payment>());
@@ -150,12 +148,10 @@ public class ManageAttendanceController extends CrudController<Attendance> {
 	/* PREPARA UM ATENDIMENTO ANTES DE SALVA-LO */
 	@Override
 	protected void prepEntity() {
-		//selectedEntity.setEmployeeAttendance(employeeAttendances);
-		//selectedEntity.setPayments(payments);
-		//selectedEntity.setValor(selectedEntity.calcularValorServicos());
+		
 	}
 	
-	
+
 	
 	
 	
@@ -199,21 +195,6 @@ public class ManageAttendanceController extends CrudController<Attendance> {
 	
 	
 	
-	public void calcula_Porcentagem(){
-		
-		if(FormOfPayment.Cartao_Credito.equals(payment.getFormOfPayment())){
-			//payment.setPerc_cartao(coreInformation.getPerc_Credito());
-		}
-		else if(FormOfPayment.Cartao_Debito.equals(payment.getFormOfPayment())){
-			//payment.setPerc_cartao(coreInformation.getPerc_Debito());
-		}
-		
-	}
-	
-
-
-	
-	
 	
 	
 	
@@ -236,12 +217,18 @@ public class ManageAttendanceController extends CrudController<Attendance> {
 	}
 	
 	public String saveService(){
-		selectedEntity.getEmployeeAttendances().add(employeeAttendance);
+		if(employeeAttendance.getId()==null)
+			if(!selectedEntity.getEmployeeAttendances().contains(employeeAttendance))
+				selectedEntity.getEmployeeAttendances().add(employeeAttendance);
+		
 		employeeAttendance=null;
 		selectedEntity.calcularValor();
 		return getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();
 	}
 	
+	public String updateService(){
+		return getViewPath() + "servicos.xhtml?faces-redirect=" + getFacesRedirect();
+	}
 	
 	public EmployeeAttendance getEmployeeAttendance() { return employeeAttendance; }
 	public void setEmployeeAttendance(EmployeeAttendance servico) { this.employeeAttendance = servico; }

@@ -10,6 +10,8 @@ import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailAttachment;
@@ -25,6 +27,7 @@ import vip.core.domain.AdvanceMoney;
 import vip.core.domain.Salary;
 import vip.core.persistence.AdvanceMoneyDAO;
 import vip.core.persistence.SalaryDAO;
+import vip.kernel.application.CoreInformation;
 import vip.kernel.application.SessionInformation;
 import vip.kernel.domain.VipConfiguration;
 import vip.kernel.persistence.VipConfigurationDAO;
@@ -47,6 +50,9 @@ public class ManageSalaryServiceBean  extends CrudServiceBean<Salary> implements
 	@EJB 
 	private SessionInformation sessionInformation;
 	
+	@EJB 
+	private CoreInformation	coreInformation;
+	
 	@EJB
 	private VipConfigurationDAO vipDAO;
 	
@@ -55,6 +61,9 @@ public class ManageSalaryServiceBean  extends CrudServiceBean<Salary> implements
 	
 	@EJB
 	private AdvanceMoneyDAO valeDAO;
+	
+	@EJB 
+	private RelatorioPdfService relatorioPdf;
 	
 	//@EJB 
 	//private RelatorioPdf relatorioPdf;
@@ -120,7 +129,7 @@ public class ManageSalaryServiceBean  extends CrudServiceBean<Salary> implements
 		
 		calcularValorSalario(entity);
 		
-		
+		sendEmailInfo(entity, coreInformation.getCurrentConfig().getSmtpUsername());
 	}
 	
 	
@@ -245,53 +254,44 @@ public class ManageSalaryServiceBean  extends CrudServiceBean<Salary> implements
 	}
 	
 	
-	@Override
-	protected void log(CrudOperation operation, Salary entity) {
-		String mesagem = "MANAGE_SALARIO → "+ operation.name() + " → " + entity.toString();
-		//sessionService.log(mesagem);
-	}
-
+	
 	
 	@Override
-	public void sendEmailInfo(Salary salario){
+	public void sendEmailInfo(Salary salary, String destinatario){
 		
-		String emailAddress = salario.getFuncionario().getEmail();
-		emailAddress = "manzoli2122@gmail.com";
+		MultiPartEmail email;
+		VipConfiguration config = coreInformation.getCurrentConfig(); 
 		
-		VipConfiguration config = null;
-		try {	config = vipDAO.retrieveCurrentConfiguration(); }
-		catch (PersistentObjectNotFoundException e) {return; }
+		String msg = "Funcionario : " + salary.getFuncionario().getName() +"\n"
+				+ "Data : " + salary.getCreateDate().getTime().toLocaleString().substring(0,10);
 		
-		String msg = "Serviços \n\n";
 		
 		EmailAttachment attachment = new EmailAttachment();
-		//attachment.setPath(relatorioPdf.RelatorioSalario(salario));  
+		attachment.setPath(relatorioPdf.RelatorioSalario(salary));  
 		attachment.setDisposition(EmailAttachment.ATTACHMENT);
 		attachment.setDescription("Salário no Salao");
 		attachment.setName("salario.pdf");
-
-		 try{
-			 // Create the email message
-			 MultiPartEmail email = new MultiPartEmail();
-		  
+		
+		
+		try{
+			 email = new MultiPartEmail();
 			 email.setHostName(config.getSmtpServerAddress());
 			 email.setSmtpPort(config.getSmtpServerPort());
 			 email.setAuthenticator(new DefaultAuthenticator(config.getSmtpUsername(), config.getSmtpPassword()));
-			 email.setSSL(true);
+			 email.setTLS(true);
 			 email.setFrom(config.getSmtpUsername());
-			// email.setSubject("Salario "+ salario.getFuncionario().getName()+" "+ salario.getCreateDate().toLocaleString().substring(0,10)+" "+salario.getId());
-			 email.setSubject("Salario "+ salario.getFuncionario().getName()+" "+ salario.getCreateDate().getTime().toString().substring(0,10)+" "+salario.getId());
+			 email.setSubject("Salao Espaço Vip - Salário " + salary.getFuncionario().getShortName());
 			 email.setMsg(msg);
-			 email.addTo(emailAddress);
-			 email.addTo(config.getSmtpUsername());
+			 email.addTo(destinatario);
 			 email.attach(attachment);
 			 email.send();
-		  
+		
 		}
 		catch (EmailException e) {
 			e.printStackTrace();
-		}
-		 		
+		}	
+		
+		
 	}
 	
 	

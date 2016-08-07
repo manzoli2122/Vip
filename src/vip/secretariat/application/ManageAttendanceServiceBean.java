@@ -41,11 +41,6 @@ public class ManageAttendanceServiceBean extends CrudServiceBean<Attendance> imp
 	
 	
 	
-	
-	
-	
-	
-	
 	 @Override
 	public void validateCreate(Attendance entity) throws CrudException {
 				 
@@ -54,7 +49,6 @@ public class ManageAttendanceServiceBean extends CrudServiceBean<Attendance> imp
 		
 		Double dif =  pagamento - servico;
 		
-			
 		if ((dif*dif)>0.0025) {
 			int i = 9/0;
 		}
@@ -63,7 +57,6 @@ public class ManageAttendanceServiceBean extends CrudServiceBean<Attendance> imp
 		entity.setLastUpdateRegister(sessionInformation.getCurrentUser());
 			
 		Calendar hoje = Calendar.getInstance();
-		//entity.setCreateDate(hoje);
 		entity.setLastUpdateDate(hoje);
 	}
 	 
@@ -119,9 +112,11 @@ public class ManageAttendanceServiceBean extends CrudServiceBean<Attendance> imp
 			}
 		}
 		
-		if(sessionInformation.isAdmin()){
+		if(sessionInformation.isSuperUsuario()||sessionInformation.isGerente()){
 			return true;
 		}
+		
+		
 		if(!sessionInformation.getCurrentUser().equals(attendance.getCreateRegister())){
 			return false;
 		}
