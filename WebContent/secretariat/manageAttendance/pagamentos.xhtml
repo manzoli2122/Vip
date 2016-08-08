@@ -48,6 +48,26 @@
 					
 					
 					
+					
+					
+						<h:panelGroup rendered="#{manageAttendanceController.payment.credito or manageAttendanceController.payment.debito}">
+					
+							<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+								<ui:param name="fieldName" value="operadora" />
+								<ui:param name="label" value="#{msgsCore['manageAttendance.title.operadora']}" />
+				        		<h:selectOneMenu  pt:class="form-control" id="operadora" value="#{manageAttendanceController.payment.operator}" converter="#{coreController.operatorConverter}" required="true" disabled="#{manageAttendanceController.readOnly}">
+									<f:selectItem itemLabel="#{msgsCore['manageAttendance.form.maquina.blankOption']}" itemValue="" /> 
+									<f:selectItems value="#{coreController.operatorAtivos}" var="serv" itemLabel="#{serv.name}" itemValue="#{serv}" />
+									<p:ajax  update="operadoraField" />
+								</h:selectOneMenu> 
+							</ui:decorate> 
+
+						</h:panelGroup>
+					
+					
+					
+					
+					
 						<h:panelGroup rendered="#{manageAttendanceController.payment.credito}">
 					
 							<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
@@ -59,13 +79,19 @@
 									<p:ajax event="blur" update="parcelasField" />
 								</p:inputText>
 							</ui:decorate> 
-							
+
 						</h:panelGroup>
+						
+						
+						
+						
+						
+						
+						
+						
+						
 					
 					</h:panelGroup>
-					
-					
-					
 					
 					
 		            

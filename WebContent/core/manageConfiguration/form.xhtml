@@ -58,39 +58,7 @@
 					<f:ajax event="blur" render="institutionAcronymField" />
 				</p:inputText>
 			</ui:decorate>
-			
-			
-			
-			
-			
-			
-			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
-				<ui:param name="fieldName" value="porcentagemCredito" />
-				<ui:param name="label" value="#{msgsCore['manageConfiguration.title.porcentagemCredito']}" />
-				<p:inputText id="porcentagemCredito" value="#{manageConfigurationController.selectedEntity.perc_credito}"  
-							 validatorMessage="valor valido de 0,0 a 0,15"
-							 disabled="#{manageConfigurationController.readOnly }">
-					<f:convertNumber type="number"/>
-					<f:validateDoubleRange minimum="0.0" maximum="0.15" />
-					<f:ajax event="blur" render="porcentagemCreditoField" />
-				</p:inputText>
-			</ui:decorate> 
-			
-			
-			
-			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
-				<ui:param name="fieldName" value="porcentagemDebito" />
-				<ui:param name="label" value="#{msgsCore['manageConfiguration.title.porcentagemDebito']}" />
-				<p:inputText id="porcentagemDebito" value="#{manageConfigurationController.selectedEntity.perc_debito}" 
-							 validatorMessage="valor valido de 0,0 a 0,15"
-							 disabled="#{manageConfigurationController.readOnly }">
-					<f:convertNumber type="number"/>
-					<f:validateDoubleRange minimum="0.00" maximum="0.150" />
-					<f:ajax event="blur" render="porcentagemDebitoField" /> 
-				</p:inputText>
-			</ui:decorate> 
-			
-			
+		
 			
 			
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">

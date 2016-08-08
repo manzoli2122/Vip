@@ -158,6 +158,9 @@
 						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.superUsuario or sessionController.gerente}"  action="#{relatorioDiarioController.list()}"  value=" #{msgsCore['relatorioDiario.title']}" />
 					</li> 
 					
+					<li> 
+						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.superUsuario or sessionController.gerente}"  action="#{manageOperatorController.list()}"  value=" #{msgsCore['manageOperator.title']}" />
+					</li> 
 					
 					
 					
@@ -165,7 +168,7 @@
 					
 					
 					
-					
+					 
 	
 					
 					

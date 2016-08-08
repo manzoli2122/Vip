@@ -1,0 +1,74 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
+ 
+
+<ui:define name="title">  
+	<h:outputText value="#{msgsCore['manageOperator.title.create']}" 
+				  rendered="#{(! manageOperatorController.readOnly) and (manageOperatorController.selectedEntity.id == null)}" />
+   	<h:outputText value="#{msgsCore['manageOperator.title.update']}" 
+   				  rendered="#{(! manageOperatorController.readOnly) and (manageOperatorController.selectedEntity.id != null)}" />
+    <h:outputText value="#{msgsCore['manageOperator.title.retrieve']}" rendered="#{manageOperatorController.readOnly}" />
+</ui:define>
+
+	
+<ui:define name="body">
+	
+	
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsCore['manageOperator.title.form']}" />
+			
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="name" />
+				<ui:param name="label" value="#{msgsCore['manageOperator.title.name']}" />
+				<p:inputText id="name" disabled="#{manageOperatorController.readOnly}" pt:class="form-control" value="#{manageOperatorController.selectedEntity.name}" required="true">
+					<f:ajax event="blur" render="nameField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="porcentagemCredito" />
+				<ui:param name="label" value="#{msgsCore['manageOperator.title.porcentagemCredito']}" />
+				<p:inputText id="porcentagemCredito" value="#{manageOperatorController.selectedEntity.perc_credito}"  
+							 validatorMessage="valor valido de 0,0 a 0,15"
+							 disabled="#{manageOperatorController.readOnly }">
+					<f:convertNumber type="number"/>
+					<f:validateDoubleRange minimum="0.0" maximum="0.15" />
+					<f:ajax event="blur" render="porcentagemCreditoField" />
+				</p:inputText>
+			</ui:decorate> 
+			
+			
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="porcentagemDebito" />
+				<ui:param name="label" value="#{msgsCore['manageOperator.title.porcentagemDebito']}" />
+				<p:inputText id="porcentagemDebito" value="#{manageOperatorController.selectedEntity.perc_debito}" 
+							 validatorMessage="valor valido de 0,0 a 0,15"
+							 disabled="#{manageOperatorController.readOnly }">
+					<f:convertNumber type="number"/>
+					<f:validateDoubleRange minimum="0.00" maximum="0.150" />
+					<f:ajax event="blur" render="porcentagemDebitoField" /> 
+				</p:inputText>
+			</ui:decorate> 
+			
+		
+						
+				
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+	        	<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageOperatorController.save}" update=":globalMessages form" disabled="#{manageOperatorController.readOnly}" icon="fa fa-save" value="#{msgs['crud.button.save']}"/>
+	        	<p:commandButton pt:class="btn btn-block btn-warning btn-social" immediate="true" action="#{manageOperatorController.list}" icon="fa fa-rotate-left"  value="#{msgs['crud.button.back']}"/>
+	        </ui:decorate>
+											
+			
+	</ui:decorate>
+	
+</ui:define>
+</ui:composition>

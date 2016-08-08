@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
+
+<ui:define name="title"><h:outputText value="#{msgsCore['manageOperator.title']}" /></ui:define>
+
+	 
+<ui:define name="body">
+	
+	
+	
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="listingForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageOperator.title.box.list']}" /> 
+			<p:dataTable 
+	   				 	widgetVar="listingTable"
+           			    rowIndexVar="rowIndex"
+               			tableStyleClass="table table-bordered table-striped"
+                  		value="#{manageOperatorController.lazyEntities}" 
+                   		var="entity" 
+                   		rows="#{manageOperatorController.maxDataTableRowsPerPage}" 
+                   		rowsPerPageTemplate="#{manageOperatorController.halfMaxDataTableRowsPerPage},#{manageOperatorController.maxDataTableRowsPerPage},#{manageOperatorController.doubleMaxDataTableRowsPerPage}"
+                   		paginator="true" 
+                   		lazy="true" 
+                   		selection="#{manageOperatorController.selectedEntity}" 
+                  		selectionMode="single" 
+                  		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+                  		paginatorPosition="bottom" 
+                  		loadingMessage="#{msgs['text.ajax.loading']}" 
+                   		emptyMessage="#{manageOperatorController.filtering ? msgsCore['manageOperator.text.noEntitiesFiltered'] : msgsCore['manageOperator.text.noEntities']}">
+                
+                   		
+				
+				<p:column headerText="#{msgsCore['manageOperator.title.date']}"  style="text-align:center">
+                            <h:outputText value="#{entity.createDate.time}" >
+                            	<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
+                            </h:outputText> 
+                </p:column> 
+                      		
+                <p:column headerText="#{msgsCore['manageOperator.title.name']}"  style="text-align: center; width:25%;"> 
+           			<h:outputText value="#{entity.name}" />
+           		</p:column>
+           					
+      			<p:column headerText="#{msgsCore['manageOperator.title.credito']}"  style="text-align: center; width:20%;"> 
+           			<h:outputText value="#{entity.perc_credito}" >
+           				<f:convertNumber type="number" />
+           			</h:outputText>
+           		</p:column>
+           		
+           		<p:column headerText="#{msgsCore['manageOperator.title.debito']}"  style="text-align: center; width:20%;"> 
+           			<h:outputText value="#{entity.perc_debito}" >
+           				<f:convertNumber type="number" />
+           			</h:outputText>
+           		</p:column>
+           		
+           		<p:column headerText="#{msgsCore['manageTasks.title.ativo']}"  style="text-align: center; width:10%;"> 
+           			<h:outputText rendered="#{entity.ativo}" value="X" /> 
+           		</p:column>
+           		
+           		<p:ajax event="rowSelect" update=":buttonsForm" />
+        	</p:dataTable>
+	</ui:decorate> 
+	
+	
+
+	<h:form id="buttonsForm">
+	    <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
+	       	<p:commandButton pt:class="btn btn-block btn-success btn-social" action="#{manageOperatorController.create}"   icon="fa fa-user-plus" value="#{msgs['crud.button.create']}"/>
+	       	
+	       	<p:commandButton rendered="#{(manageOperatorController.selectedEntity != null) and !manageOperatorController.selectedEntity.ativo}" pt:class="btn btn-block btn-warning btn-social" action="#{manageOperatorController.ativarDesativarTask()}" icon="fa fa-refresh" disabled="#{manageOperatorController.selectedEntity == null}" value="#{msgsCore['manageTasks.button.ativar']}"/>
+	      	<p:commandButton rendered="#{(manageOperatorController.selectedEntity != null) and manageOperatorController.selectedEntity.ativo}" pt:class="btn btn-block btn-warning btn-social" action="#{manageOperatorController.ativarDesativarTask()}" icon="fa fa-refresh" disabled="#{manageOperatorController.selectedEntity == null}" value="#{msgsCore['manageTasks.button.desativar']}"/>
+	      	
+	       	
+	       	<p:commandButton rendered="#{manageOperatorController.selectedEntity != null}" pt:class="btn btn-block btn-info btn-social" action="#{manageOperatorController.update}" icon="fa fa-refresh" disabled="#{manageOperatorController.selectedEntity == null}" value="#{msgs['crud.button.update']}"/>
+	      	
+	      	<p:commandButton process="@this" ajax=":trashForm"  update=":trashForm" rendered="#{manageOperatorController.selectedEntity != null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageOperatorController.trash}" icon="fa fa-trash-o" disabled="#{manageOperatorController.selectedEntity == null}" value="#{msgs['crud.button.delete']}"/>
+		</ui:decorate>
+	</h:form>
+			
+    	
+    <p>&nbsp;</p>
+    	
+	<h:panelGroup id="trashpanel" rendered="#{not empty manageOperatorController.trashCan}" >
+    <ui:decorate template="/resources/#{coreInfo.decorator}/dangerform.xhtml">
+			<ui:param name="formName" value="trashForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageOperator.title.box.trash']}" /> 
+			
+			<h3><h:outputText  value="#{msgs['crud.text.trashHeader']}" /></h3>
+	        <p:dataList value="#{manageOperatorController.trashCan}" var="entity" type="ordered">
+	        		<h:outputText value="#{entity.createDate.time}" >
+                          	<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" locale="pt_BR" timeZone="America/Sao_Paulo"/>
+                    </h:outputText> 
+	            	#{entity.name} 
+	        </p:dataList> 
+	        <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+					<p:commandButton ajax=":trashForm :buttonsForm :listingForm" update=":trashForm :buttonsForm :listingForm" pt:class="btn btn-block btn-warning btn-social" action="#{manageOperatorController.cancelDeletion}"   icon="fa fa-close" value="#{msgs['crud.button.cancelDeletion']}"/>
+		        	<p:commandButton ajax=":trashForm :buttonsForm :listingForm"  update=":trashForm :buttonsForm :listingForm"  pt:class="btn btn-block btn-danger btn-social" action="#{manageOperatorController.delete}" icon="fa fa-trash-o"  value="#{msgs['crud.button.confirmDeletion']}"/>
+	        </ui:decorate>			
+	</ui:decorate> 
+	</h:panelGroup>
+		       
+        
+</ui:define> <!-- DEFINE BODY. -->
+</ui:composition>
+
+ 

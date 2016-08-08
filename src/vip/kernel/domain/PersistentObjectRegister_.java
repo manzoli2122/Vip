@@ -7,7 +7,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import vip.core.domain.User;
 
-@Generated(value="Dali", date="2016-07-25T22:29:02.417-0300")
+@Generated(value="Dali", date="2016-08-08T18:59:33.149-0300")
 @StaticMetamodel(PersistentObjectRegister.class)
 public class PersistentObjectRegister_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<PersistentObjectRegister, User> createRegister;

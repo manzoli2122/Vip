@@ -23,7 +23,6 @@ import vip.secretariat.application.ManageAttendanceService;
 import vip.secretariat.domain.Attendance;
 import vip.secretariat.domain.EmployeeAttendance;
 import vip.secretariat.domain.Payment;
-import vip.secretariat.domain.FormOfPayment;
 
 
 @Named
@@ -252,12 +251,14 @@ public class ManageAttendanceController extends CrudController<Attendance> {
 	}
 	
 	public String savePagamento(){
+		/*
 		if(payment.isCredito()){
 			payment.setPerc_cartao(coreInformation.getCurrentConfig().getPerc_credito());
 		}
 		else if(payment.isDebito()){
 			payment.setPerc_cartao(coreInformation.getCurrentConfig().getPerc_debito());
 		}
+		*/
 		selectedEntity.getPayments().add(payment);
 		payment=null;
 		return getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();

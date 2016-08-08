@@ -6,6 +6,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
+import vip.core.domain.Operator;
 
 
 @Entity
@@ -24,7 +25,9 @@ public class Payment extends  PersistentObjectSupport  implements Comparable<Pay
 	@ManyToOne
 	private Income income;
 	
-	
+	@ManyToOne
+	private Operator operator;
+		
 	@NotNull
 	@Enumerated(EnumType.STRING) 
 	private FormOfPayment formOfPayment;
@@ -85,6 +88,22 @@ public class Payment extends  PersistentObjectSupport  implements Comparable<Pay
 
 	public Double getPerc_cartao() { return perc_cartao; }
 	public void setPerc_cartao(Double perc_cartao) { this.perc_cartao = perc_cartao;}
+	
+	public Operator getOperator() {return operator;}
+	public void setOperator(Operator operator) {
+		this.operator = operator;
+		try {
+			if(isCredito()){
+				this.perc_cartao = operator.getPerc_credito();
+			}
+			else if(isDebito()){
+				this.perc_cartao = operator.getPerc_debito();
+			}
+			
+		} catch (Exception e) {
+			
+		}
+	}
 	
 	
 }

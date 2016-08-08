@@ -11,9 +11,11 @@ import javax.faces.convert.Converter;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
+import vip.core.domain.Operator;
 import vip.core.domain.Task;
 import vip.core.domain.User;
 import vip.core.domain.UserType;
+import vip.core.persistence.OperatorDAO;
 import vip.core.persistence.TaskDAO;
 import vip.core.persistence.UserDAO;
 import vip.kernel.domain.Gender;
@@ -36,6 +38,8 @@ public class CoreController implements Serializable{
 	@EJB    	
 	private TaskDAO taskDAO;
 	
+	@EJB    	
+	private OperatorDAO operatorDAO;
 	
 	
 	public Gender[] getGender() {
@@ -52,6 +56,20 @@ public class CoreController implements Serializable{
 			userConverter = new PersistentObjectConverterFromId<User>(userDAO);
 		}
 		return userConverter;
+	}
+	
+	
+	
+	
+	/** JSF Converter for user objects. */
+	private PersistentObjectConverterFromId<Operator> operatorConverter;
+
+	/** Getter for userConverter */
+	public Converter getOperatorConverter() {
+		if (operatorConverter == null) {
+			operatorConverter = new PersistentObjectConverterFromId<Operator>(operatorDAO);
+		}
+		return operatorConverter;
 	}
 	
 	
@@ -106,6 +124,16 @@ public class CoreController implements Serializable{
 		}
 		return teacher;
 	}
+	
+	
+	public List<Operator> getOperatorAtivos(){
+		List<Operator> lista = operatorDAO.retrieveAtivos();
+		return lista;
+	}
+	
+	
+	
+	
 	
 	
 	
