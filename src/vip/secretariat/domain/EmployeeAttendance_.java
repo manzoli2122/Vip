@@ -8,7 +8,7 @@ import vip.core.domain.Salary;
 import vip.core.domain.Task;
 import vip.core.domain.User;
 
-@Generated(value="Dali", date="2016-08-08T18:59:33.172-0300")
+@Generated(value="Dali", date="2016-08-08T19:16:26.135-0300")
 @StaticMetamodel(EmployeeAttendance.class)
 public class EmployeeAttendance_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<EmployeeAttendance, Double> desconto;

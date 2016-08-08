@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import vip.core.domain.Operator;
 
-@Generated(value="Dali", date="2016-08-08T18:59:33.186-0300")
+@Generated(value="Dali", date="2016-08-08T19:16:26.150-0300")
 @StaticMetamodel(Payment.class)
 public class Payment_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<Payment, Boolean> compensado;
