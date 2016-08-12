@@ -1,6 +1,5 @@
 package vip.kernel.application;
 
-import br.ufes.inf.nemo.util.TextUtils;
 import vip.core.domain.User;
 import vip.core.domain.UserType;
 import vip.core.domain.User_;
@@ -32,6 +31,9 @@ import javax.security.auth.spi.LoginModule;
 
 import org.jboss.security.SimpleGroup;
 import org.jboss.security.SimplePrincipal;
+
+import br.ufes.inf.nemo.jbutler.TextUtils;
+
 import java.io.Serializable;
 
 

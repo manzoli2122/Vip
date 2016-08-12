@@ -47,12 +47,7 @@
   </build>
   
   <dependencies>
-  	<dependency>
-			<groupId>br.ufes.inf.nemo</groupId>
-			<artifactId>jbutler-wp</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-		
+  	
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
 			<artifactId>bootstrap</artifactId>
@@ -60,10 +55,11 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>br.ufes.inf.nemo</groupId>
-			<artifactId>nemo-utils-java</artifactId>
-			<version>1.1</version>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>5.3</version>
 		</dependency>
+		
 		
 		<dependency>
 			<groupId>org.apache.commons</groupId>

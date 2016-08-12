@@ -17,6 +17,7 @@
 		<class>vip.core.domain.Salary</class>
 		<class>vip.kernel.domain.PersistentObjectRegister</class>
 		<class>vip.core.domain.Operator</class>
+		<class>br.ufes.inf.nemo.jbutler.ejb.domain.DomainObjectSupport</class>
 		
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
@@ -27,11 +28,16 @@
 		</properties>
 	</persistence-unit>
 	
+	
+	
+	
+	
+	
 	<persistence-unit name="vipLogin">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		
 		<class>br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport</class>
-		
+		<class>br.ufes.inf.nemo.jbutler.ejb.domain.DomainObjectSupport</class>
 		<class>vip.core.domain.User</class>
 		<class>vip.kernel.domain.VipConfiguration</class>
 		<class>vip.kernel.domain.Person</class>

@@ -7,7 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import br.ufes.inf.nemo.util.TextUtils;
+
+import br.ufes.inf.nemo.jbutler.TextUtils;
 import vip.core.domain.User;
 import vip.core.domain.UserType;
 import vip.core.exceptions.SystemInstallFailedException;
