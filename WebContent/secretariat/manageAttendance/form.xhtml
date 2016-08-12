@@ -24,8 +24,6 @@
 			<ui:param name="formName" value="form" /> 
 			<ui:param name="formLabel" value="#{msgsCore['manageAttendance.title.form']}" />
 			
-			
-			
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="cliente" />
 				<ui:param name="label" value="#{msgsCore['manageAttendance.title.cliente']}" />
@@ -55,10 +53,44 @@
 						
 				
 				
-				<div style="clear: both;">&nbsp;</div>  
-				<h2 style="text-align:center;"><h:outputText value="#{msgsCore['manageAttendance.form.servicos']}" /></h2>
+				<div style="clear: both;">&nbsp;</div> 
+				 
 				
-				<h:panelGroup id="servicosField" >
+				
+				<h:panelGroup id="servicosField" rendered="#{!manageAttendanceController.selectedEntity.employeeAttendances.isEmpty()}">
+				
+				<p:accordionPanel>
+			        
+				</p:accordionPanel>
+					
+			    </h:panelGroup>	  
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			      
+			        	
+			    <h:panelGroup id="pagamentossField" >
+					
+					<div style="clear: both;">&nbsp;</div>  
+					
+					
+					
+				<p:tabView>
+				    
+				    
+				    <p:tab title="#{msgsCore['manageAttendance.form.servicos']}">
+			            
+			        
+					<h2 style="text-align:center;"><h:outputText value="#{msgsCore['manageAttendance.form.servicos']}" /></h2>
+				
 					<p:dataTable 
 								id="servicos"
 								rowIndexVar="rowIndex"
@@ -111,12 +143,25 @@
 						
 					<div style="clear: both;">&nbsp;</div>  
 					
+					</p:tab>
+				    
+				    
+				    
+				    
+				    
+				    
+				    
+				    
+				    
+				    
+				    
+				    
+				    <p:tab title="#{msgsCore['manageAttendance.form.pagamentos']}">
+				            
+				        
+									
+									
 					
-			    </h:panelGroup>	    
-			        	
-			    <h:panelGroup id="pagamentossField" rendered="#{!manageAttendanceController.selectedEntity.employeeAttendances.isEmpty()}">
-					
-					<div style="clear: both;">&nbsp;</div>  
 					<h2 style="text-align:center;"> <h:outputText  value="#{msgsCore['manageAttendance.form.pagamentos']}" /></h2>
 					
 					<p:dataTable 
@@ -156,6 +201,9 @@
 			 		<div style="clear: both;">&nbsp;</div>  
 					
 					<div style="clear: both;">&nbsp;</div> 
+					
+					</p:tab>
+				</p:tabView>
 				
 				</h:panelGroup>
 				

@@ -114,7 +114,7 @@
 					
 					 
 					<li>
-						<p:commandLink styleClass="fa fa-users" rendered="#{!sessionController.admin and sessionController.employee}"  action="#{manageClientController.list()}"  value=" #{msgsCore['manageClient.title']}" />
+						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.admin and sessionController.employee}"  action="#{manageClientController.list()}"  value=" #{msgsCore['manageClient.title']}" />
 					</li>
 					
 					<li>
